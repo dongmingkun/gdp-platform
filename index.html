@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>总览：中国城市经济格局 · 全球 GDP 数据采集与可视化分析平台</title>
+  <link rel="stylesheet" href="static/css/style.css">
+  
+  <script src="static/vendor/echarts.min.js"></script>
+</head>
+<body>
+<header class="topbar">
+  <div class="container topbar-inner">
+    <div class="brand">
+      <span class="logo">GDP</span>
+      <div class="brand-text">
+        <strong>全球 GDP 数据采集与可视化分析平台</strong>
+        <small>数据来源：世界银行开放数据 · 东方财富数据中心</small>
+      </div>
+    </div>
+    <nav class="nav">
+      <a href="index.html" class="active">总览</a>
+      <a href="region.html" class="">城市格局</a>
+      <a href="rank.html" class="">全球排行</a>
+      <a href="trend.html" class="">趋势分析</a>
+      <a href="compare.html" class="">国家对比</a>
+      <a href="share.html" class="">份额变化</a>
+      <a href="china.html" class="">中国季度</a>
+      <a href="dataset.html" class="">数据集</a>
+      <a href="about.html" class="">关于</a>
+    </nav>
+  </div>
+</header>
+
+
+
+<div class="demo-bar">
+  <div class="container">
+    <strong>在线演示站点</strong>
+    数据为 <b>2026-10-17 13:16:20</b> 的只读快照，采集与数据补录功能已关闭；
+    全部功能与源码见项目本地版本（Python 课程大作业）。
+  </div>
+</div>
+
+
+<main class="container">
+  
+<div class="panel hero">
+  <div class="panel-head">
+    <h2>本项目聚焦的现实问题</h2>
+    <span class="hint">数据：各地统计局 2025 年城市 GDP（经榜单整理入库）</span>
+  </div>
+  <p class="hero-question">
+    中国 336 个地级市的经济格局，到底有多不均衡？<br>
+    <span class="hero-sub">总量差在哪、谁在增长、人均处在什么水平——用真实数据回答，而不是凭印象。</span>
+  </p>
+  <div class="quick-row" style="border-top:0; margin-top:6px; padding-top:0">
+    <span class="quick-label">直接去看</span>
+    <a class="chip" href="region.html?economy=CHN&amp;level=city&amp;mode=year&amp;year=2025&amp;limit=400">城市总量排行（全部 336 城）</a>
+    <a class="chip" href="region.html?economy=CHN&amp;level=city&amp;mode=year&amp;year=2025&amp;metric=growth&amp;limit=400">谁在增长（增速榜）</a>
+    <a class="chip" href="region.html?economy=CHN&amp;level=city&amp;mode=year&amp;year=2025&amp;limit=100">人均水平梯队</a>
+    <a class="chip" href="region.html?economy=USA&amp;level=state&amp;mode=latest">与美国各州对照</a>
+    <a class="chip" href="region.html?economy=JPN&amp;level=prefecture&amp;mode=latest">与日本都道府县对照</a>
+  </div>
+</div>
+
+
+<div class="cards">
+  <div class="card">
+    <div class="label">纳入分析的城市</div>
+    <div class="value">336<span class="unit">个</span></div>
+    <div class="foot">2025 年数据，含 4 个直辖市</div>
+  </div>
+  <div class="card accent">
+    <div class="label">GDP 破万亿的城市</div>
+    <div class="value">29<span class="unit">个</span></div>
+    <div class="foot">上海、北京、深圳市、重庆、广州市、苏州市 等</div>
+  </div>
+  <div class="card accent">
+    <div class="label">人均 GDP 最高与最低之比</div>
+    <div class="value">12.1<span class="unit">倍</span></div>
+    <div class="foot">鄂尔多斯市 273,313 元 ｜ 玉树州 22,651 元</div>
+  </div>
+  <div class="card">
+    <div class="label">东部城市占城市 GDP 合计</div>
+    <div class="value">49.0<span class="unit">%</span></div>
+    <div class="foot">东部 84 个城市；东北 36 城仅占 5.3%</div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="panel-head">
+    <h2>四个关键结论</h2>
+    <span class="hint">全部由平台数据算出，可点击右侧按钮查看明细</span>
+  </div>
+  <div class="conclusion-grid">
+    <div class="conclusion">
+      <h3>① 体量高度集中</h3>
+      <p>29 个城市 GDP 破万亿，上海以 56709 亿元居首，
+        是第 5 名广州市（32040 亿元）的 1.8 倍。</p>
+      <a class="btn ghost small" href="region.html?economy=CHN&amp;level=city&amp;mode=year&amp;year=2025&amp;limit=50">看总量排行</a>
+    </div>
+    <div class="conclusion">
+      <h3>② 增长明显分化</h3>
+      <p>有增速数据的 34 个城市平均名义增速 4.29%；
+        最快的绍兴市达 +6.73%，
+        最慢的天津为 2.86%。</p>
+      <a class="btn ghost small" href="region.html?economy=CHN&amp;level=city&amp;mode=year&amp;year=2025&amp;metric=growth&amp;limit=400">看增速排行</a>
+    </div>
+    <div class="conclusion">
+      <h3>③ 人均水平仍在爬坡</h3>
+      <p>336 个城市中，人均超过 1.4 万美元（高收入门槛）的有 97 个（29%），
+        多数（235 个）处于中高收入区间；最高的鄂尔多斯市与最低的玉树州相差 12.1 倍。</p>
+      <a class="btn ghost small" href="region.html?economy=CHN&amp;level=city&amp;mode=year&amp;year=2025&amp;limit=400">看人均明细</a>
+    </div>
+    <div class="conclusion">
+      <h3>④ 区域分化清晰</h3>
+      <p>按四大板块看，东部 84 城占城市 GDP 合计的 49.0%，
+        中部 24.1%，西部 21.6%，东北仅 5.3%。</p>
+      <a class="btn ghost small" href="region.html?economy=CHN&amp;level=province&amp;mode=year&amp;year=2025">看省级对比</a>
+    </div>
+  </div>
+</div>
+
+<div class="grid-2">
+  <div class="panel">
+    <div class="panel-head"><h2>2025 年城市 GDP 前五</h2><span class="hint">单位：万亿元</span></div>
+    <div id="chart-cities" class="chart"></div>
+  </div>
+  <div class="panel">
+    <div class="panel-head"><h2>增长的两端</h2><span class="hint">名义增速，绿为增长、红为下降</span></div>
+    <div id="chart-growth" class="chart"></div>
+  </div>
+</div>
+
+
+<div class="panel">
+  <div class="panel-head">
+    <h2>参照尺度：中国在世界经济中的位置</h2>
+    <span class="hint">数据来源：世界银行开放数据 · 用于说明中国城市处在什么发展阶段</span>
+  </div>
+  <div class="cards" style="margin-bottom:14px">
+    <div class="card">
+      <div class="label">全球 GDP 合计（2025）</div>
+      <div class="value">116.4<span class="unit">万亿美元</span></div>
+      <div class="foot">覆盖 217 个国家/地区</div>
+    </div>
+    <div class="card">
+      <div class="label">中国 GDP（2025）</div>
+      <div class="value">19.50<span class="unit">万亿美元</span></div>
+      <div class="foot">全球第 <b>2</b> 位 · 占全球 16.74%</div>
+    </div>
+    <div class="card">
+      <div class="label">相当于美国的</div>
+      <div class="value">63.4<span class="unit">%</span></div>
+      <div class="foot">中国人均 13,862 美元，全球第 72 位</div>
+    </div>
+    <div class="card">
+      <div class="label">中国人均 GDP 增长</div>
+      <div class="value">54<span class="unit">倍</span></div>
+      <div class="foot">从 1990 年的 319 美元到 2025 年的 13,862 美元</div>
+    </div>
+  </div>
+  <div class="grid-2">
+    <div>
+      <div class="panel-head" style="margin-bottom:8px"><h2 style="font-size:14px">中国 GDP 全球排名变化</h2></div>
+      <div id="chart-rank" class="chart chart-sm"></div>
+    </div>
+    <div class="note">
+      从 1990 年的全球第 11 位，到 2025 年的第 2 位，
+      中国 GDP 总量增长了约 54 倍。但把尺度放到城市层面，差距就显出来了：
+      人均最高的鄂尔多斯市已接近中等发达国家水平，
+      而最低的城市人均仅 22,651 元——这正是「发展不平衡不充分」在数据上的具体形状，
+      也是区域协调发展、共同富裕要解决的问题。
+    </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="panel-head">
+    <h2>数据来源与新鲜度</h2>
+    <a class="btn ghost small" href="about.html">查看数据源调研详情</a>
+  </div>
+  <dl class="meta">
+    <dt>城市层面（主线）</dt>
+    <dd>2025 年 336 个地级行政区 GDP、常住人口、人均 GDP，源自各地统计局（经榜单整理入库，页面带「人工整理」标记）</dd>
+    <dt>全球层面（参照）</dt>
+    <dd>世界银行开放数据：各国 GDP 总量与人均，1990–2025 年</dd>
+    <dt>对照层面</dt>
+    <dd>美国经济分析局（BEA）州与县数据、日本都道府县数据，用于横向对照与尺度校准</dd>
+    <dt>最近一次采集</dt>
+    <dd>2026-10-17 13:16:20</dd>
+  </dl>
+</div>
+
+</main>
+
+<footer class="footer">
+  <div class="container footer-inner">
+    <span>全球 GDP 数据采集与可视化分析平台 · Python 课程大作业</span>
+    <span>数据来源：世界银行开放数据（World Bank Open Data）、东方财富数据中心 · 仅供学习研究使用</span>
+  </div>
+</footer>
+
+
+<script src="static/js/charts.js"></script>
+  <script src="static/js/static-api.js"></script>
+<script>
+  var FOCUS = {"areas": 336, "blocks": {"东北": {"areas": 36, "gdp": 65108.79999999999, "share": 5.317056682534833}, "东部": {"areas": 84, "gdp": 599731.5, "share": 48.97658042847725}, "中部": {"areas": 82, "gdp": 295153.8999999999, "share": 24.10350085351316}, "西部": {"areas": 130, "gdp": 264532.89999999997, "share": 21.602862035474757}}, "empty": false, "growth_areas": 34, "growth_average": 4.287058823529412, "growth_fast": [["绍兴市", 6.73], ["福州市", 6.15], ["石家庄市", 5.46]], "growth_slow": [["佛山市", -1.53], ["沈阳市", 0.81], ["天津", 2.86]], "per_capita_bottom": ["玉树州", 22651.0], "per_capita_ratio": 12.066266390004856, "per_capita_top": ["鄂尔多斯市", 273313.0], "tiers": {"中低收入": 4, "中高收入": 235, "高收入": 97}, "top_cities": [["上海", 56708.7], ["北京", 52073.0], ["深圳市", 38731.8], ["重庆", 33758.0], ["广州市", 32039.5]], "trillion_count": 29, "trillion_top": ["上海", "北京", "深圳市", "重庆", "广州市", "苏州市"], "year": 2025};
+  var SUMMARY = {"china_first_value": 361560229445.507, "china_first_year": 1990, "china_multiple": 53.92750031701502, "china_per_capita": 13861.970224368, "china_per_capita_first": 318.50335359039, "china_per_capita_multiple": 43.522211204705656, "china_per_capita_rank": 72, "china_rank": 2, "china_rank_start": [1990, 11], "china_share": 16.74438480352644, "china_value": 19498039388042.6, "china_vs_usa": 63.367661654298225, "country_count": 217, "crawl_total": 82, "empty": false, "last_update": "2026-10-17 13:16:20", "latest_year": 2025, "record_count": 8985, "top_country": {"code": "USA", "name_cn": "美国", "name_en": "United States", "region": "北美地区", "value": 30769700000000.0}, "usa_value": 30769700000000.0, "world_total": 116445241893486.75, "year_range": [1990, 2025]};
+
+  // 城市前五：横向柱状图
+  GDP.getJSON("/api/region/rank?economy=CHN&level=city&mode=year&year=" + FOCUS.year + "&limit=5")
+    .then(function (data) {
+      GDP.drawRankBar("chart-cities", data.items.map(function (item) {
+        return { name: item.region_name, value: item.gdp_native };
+      }));
+    })
+    .catch(function (error) { GDP.showError("chart-cities", error.message); });
+
+  // 增长两端：取增速最高的 5 个与最低的 5 个，正负用颜色区分
+  GDP.getJSON("/api/region/rank?economy=CHN&level=city&mode=year&year=" + FOCUS.year + "&metric=growth&limit=400")
+    .then(function (data) {
+      var items = data.items.filter(function (i) { return typeof i.growth_rate === "number"; });
+      if (!items.length) { GDP.showEmpty("chart-growth", "暂无增速数据"); return; }
+      var head = items.slice(0, 5);
+      var tail = items.slice(-5);
+      GDP.drawRankBar("chart-growth", head.concat(tail).map(function (item) {
+        return { name: item.region_name, value: item.growth_rate };
+      }), {
+        format: function (v) { return (v > 0 ? "+" : "") + v.toFixed(2) + "%"; },
+        axisFormat: function (v) { return v.toFixed(0) + "%"; },
+        colorBySign: true
+      });
+    })
+    .catch(function (error) { GDP.showError("chart-growth", error.message); });
+
+  // 中国全球排名变化
+  GDP.getJSON("/api/china/rank?metric=gdp")
+    .then(function (data) {
+      var chart = GDP.initChart("chart-rank");
+      if (!chart) return;
+      var years = data.items.map(function (d) { return d[0]; });
+      var ranks = data.items.map(function (d) { return d[1]; });
+      chart.setOption(GDP.baseOption({
+        tooltip: { trigger: "axis", valueFormatter: function (v) { return "全球第 " + v + " 名"; } },
+        grid: { left: 70, right: 30, top: 30, bottom: 40, containLabel: true },
+        xAxis: { type: "category", data: years, boundaryGap: false,
+                 axisLine: { lineStyle: { color: "#DDE5E4" } } },
+        yAxis: { type: "value", inverse: true, min: 1, max: Math.max.apply(null, ranks) + 1,
+                 splitLine: { lineStyle: { color: "#EDF2F1" } },
+                 axisLabel: { formatter: function (v) { return "第" + v + "名"; } } },
+        series: [{
+          name: "全球排名", type: "line", data: ranks, smooth: true, symbolSize: 6,
+          lineStyle: { width: 2.6, color: "#FF6A3B" }, itemStyle: { color: "#FF6A3B" }
+        }]
+      }));
+    })
+    .catch(function (error) { GDP.showError("chart-rank", error.message); });
+</script>
+
+</body>
+</html>

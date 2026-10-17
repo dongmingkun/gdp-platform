@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>中国季度视角 · 全球 GDP 数据采集与可视化分析平台</title>
+  <link rel="stylesheet" href="static/css/style.css">
+  
+  <script src="static/vendor/echarts.min.js"></script>
+</head>
+<body>
+<header class="topbar">
+  <div class="container topbar-inner">
+    <div class="brand">
+      <span class="logo">GDP</span>
+      <div class="brand-text">
+        <strong>全球 GDP 数据采集与可视化分析平台</strong>
+        <small>数据来源：世界银行开放数据 · 东方财富数据中心</small>
+      </div>
+    </div>
+    <nav class="nav">
+      <a href="index.html" class="">总览</a>
+      <a href="region.html" class="">城市格局</a>
+      <a href="rank.html" class="">全球排行</a>
+      <a href="trend.html" class="">趋势分析</a>
+      <a href="compare.html" class="">国家对比</a>
+      <a href="share.html" class="">份额变化</a>
+      <a href="china.html" class="active">中国季度</a>
+      <a href="dataset.html" class="">数据集</a>
+      <a href="about.html" class="">关于</a>
+    </nav>
+  </div>
+</header>
+
+
+
+<div class="demo-bar">
+  <div class="container">
+    <strong>在线演示站点</strong>
+    数据为 <b>2026-10-17 13:16:20</b> 的只读快照，采集与数据补录功能已关闭；
+    全部功能与源码见项目本地版本（Python 课程大作业）。
+  </div>
+</div>
+
+
+<main class="container">
+  
+<div class="cards" id="china-cards">
+  <div class="card"><div class="label">数据加载中…</div><div class="value">-</div></div>
+</div>
+
+<div class="panel">
+  <div class="panel-head">
+    <h2>单季 GDP 与同比增速</h2>
+    <span class="hint">柱状图为站内按相邻期相减折算的单季值；折线为数据源给出的累计同比增速</span>
+  </div>
+  <div id="chart-quarter" class="chart chart-lg"></div>
+</div>
+
+<div class="panel">
+  <div class="panel-head">
+    <h2>三次产业结构演变</h2>
+    <span class="hint">各期三次产业占 GDP 的比重（%）</span>
+  </div>
+  <div id="chart-structure" class="chart chart-lg"></div>
+</div>
+
+<div class="panel">
+  <div class="panel-head">
+    <h2>最近 12 期明细</h2>
+    <span class="hint">数据来源：东方财富数据中心 · 单位：亿元</span>
+  </div>
+  <div class="table-wrap">
+    <table class="data">
+      <thead>
+        <tr>
+          <th>报告期</th><th class="num">GDP 累计</th><th class="num">第一产业</th>
+          <th class="num">第二产业</th><th class="num">第三产业</th>
+          <th class="num">GDP 同比</th><th class="num">第三产业同比</th>
+        </tr>
+      </thead>
+      <tbody id="quarter-table"></tbody>
+    </table>
+  </div>
+</div>
+
+</main>
+
+<footer class="footer">
+  <div class="container footer-inner">
+    <span>全球 GDP 数据采集与可视化分析平台 · Python 课程大作业</span>
+    <span>数据来源：世界银行开放数据（World Bank Open Data）、东方财富数据中心 · 仅供学习研究使用</span>
+  </div>
+</footer>
+
+
+<script src="static/js/charts.js"></script>
+  <script src="static/js/static-api.js"></script>
+<script>
+  GDP.getJSON("/api/china/quarter")
+    .then(function (data) {
+      if (!data.count) { GDP.showEmpty("chart-quarter", "没有季度数据，请先采集"); return; }
+
+      // ---- 顶部指标卡 ----
+      var last = data.latest;
+      var structureLast = data.structure[data.structure.length - 1];
+      var cards = [
+        { label: "最新报告期", value: last.period_label, foot: "数据源：东方财富数据中心" },
+        { label: "GDP 累计", value: GDP.fmtNum(last.gdp_yi, 0) + " 亿元", foot: "同比 " + GDP.fmtPercent(last.gdp_yoy, 1) },
+        { label: "第三产业占比", value: (structureLast[3]).toFixed(2) + "%", foot: "第三产业累计 " + GDP.fmtNum(last.third_yi, 0) + " 亿元" },
+        { label: "覆盖报告期", value: data.count + " 期", foot: data.periods[0] + " → " + data.periods[data.count - 1] }
+      ];
+      document.getElementById("china-cards").innerHTML = cards.map(function (card, index) {
+        return '<div class="card' + (index % 2 === 1 ? " accent" : "") + '">' +
+          '<div class="label">' + card.label + '</div>' +
+          '<div class="value" style="font-size:20px">' + card.value + '</div>' +
+          '<div class="foot">' + card.foot + "</div></div>";
+      }).join("");
+
+      // ---- 单季 GDP（柱）+ 同比增速（线）----
+      var categories = data.single.map(function (d) { return d[0]; });
+      var singleValues = data.single.map(function (d) { return d[1]; });
+      var yoyMap = {};
+      data.yoy.forEach(function (d) { yoyMap[d[0]] = d[1]; });
+      var yoyValues = categories.map(function (period) { return yoyMap[period]; });
+      GDP.drawBarLine("chart-quarter", categories,
+        [{ name: "单季 GDP（亿元）", data: singleValues }],
+        [{ name: "GDP 同比增速（%）", data: yoyValues }],
+        { barName: "亿元", lineName: "%" });
+
+      // ---- 三次产业结构 ----
+      GDP.drawStackArea("chart-structure", data.structure.map(function (row) { return row[0]; }), [
+        { name: "第一产业", data: data.structure.map(function (row) { return row[1]; }) },
+        { name: "第二产业", data: data.structure.map(function (row) { return row[2]; }) },
+        { name: "第三产业", data: data.structure.map(function (row) { return row[3]; }) }
+      ]);
+
+// ---- 明细表（最近 12 期）----
+      var records = data.records.slice(-12).reverse();
+      document.getElementById("quarter-table").innerHTML = records.map(function (row) {
+        return "<tr><td><b>" + row.period + "</b><br><span style='color:#6B7C86;font-size:12px'>" +
+          (row.label || "") + "</span></td>" +
+          '<td class="num">' + GDP.fmtNum(row.gdp, 0) + "</td>" +
+          '<td class="num">' + GDP.fmtNum(row.first, 0) + "</td>" +
+          '<td class="num">' + GDP.fmtNum(row.second, 0) + "</td>" +
+          '<td class="num">' + GDP.fmtNum(row.third, 0) + "</td>" +
+          '<td class="num">' + GDP.fmtPercent(row.yoy, 1) + "</td>" +
+          '<td class="num">' + GDP.fmtPercent(row.third_yoy, 1) + "</td></tr>";
+      }).join("");
+    })
+    .catch(function (error) { GDP.showError("chart-quarter", error.message); });
+</script>
+
+</body>
+</html>

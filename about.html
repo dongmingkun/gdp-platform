@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>关于 · 全球 GDP 数据采集与可视化分析平台</title>
+  <link rel="stylesheet" href="static/css/style.css">
+  
+  <script src="static/vendor/echarts.min.js"></script>
+</head>
+<body>
+<header class="topbar">
+  <div class="container topbar-inner">
+    <div class="brand">
+      <span class="logo">GDP</span>
+      <div class="brand-text">
+        <strong>全球 GDP 数据采集与可视化分析平台</strong>
+        <small>数据来源：世界银行开放数据 · 东方财富数据中心</small>
+      </div>
+    </div>
+    <nav class="nav">
+      <a href="index.html" class="">总览</a>
+      <a href="region.html" class="">城市格局</a>
+      <a href="rank.html" class="">全球排行</a>
+      <a href="trend.html" class="">趋势分析</a>
+      <a href="compare.html" class="">国家对比</a>
+      <a href="share.html" class="">份额变化</a>
+      <a href="china.html" class="">中国季度</a>
+      <a href="dataset.html" class="">数据集</a>
+      <a href="about.html" class="active">关于</a>
+    </nav>
+  </div>
+</header>
+
+
+
+<div class="demo-bar">
+  <div class="container">
+    <strong>在线演示站点</strong>
+    数据为 <b>2026-10-17 13:16:20</b> 的只读快照，采集与数据补录功能已关闭；
+    全部功能与源码见项目本地版本（Python 课程大作业）。
+  </div>
+</div>
+
+
+<main class="container">
+  
+<div class="panel">
+  <div class="panel-head"><h2>这个系统解决什么问题</h2></div>
+  <p style="margin-top:0">
+    GDP 数据分散在各类官方与财经网站，格式不一、口径不同，想横向比较多个国家几十年的走势，
+    往往要手工找数据、拼表格、再画图。本系统把「采集 → 清洗 → 入库 → 可视化」串成一条自动流水线：
+    点一次按钮就能把两个数据源的最新数据抓下来存进数据库，并在网页上直接看排行、趋势、对比与结构变化。
+  </p>
+  <dl class="meta">
+    <dt>技术路线</dt><dd>Python 3 + requests（爬虫）+ SQLite（数据库）+ Flask/Jinja2（后端渲染）+ ECharts（前端图表）+ Tkinter（桌面采集控制台）</dd>
+    <dt>数据规模</dt><dd>217 个国家和地区、8,985 条年度记录、82 期中国季度记录，年份范围 1990–2025</dd>
+    <dt>零外部依赖</dt><dd>前端 ECharts 使用本地文件，不依赖 CDN；除 Flask 与 requests 外全部使用 Python 标准库</dd>
+  </dl>
+</div>
+
+<div class="panel">
+  <div class="panel-head"><h2>数据来源</h2><span class="hint">两个数据源都无需注册、无需申请密钥</span></div>
+  <div class="table-wrap">
+    <table class="data">
+      <thead><tr><th>数据源</th><th>接口地址</th><th>内容</th><th>结果</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><b>世界银行开放数据</b></td>
+          <td><code>api.worldbank.org/v2</code></td>
+          <td>指标 <code>NY.GDP.MKTP.CD</code>（GDP 总量）与 <code>NY.GDP.PCAP.CD</code>（人均 GDP），1990–2025 年，217 个国家和地区</td>
+          <td><span class="badge">采集成功</span></td>
+        </tr>
+        <tr>
+          <td><b>东方财富数据中心</b></td>
+          <td><code>datacenter-web.eastmoney.com</code></td>
+          <td>报表 <code>RPT_ECONOMY_GDP</code>：中国季度 GDP、三次产业增加值与同比增速，共 82 期</td>
+          <td><span class="badge">采集成功</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="panel-head">
+    <h2>数据源调研记录</h2>
+    <span class="hint">原始需求是“中国分省 GDP”，逐个实测后改用上面两个可用数据源</span>
+  </div>
+  <div class="table-wrap">
+    <table class="data">
+      <thead><tr><th>候选数据源</th><th>实测结果</th><th>结论</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>国家统计局 · 国家数据<br><code>data.stats.gov.cn/easyquery.htm</code></td>
+          <td>返回 HTTP 403，响应头带 <code>WZWS-RAY</code> 与 <code>reason:UrlACL</code>，属于 WAF 按路径拦截；改用 http 协议、补全浏览器请求头均无效</td>
+          <td>不可用</td>
+        </tr>
+        <tr>
+          <td>中国统计年鉴（分省表）<br><code>stats.gov.cn/sj/ndsj/2024/html/C03-09.jpg</code></td>
+          <td>分省数据表全部是扫描图片（525 KB JPEG），页面中不存在对应的 .htm 或 .xls 文件，需要 OCR 才能读取</td>
+          <td>不可靠，放弃</td>
+        </tr>
+        <tr>
+          <td>新浪财经 · 宏观经济<br><code>money.finance.sina.com.cn/mac/api</code></td>
+          <td>旧的 JSONP 接口已下线，请求被重定向到财经首页</td>
+          <td>不可用</td>
+        </tr>
+        <tr>
+          <td>东方财富数据中心<br><code>datacenter-web.eastmoney.com/api</code></td>
+          <td>可用，但只有全国季度数据，没有分省数据；必须带 Referer 请求头</td>
+          <td><span class="badge">采用（中国季度）</span></td>
+        </tr>
+        <tr>
+          <td>世界银行开放数据<br><code>api.worldbank.org/v2</code></td>
+          <td>可用，覆盖 266 个经济体、1990–2025 年，接口稳定且无需密钥；偶发 SSL 中断可重试成功</td>
+          <td><span class="badge">采用（各国年度）</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="note" style="margin-top:14px">
+    调研结论：分省 GDP 在公开渠道上要么被反爬拦截、要么以扫描图片形式发布，短期内无法稳定自动采集，
+    因此本期以「全球各国 + 中国全国」为数据范围。采集层已按“一个数据源一个类”的方式组织，
+    后续若找到稳定的分省数据源，只需新增一个 Spider 子类并在调度里注册即可，其余各层无需改动。
+  </div>
+</div>
+
+<div class="panel">
+  <div class="panel-head"><h2>数据字典</h2><span class="hint">数据库四张表</span></div>
+  <div class="table-wrap">
+    <table class="data">
+      <thead><tr><th>表名</th><th>说明</th><th>主要字段</th></tr></thead>
+      <tbody>
+        <tr><td><code>country</code></td><td>国家/地区基础信息</td>
+            <td>code、name_cn、name_en、region、income_level、is_aggregate</td></tr>
+        <tr><td><code>gdp_annual</code></td><td>各国年度 GDP</td>
+            <td>country_code、year、gdp_usd、gdp_per_capita_usd</td></tr>
+        <tr><td><code>gdp_cn_quarter</code></td><td>中国季度 GDP（累计值）</td>
+            <td>period、gdp_yi、first_yi、second_yi、third_yi、gdp_yoy</td></tr>
+        <tr><td><code>crawl_log</code></td><td>采集日志</td>
+            <td>source、task、start_time、end_time、rows、status、message</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="panel-head"><h2>采集历史</h2><span class="hint">最近一次成功采集：2026-10-17 13:16:20</span></div>
+  
+  <div class="table-wrap">
+    <table class="data">
+      <thead><tr><th>#</th><th>数据源</th><th>开始时间</th><th>结束时间</th><th class="num">入库行数</th><th>状态</th></tr></thead>
+      <tbody>
+        
+        <tr>
+          <td>16</td><td>人工整理数据文件</td><td>2026-10-17 13:16:20</td>
+          <td>2026-10-17 13:16:20</td><td class="num">336</td>
+          <td>成功</td>
+        </tr>
+        
+        <tr>
+          <td>14</td><td>人工整理数据文件</td><td>2026-10-17 07:04:28</td>
+          <td>2026-10-17 07:04:28</td><td class="num">0</td>
+          <td>成功</td>
+        </tr>
+        
+        <tr>
+          <td>13</td><td>维基百科条目（数据源自官方统计公报）</td><td>2026-10-17 01:34:32</td>
+          <td>2026-10-17 01:37:11</td><td class="num">472</td>
+          <td>成功</td>
+        </tr>
+        
+        <tr>
+          <td>12</td><td>维基百科条目（数据源自官方统计公报）</td><td>2026-10-17 01:31:10</td>
+          <td>2026-10-17 01:34:06</td><td class="num">506</td>
+          <td>部分成功</td>
+        </tr>
+        
+        <tr>
+          <td>11</td><td>维基百科条目（数据源自官方统计公报）</td><td>2026-10-17 01:26:53</td>
+          <td>2026-10-17 01:30:01</td><td class="num">506</td>
+          <td>部分成功</td>
+        </tr>
+        
+        <tr>
+          <td>10</td><td>维基百科条目（数据源自官方统计公报）</td><td>2026-10-15 10:34:11</td>
+          <td>2026-10-15 10:37:06</td><td class="num">494</td>
+          <td>部分成功</td>
+        </tr>
+        
+        <tr>
+          <td>9</td><td>维基百科条目（数据源自官方统计公报）</td><td>2026-10-15 10:29:13</td>
+          <td>2026-10-15 10:32:12</td><td class="num">498</td>
+          <td>部分成功</td>
+        </tr>
+        
+        <tr>
+          <td>8</td><td>维基百科条目（数据源自官方统计公报）</td><td>2026-10-15 10:20:10</td>
+          <td>2026-10-15 10:23:05</td><td class="num">433</td>
+          <td>成功</td>
+        </tr>
+        
+        <tr>
+          <td>7</td><td>美国经济分析局（BEA）</td><td>2026-10-15 10:19:06</td>
+          <td>2026-10-15 10:20:10</td><td class="num">75,926</td>
+          <td>部分成功</td>
+        </tr>
+        
+        <tr>
+          <td>6</td><td>维基百科条目（数据源自官方统计公报）</td><td>2026-10-15 10:05:15</td>
+          <td>2026-10-15 10:06:10</td><td class="num">0</td>
+          <td>失败</td>
+        </tr>
+        
+        <tr>
+          <td>5</td><td>美国经济分析局（BEA）</td><td>2026-10-15 10:04:23</td>
+          <td>2026-10-15 10:05:15</td><td class="num">75,926</td>
+          <td>部分成功</td>
+        </tr>
+        
+        <tr>
+          <td>4</td><td>东方财富数据中心</td><td>2026-10-15 09:10:31</td>
+          <td>2026-10-15 09:10:32</td><td class="num">82</td>
+          <td>成功</td>
+        </tr>
+        
+        <tr>
+          <td>3</td><td>世界银行开放数据</td><td>2026-10-15 09:10:16</td>
+          <td>2026-10-15 09:10:31</td><td class="num">8,985</td>
+          <td>成功</td>
+        </tr>
+        
+        <tr>
+          <td>2</td><td>东方财富数据中心</td><td>2026-10-15 08:57:04</td>
+          <td>2026-10-15 08:57:04</td><td class="num">82</td>
+          <td>成功</td>
+        </tr>
+        
+        <tr>
+          <td>1</td><td>世界银行开放数据</td><td>2026-10-15 08:56:47</td>
+          <td>2026-10-15 08:57:04</td><td class="num">8,985</td>
+          <td>成功</td>
+        </tr>
+        
+      </tbody>
+    </table>
+  </div>
+  
+</div>
+
+<div class="panel">
+  <div class="panel-head"><h2>使用说明与免责声明</h2></div>
+  <div class="note">
+    本系统为 Python 课程大作业，数据取自上述公开接口，仅供学习与研究使用，不作为投资或决策依据。
+    世界银行的 GDP 数据按当年汇率折算成现价美元，跨国比较时会受汇率波动影响；
+    中国季度数据为累计口径（例如“第 1-3 季度”指前三季度累计），网页上的单季值由相邻两期相减得到。
+  </div>
+</div>
+
+</main>
+
+<footer class="footer">
+  <div class="container footer-inner">
+    <span>全球 GDP 数据采集与可视化分析平台 · Python 课程大作业</span>
+    <span>数据来源：世界银行开放数据（World Bank Open Data）、东方财富数据中心 · 仅供学习研究使用</span>
+  </div>
+</footer>
+
+
+</body>
+</html>

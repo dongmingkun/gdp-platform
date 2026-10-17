@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>国家对比 · 全球 GDP 数据采集与可视化分析平台</title>
+  <link rel="stylesheet" href="static/css/style.css">
+  
+  <script src="static/vendor/echarts.min.js"></script>
+</head>
+<body>
+<header class="topbar">
+  <div class="container topbar-inner">
+    <div class="brand">
+      <span class="logo">GDP</span>
+      <div class="brand-text">
+        <strong>全球 GDP 数据采集与可视化分析平台</strong>
+        <small>数据来源：世界银行开放数据 · 东方财富数据中心</small>
+      </div>
+    </div>
+    <nav class="nav">
+      <a href="index.html" class="">总览</a>
+      <a href="region.html" class="">城市格局</a>
+      <a href="rank.html" class="">全球排行</a>
+      <a href="trend.html" class="">趋势分析</a>
+      <a href="compare.html" class="active">国家对比</a>
+      <a href="share.html" class="">份额变化</a>
+      <a href="china.html" class="">中国季度</a>
+      <a href="dataset.html" class="">数据集</a>
+      <a href="about.html" class="">关于</a>
+    </nav>
+  </div>
+</header>
+
+
+
+<div class="demo-bar">
+  <div class="container">
+    <strong>在线演示站点</strong>
+    数据为 <b>2026-10-17 13:16:20</b> 的只读快照，采集与数据补录功能已关闭；
+    全部功能与源码见项目本地版本（Python 课程大作业）。
+  </div>
+</div>
+
+
+<main class="container">
+  
+<div class="panel">
+  <div class="panel-head">
+    <h2>国家两两对比</h2>
+    <span class="hint">默认对比中国与美国；选择多个国家时，比值图比较的是前两个</span>
+  </div>
+  <form class="toolbar" method="get" action="compare.html" id="compare-form">
+    <div class="field">
+      <label>指标</label>
+      <select name="metric">
+        <option value="gdp" selected>GDP 总量</option>
+        <option value="per_capita" >人均 GDP</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>国家</label>
+      <div class="checkbox-list" id="country-box" style="max-width:640px">
+        
+        <label>
+          <input type="checkbox" name="codes" value="CHN" checked>
+          中国
+        </label>
+        
+        <label>
+          <input type="checkbox" name="codes" value="USA" checked>
+          美国
+        </label>
+        
+        <label>
+          <input type="checkbox" name="codes" value="JPN" >
+          日本
+        </label>
+        
+        <label>
+          <input type="checkbox" name="codes" value="IND" >
+          印度
+        </label>
+        
+        <label>
+          <input type="checkbox" name="codes" value="DEU" >
+          德国
+        </label>
+        
+        <label>
+          <input type="checkbox" name="codes" value="GBR" >
+          英国
+        </label>
+        
+        <label>
+          <input type="checkbox" name="codes" value="FRA" >
+          法国
+        </label>
+        
+        <label>
+          <input type="checkbox" name="codes" value="ITA" >
+          意大利
+        </label>
+        
+        <label>
+          <input type="checkbox" name="codes" value="BRA" >
+          巴西
+        </label>
+        
+        <label>
+          <input type="checkbox" name="codes" value="RUS" >
+          俄罗斯联邦
+        </label>
+        
+        <label>
+          <input type="checkbox" name="codes" value="KOR" >
+          大韩民国
+        </label>
+        
+        <label>
+          <input type="checkbox" name="codes" value="CAN" >
+          加拿大
+        </label>
+        
+        <label>
+          <input type="checkbox" name="codes" value="AUS" >
+          澳大利亚
+        </label>
+        
+        <label>
+          <input type="checkbox" name="codes" value="ESP" >
+          西班牙
+        </label>
+        
+        <label>
+          <input type="checkbox" name="codes" value="MEX" >
+          墨西哥
+        </label>
+        
+        <label>
+          <input type="checkbox" name="codes" value="IDN" >
+          印度尼西亚
+        </label>
+        
+        <label>
+          <input type="checkbox" name="codes" value="SAU" >
+          沙特阿拉伯
+        </label>
+        
+        <label>
+          <input type="checkbox" name="codes" value="TUR" >
+          土耳其
+        </label>
+        
+        <label>
+          <input type="checkbox" name="codes" value="NLD" >
+          荷兰
+        </label>
+        
+        <label>
+          <input type="checkbox" name="codes" value="CHE" >
+          瑞士
+        </label>
+        
+        <label>
+          <input type="checkbox" name="codes" value="SGP" >
+          新加坡
+        </label>
+        
+        <label>
+          <input type="checkbox" name="codes" value="THA" >
+          泰国
+        </label>
+        
+        <label>
+          <input type="checkbox" name="codes" value="VNM" >
+          越南
+        </label>
+        
+        <label>
+          <input type="checkbox" name="codes" value="ZAF" >
+          南非
+        </label>
+        
+        <label>
+          <input type="checkbox" name="codes" value="ARG" >
+          阿根廷
+        </label>
+        
+        <label>
+          <input type="checkbox" name="codes" value="EGY" >
+          阿拉伯埃及共和国
+        </label>
+        
+        <label>
+          <input type="checkbox" name="codes" value="NGA" >
+          尼日利亚
+        </label>
+        
+        <label>
+          <input type="checkbox" name="codes" value="POL" >
+          波兰
+        </label>
+        
+        <label>
+          <input type="checkbox" name="codes" value="SWE" >
+          瑞典
+        </label>
+        
+        <label>
+          <input type="checkbox" name="codes" value="IRN" >
+          伊朗伊斯兰共和国 
+        </label>
+        
+      </div>
+    </div>
+    <button type="submit">对比</button>
+  </form>
+</div>
+
+<div class="cards" id="summary-cards">
+  <div class="card"><div class="label">数据加载中…</div><div class="value">-</div></div>
+</div>
+
+<div class="grid-2">
+  <div class="panel">
+    <div class="panel-head"><h2>GDP 总量对比曲线</h2><span class="hint">单位：万亿美元</span></div>
+    <div id="chart-compare" class="chart"></div>
+  </div>
+  <div class="panel">
+    <div class="panel-head"><h2>相对水平（前者 ÷ 后者）</h2><span class="hint">100% 表示两者相当</span></div>
+    <div id="chart-ratio" class="chart"></div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="panel-head"><h2>对比结论</h2><span class="hint">由本站分析层根据原始数据自动计算</span></div>
+  <div id="conclusion" class="note">正在计算…</div>
+</div>
+
+</main>
+
+<footer class="footer">
+  <div class="container footer-inner">
+    <span>全球 GDP 数据采集与可视化分析平台 · Python 课程大作业</span>
+    <span>数据来源：世界银行开放数据（World Bank Open Data）、东方财富数据中心 · 仅供学习研究使用</span>
+  </div>
+</footer>
+
+
+<script src="static/js/charts.js"></script>
+  <script src="static/js/static-api.js"></script>
+<script>
+  var query = window.location.search.replace(/^\?/, "");
+  GDP.getJSON("/api/compare" + (query ? "?" + query : ""))
+    .then(function (data) {
+      if (!data.items.length) { GDP.showEmpty("chart-compare", "请至少勾选一个国家"); return; }
+      var percent = false, usd = data.metric === "gdp";
+
+      GDP.drawLines("chart-compare", data.items.map(function (item) {
+        return { name: item.name, data: item.data };
+      }), { usd: usd });
+
+      var s = data.summary || {};
+      if (s.ratio_data) {
+        var chart = GDP.initChart("chart-ratio");
+        chart.setOption(GDP.baseOption({
+          tooltip: { trigger: "axis", valueFormatter: function (v) { return (v * 100).toFixed(1) + "%"; } },
+          grid: { left: 60, right: 30, top: 30, bottom: 40, containLabel: true },
+          xAxis: { type: "category", boundaryGap: false,
+                   data: s.ratio_data.map(function (d) { return d[0]; }),
+                   axisLine: { lineStyle: { color: "#DDE5E4" } } },
+          yAxis: { type: "value", splitLine: { lineStyle: { color: "#EDF2F1" } },
+                   axisLabel: { formatter: function (v) { return (v * 100).toFixed(0) + "%"; } } },
+          series: [{
+            name: s.label_a + " ÷ " + s.label_b, type: "line", smooth: true, showSymbol: false,
+            data: s.ratio_data.map(function (d) { return d[1]; }),
+            lineStyle: { width: 2.6, color: "#FF6A3B" }, itemStyle: { color: "#FF6A3B" },
+            areaStyle: { opacity: .1 },
+            markLine: { silent: true, symbol: "none", data: [{ yAxis: 1, name: "持平" }],
+                        lineStyle: { color: "#15857A", type: "dashed" },
+                        label: { formatter: "两者持平" } }
+          }]
+        }));
+      }
+
+      // 结论卡片
+      var cards = [];
+      if (s.latest_year) {
+        cards.push('<div class="card accent"><div class="label">' + s.latest_year + " 年 " +
+                   s.label_a + " ÷ " + s.label_b + '</div><div class="value">' +
+                   (s.latest_ratio * 100).toFixed(1) + '<span class="unit">%</span></div><div class="foot">' +
+                   s.label_a + "为" + s.label_b + "的 " + s.latest_ratio.toFixed(3) + " 倍</div></div>");
+        cards.push('<div class="card"><div class="label">对比起始年 ' + s.first_year + '</div><div class="value">' +
+                   (s.first_ratio * 100).toFixed(1) + '<span class="unit">%</span></div><div class="foot">' +
+                   "起点水平</div></div>");
+        cards.push('<div class="card"><div class="label">占比最高的一年</div><div class="value">' + s.highest_year +
+                   '<span class="unit">年</span></div><div class="foot">达到 <b>' +
+                   (s.highest_ratio * 100).toFixed(1) + '%</b>，为区间内最接近的一次</div></div>');
+        cards.push('<div class="card"><div class="label">占比最低的一年</div><div class="value">' + s.lowest_year +
+                   '<span class="unit">年</span></div><div class="foot">仅 <b>' +
+                   (s.lowest_ratio * 100).toFixed(1) + '%</b></div></div>');
+        document.getElementById("conclusion").innerHTML =
+          s.latest_year + " 年，" + s.label_a + "的" + data.metric_name.replace("GDP ", "") +
+          "为 " + s.label_b + "的 <b>" + (s.latest_ratio * 100).toFixed(1) + "%</b>；" +
+          "对比区间（" + s.first_year + "–" + s.latest_year + " 年）内，" +
+          "该比例最低为 " + s.lowest_year + " 年的 " + (s.lowest_ratio * 100).toFixed(1) + "%，" +
+          "最高为 " + s.highest_year + " 年的 " + (s.highest_ratio * 100).toFixed(1) + "%。";
+      } else {
+        document.getElementById("conclusion").textContent = "请至少勾选两个有数据的国家，才能计算相对水平。";
+      }
+      document.getElementById("summary-cards").innerHTML = cards.join("");
+    })
+    .catch(function (error) { GDP.showError("chart-compare", error.message); });
+</script>
+
+</body>
+</html>
