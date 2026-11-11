@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}出错了{% endblock %}
+
+{% block content %}
+<div class="panel">
+  <div class="empty">
+    <div style="font-size:44px;font-weight:700;color:#15857A">{{ code }}</div>
+    <p>{{ message }}</p>
+    <p><a class="btn" href="{{ url_for('page_index') }}">返回首页</a></p>
+  </div>
+</div>
+{% endblock %}

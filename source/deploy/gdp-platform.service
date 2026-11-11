@@ -1,0 +1,24 @@
+# 云服务器方案：systemd 托管（开机自启 + 崩溃自动重启）
+# 用法：改好路径与用户后，放到 /etc/systemd/system/gdp-platform.service
+#     sudo systemctl daemon-reload
+#     sudo systemctl enable --now gdp-platform
+#     sudo systemctl status gdp-platform      # 看状态
+#     sudo journalctl -u gdp-platform -f      # 看日志
+
+[Unit]
+Description=GDP Platform (Flask + waitress)
+After=network.target
+
+[Service]
+User=www-data
+WorkingDirectory=/srv/gdp-platform
+# 公共演示模式：只读快照，关闭采集入口
+Environment=GDP_PUBLIC=1
+Environment=GDP_HOST=127.0.0.1
+Environment=GDP_PORT=8000
+ExecStart=/srv/gdp-platform/.venv/bin/waitress-serve --host=127.0.0.1 --port=8000 --threads=8 wsgi:app
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target

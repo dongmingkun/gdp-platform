@@ -1,0 +1,24 @@
+# Render 部署配置（https://render.com）
+#
+# 用法：把项目推到 GitHub / GitLab → Render 选 “New → Blueprint” → 选中这个仓库，
+# Render 会读本文件自动建好服务。之后再在 Render 后台 “Settings → Custom Domains”
+# 里填你自己的域名（例如 gdp.example.com），按提示到域名商处加一条 CNAME 解析。
+#
+# 免费档（Free）即可跑：不采集、只读展示，内存与 CPU 够用；
+# 免费实例闲置一段时间会休眠，第一位访客打开时需要等十几秒唤醒。
+
+services:
+  - type: web
+    name: gdp-platform
+    runtime: python
+    plan: free
+    region: singapore          # 面向国内访问，新加坡节点通常比美西快
+    buildCommand: pip install -r requirements.txt -r requirements-server.txt
+    startCommand: waitress-serve --host=0.0.0.0 --port=$PORT --threads=8 wsgi:app
+    healthCheckPath: /
+    envVars:
+      # 公共演示模式：只读快照，关闭采集入口（公网站点务必打开）
+      - key: GDP_PUBLIC
+        value: "1"
+      - key: PYTHON_VERSION
+        value: "3.12.6"

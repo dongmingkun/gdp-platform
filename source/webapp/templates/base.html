@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}总览{% endblock %} · 全球 GDP 数据采集与可视化分析平台</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  {# ECharts 用本地文件，不依赖外部 CDN，断网也能正常演示 #}
+  <script src="{{ url_for('static', filename='vendor/echarts.min.js') }}"></script>
+</head>
+<body>
+<header class="topbar">
+  <div class="container topbar-inner">
+    <div class="brand">
+      <span class="logo">GDP</span>
+      <div class="brand-text">
+        <strong>全球 GDP 数据采集与可视化分析平台</strong>
+        <small>数据来源：世界银行开放数据 · 东方财富数据中心</small>
+      </div>
+    </div>
+    <nav class="nav">
+      <a href="{{ url_for('page_index') }}" class="{{ 'active' if nav == 'index' }}">总览</a>
+      <a href="{{ url_for('page_region') }}" class="{{ 'active' if nav == 'region' }}">城市格局</a>
+      <a href="{{ url_for('page_rank') }}" class="{{ 'active' if nav == 'rank' }}">全球排行</a>
+      <a href="{{ url_for('page_trend') }}" class="{{ 'active' if nav == 'trend' }}">趋势分析</a>
+      <a href="{{ url_for('page_compare') }}" class="{{ 'active' if nav == 'compare' }}">国家对比</a>
+      <a href="{{ url_for('page_share') }}" class="{{ 'active' if nav == 'share' }}">份额变化</a>
+      <a href="{{ url_for('page_china') }}" class="{{ 'active' if nav == 'china' }}">中国季度</a>
+      <a href="{{ url_for('page_dataset') }}" class="{{ 'active' if nav == 'dataset' }}">数据集</a>
+      <a href="{{ url_for('page_about') }}" class="{{ 'active' if nav == 'about' }}">关于</a>
+    </nav>
+  </div>
+</header>
+
+{% if public_mode %}
+{# 公共演示站点的说明条：让访问者知道这是只读快照、数据截止到什么时候 #}
+<div class="demo-bar">
+  <div class="container">
+    <strong>在线演示站点</strong>
+    数据为 <b>{{ snapshot_time }}</b> 的只读快照，采集与数据补录功能已关闭；
+    全部功能与源码见项目本地版本（Python 课程大作业）。
+  </div>
+</div>
+{% endif %}
+
+<main class="container">
+  {% block content %}{% endblock %}
+</main>
+
+<footer class="footer">
+  <div class="container footer-inner">
+    <span>全球 GDP 数据采集与可视化分析平台 · Python 课程大作业</span>
+    <span>数据来源：世界银行开放数据（World Bank Open Data）、东方财富数据中心 · 仅供学习研究使用</span>
+  </div>
+</footer>
+
+{% block scripts %}{% endblock %}
+</body>
+</html>

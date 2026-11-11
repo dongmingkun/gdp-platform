@@ -1,0 +1,5 @@
+# 项目第三方依赖（其余功能全部使用 Python 标准库实现）
+#
+# 安装：python -m pip install -r requirements.txt
+flask>=3.0          # Web 后端框架（自带 Jinja2 模板引擎）
+requests>=2.31      # 爬虫 HTTP 请求库

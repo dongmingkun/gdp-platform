@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+{% block title %}中国季度视角{% endblock %}
+
+{% block content %}
+<div class="cards" id="china-cards">
+  <div class="card"><div class="label">数据加载中…</div><div class="value">-</div></div>
+</div>
+
+<div class="panel">
+  <div class="panel-head">
+    <h2>单季 GDP 与同比增速</h2>
+    <span class="hint">柱状图为站内按相邻期相减折算的单季值；折线为数据源给出的累计同比增速</span>
+  </div>
+  <div id="chart-quarter" class="chart chart-lg"></div>
+</div>
+
+<div class="panel">
+  <div class="panel-head">
+    <h2>三次产业结构演变</h2>
+    <span class="hint">各期三次产业占 GDP 的比重（%）</span>
+  </div>
+  <div id="chart-structure" class="chart chart-lg"></div>
+</div>
+
+<div class="panel">
+  <div class="panel-head">
+    <h2>最近 12 期明细</h2>
+    <span class="hint">数据来源：东方财富数据中心 · 单位：亿元</span>
+  </div>
+  <div class="table-wrap">
+    <table class="data">
+      <thead>
+        <tr>
+          <th>报告期</th><th class="num">GDP 累计</th><th class="num">第一产业</th>
+          <th class="num">第二产业</th><th class="num">第三产业</th>
+          <th class="num">GDP 同比</th><th class="num">第三产业同比</th>
+        </tr>
+      </thead>
+      <tbody id="quarter-table"></tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/charts.js') }}"></script>
+<script>
+  GDP.getJSON("/api/china/quarter")
+    .then(function (data) {
+      if (!data.count) { GDP.showEmpty("chart-quarter", "没有季度数据，请先采集"); return; }
+
+      // ---- 顶部指标卡 ----
+      var last = data.latest;
+      var structureLast = data.structure[data.structure.length - 1];
+      var cards = [
+        { label: "最新报告期", value: last.period_label, foot: "数据源：东方财富数据中心" },
+        { label: "GDP 累计", value: GDP.fmtNum(last.gdp_yi, 0) + " 亿元", foot: "同比 " + GDP.fmtPercent(last.gdp_yoy, 1) },
+        { label: "第三产业占比", value: (structureLast[3]).toFixed(2) + "%", foot: "第三产业累计 " + GDP.fmtNum(last.third_yi, 0) + " 亿元" },
+        { label: "覆盖报告期", value: data.count + " 期", foot: data.periods[0] + " → " + data.periods[data.count - 1] }
+      ];
+      document.getElementById("china-cards").innerHTML = cards.map(function (card, index) {
+        return '<div class="card' + (index % 2 === 1 ? " accent" : "") + '">' +
+          '<div class="label">' + card.label + '</div>' +
+          '<div class="value" style="font-size:20px">' + card.value + '</div>' +
+          '<div class="foot">' + card.foot + "</div></div>";
+      }).join("");
+
+      // ---- 单季 GDP（柱）+ 同比增速（线）----
+      var categories = data.single.map(function (d) { return d[0]; });
+      var singleValues = data.single.map(function (d) { return d[1]; });
+      var yoyMap = {};
+      data.yoy.forEach(function (d) { yoyMap[d[0]] = d[1]; });
+      var yoyValues = categories.map(function (period) { return yoyMap[period]; });
+      GDP.drawBarLine("chart-quarter", categories,
+        [{ name: "单季 GDP（亿元）", data: singleValues }],
+        [{ name: "GDP 同比增速（%）", data: yoyValues }],
+        { barName: "亿元", lineName: "%" });
+
+      // ---- 三次产业结构 ----
+      GDP.drawStackArea("chart-structure", data.structure.map(function (row) { return row[0]; }), [
+        { name: "第一产业", data: data.structure.map(function (row) { return row[1]; }) },
+        { name: "第二产业", data: data.structure.map(function (row) { return row[2]; }) },
+        { name: "第三产业", data: data.structure.map(function (row) { return row[3]; }) }
+      ]);
+
+// ---- 明细表（最近 12 期）----
+      var records = data.records.slice(-12).reverse();
+      document.getElementById("quarter-table").innerHTML = records.map(function (row) {
+        return "<tr><td><b>" + row.period + "</b><br><span style='color:#6B7C86;font-size:12px'>" +
+          (row.label || "") + "</span></td>" +
+          '<td class="num">' + GDP.fmtNum(row.gdp, 0) + "</td>" +
+          '<td class="num">' + GDP.fmtNum(row.first, 0) + "</td>" +
+          '<td class="num">' + GDP.fmtNum(row.second, 0) + "</td>" +
+          '<td class="num">' + GDP.fmtNum(row.third, 0) + "</td>" +
+          '<td class="num">' + GDP.fmtPercent(row.yoy, 1) + "</td>" +
+          '<td class="num">' + GDP.fmtPercent(row.third_yoy, 1) + "</td></tr>";
+      }).join("");
+    })
+    .catch(function (error) { GDP.showError("chart-quarter", error.message); });
+</script>
+{% endblock %}

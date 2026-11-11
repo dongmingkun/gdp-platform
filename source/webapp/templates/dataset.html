@@ -1,0 +1,253 @@
+{% extends "base.html" %}
+{% block title %}数据集{% endblock %}
+
+{% block content %}
+{% if public_mode %}
+{# 只读快照：公网上不提供采集入口，只保留导出与浏览 #}
+<div class="panel panel-tight">
+  <div class="panel-head">
+    <h2>数据采集</h2>
+    <span class="hint">演示站点为只读快照，采集功能已关闭</span>
+  </div>
+  <p class="muted">
+    本页数据为 {{ snapshot_time }} 的采集结果，内容完整可浏览与导出。
+    需要重新采集数据时，请在本地运行
+    <code>python -m spider.pipeline</code>（命令行）或在网页「一键更新数据」（本地版本），
+    采集完成后再部署一次即可刷新快照。
+  </p>
+  <div class="toolbar">
+    <a class="btn ghost" href="{{ url_for('api_export_csv', year=year if year else '', country=country, metric=metric) }}">导出当前筛选为 CSV</a>
+  </div>
+</div>
+{% else %}
+<div class="panel">
+  <div class="panel-head">
+    <h2>数据采集（后台线程）</h2>
+    <span class="hint">采集在后台线程中运行，期间页面仍可正常浏览，进度实时刷新</span>
+  </div>
+  <div class="toolbar">
+    <div class="field">
+      <label>数据源</label>
+      <div style="display:flex;gap:16px;flex-wrap:wrap">
+        <label style="display:flex;align-items:center;gap:6px">
+          <input type="checkbox" id="src-worldbank" checked> 世界银行 · 各国年度 GDP
+        </label>
+        <label style="display:flex;align-items:center;gap:6px">
+          <input type="checkbox" id="src-eastmoney" checked> 东方财富 · 中国季度 GDP
+        </label>
+        <label style="display:flex;align-items:center;gap:6px">
+          <input type="checkbox" id="src-bea"> 美国 BEA · 州与县 GDP
+        </label>
+        <label style="display:flex;align-items:center;gap:6px">
+          <input type="checkbox" id="src-wikiregion"> 维基条目 · 中国省市与日本都道府县
+        </label>
+        <label style="display:flex;align-items:center;gap:6px">
+          <input type="checkbox" id="src-manual"> 人工整理 · data/manual 下的 CSV
+        </label>
+      </div>
+    </div>
+    <button id="btn-crawl" onclick="startCrawl()">一键更新数据</button>
+    <a class="btn ghost" href="{{ url_for('api_export_csv', year=year if year else '', country=country, metric=metric) }}">导出当前筛选为 CSV</a>
+  </div>
+  <div class="progress"><span id="crawl-bar"></span></div>
+  <div class="progress-text" id="crawl-text">
+    最近一次成功采集：{{ last_update or "尚未采集" }}
+  </div>
+</div>
+{% endif %}
+
+<div class="panel">
+  <div class="panel-head">
+    <h2>数据库现状</h2>
+    <span class="hint">共 {{ counts.annual|num }} 条年度记录、{{ counts.quarter }} 条季度记录</span>
+  </div>
+  <div class="cards" style="margin-bottom:0">
+    <div class="card"><div class="label">国家/地区</div><div class="value">{{ counts.country }}<span class="unit">个</span></div><div class="foot">不含“世界”“欧盟”等区域汇总项</div></div>
+    <div class="card"><div class="label">年度 GDP 记录</div><div class="value">{{ counts.annual|num }}<span class="unit">条</span></div><div class="foot">总量与人均两个指标</div></div>
+    <div class="card"><div class="label">中国季度记录</div><div class="value">{{ counts.quarter }}<span class="unit">期</span></div><div class="foot">含三次产业与同比增速</div></div>
+    <div class="card"><div class="label">区域 GDP 记录</div><div class="value">{{ counts.region|num }}<span class="unit">条</span></div><div class="foot">覆盖 {{ counts.region_area|num }} 个区域（中国省市、美国州县、日本都道府县）</div></div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="panel-head">
+    <h2>数据集浏览</h2>
+    <span class="hint">共 {{ total|num }} 条符合条件（已排除“世界/欧盟”等区域汇总项与缺值为空的记录），第 {{ page }}/{{ pages }} 页</span>
+  </div>
+  <form class="toolbar" method="get" action="{{ url_for('page_dataset') }}">
+    <div class="field">
+      <label>年份</label>
+      <select name="year">
+        <option value="">全部年份</option>
+        {% for y in years %}<option value="{{ y }}" {{ 'selected' if y == year }}>{{ y }} 年</option>{% endfor %}
+      </select>
+    </div>
+    <div class="field">
+      <label>国家关键词</label>
+      <input type="text" name="country" value="{{ country }}" placeholder="中文名或代码，如 中国 / CHN">
+    </div>
+    <div class="field">
+      <label>排序依据</label>
+      <select name="metric">
+        <option value="gdp" {{ 'selected' if metric == 'gdp' }}>GDP 总量</option>
+        <option value="per_capita" {{ 'selected' if metric == 'per_capita' }}>人均 GDP</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>每页条数</label>
+      <select name="size">
+        {% for n in [10, 20, 50, 100] %}<option value="{{ n }}" {{ 'selected' if n == size }}>{{ n }} 条</option>{% endfor %}
+      </select>
+    </div>
+    <button type="submit">查询</button>
+    <a class="btn ghost" href="{{ url_for('page_dataset') }}">重置</a>
+  </form>
+
+  {% if rows %}
+  <div class="table-wrap" style="margin-top:14px">
+    <table class="data">
+      <thead>
+        <tr><th>国家代码</th><th>国家/地区</th><th>所属地区</th><th>收入分组</th>
+            <th class="num">年份</th><th class="num">GDP 总量</th><th class="num">人均 GDP</th></tr>
+      </thead>
+      <tbody>
+        {% for row in rows %}
+        <tr>
+          <td><span class="tag">{{ row.code }}</span></td>
+          <td><b>{{ row.name_cn }}</b></td>
+          <td>{{ row.region }}</td>
+          <td>{{ row.income_level }}</td>
+          <td class="num">{{ row.year }}</td>
+          <td class="num">{{ row.gdp_usd|usd }}</td>
+          <td class="num">{{ row.gdp_per_capita_usd|num }} 美元</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <div class="pager">
+    {% if page > 1 %}
+    <a class="btn ghost" href="{{ url_for('page_dataset', year=year if year else '', country=country, metric=metric, size=size, page=page-1) }}">上一页</a>
+    {% endif %}
+    {% if page < pages %}
+    <a class="btn ghost" href="{{ url_for('page_dataset', year=year if year else '', country=country, metric=metric, size=size, page=page+1) }}">下一页</a>
+    {% endif %}
+    <span class="spacer"></span>
+    <span class="info">第 {{ page }} / {{ pages }} 页 · 共 {{ total|num }} 条 · 每页 {{ size }} 条</span>
+  </div>
+  {% else %}
+  <div class="empty">没有符合条件的记录，换个筛选条件试试</div>
+  {% endif %}
+</div>
+
+<div class="panel">
+  <div class="panel-head">
+    <h2>采集历史</h2>
+    <span class="hint">每次采集的来源、耗时与入库行数都记录在 crawl_log 表中</span>
+  </div>
+  {% if history %}
+  <div class="table-wrap">
+    <table class="data">
+      <thead><tr><th>#</th><th>数据源</th><th>开始时间</th><th>结束时间</th>
+                 <th class="num">入库行数</th><th>状态</th><th>说明</th></tr></thead>
+      <tbody>
+        {% for item in history %}
+        <tr>
+          <td>{{ item.id }}</td>
+          <td>{{ item.source }}</td>
+          <td>{{ item.start_time }}</td>
+          <td>{{ item.end_time }}</td>
+          <td class="num">{{ item.rows|num }}</td>
+          <td>
+            {% if item.status == 'success' %}<span class="badge">成功</span>
+            {% elif item.status == 'partial' %}<span class="badge" style="background:#FFF1EC;color:#B9553A">部分成功</span>
+            {% elif item.status == 'running' %}<span class="badge">进行中</span>
+            {% else %}<span class="badge" style="background:#FDECEC;color:#B23A3A">失败</span>{% endif %}
+          </td>
+          <td>{{ item.message }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <div class="empty">还没有采集记录</div>
+  {% endif %}
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/charts.js') }}"></script>
+<script>
+  var timer = null;
+  var sawRunning = false;      // 本页面是否亲眼看到采集在运行
+
+  function updateUI(state) {
+    var bar = document.getElementById("crawl-bar");
+    var text = document.getElementById("crawl-text");
+    var button = document.getElementById("btn-crawl");
+    if (!bar || !text || !button) { return; }
+    bar.style.width = (state.percent || 0) + "%";
+    if (state.running) {
+      button.disabled = true;
+      text.innerHTML = "采集中…【" + (state.stage || "") + "】" + (state.message || "") +
+        "　" + (state.percent || 0) + "%";
+    } else {
+      button.disabled = false;
+      if (state.error) {
+        text.innerHTML = "<b style='color:#B23A3A'>采集失败：</b>" + state.error;
+      } else if (state.results && state.results.length) {
+        bar.style.width = "100%";
+        var parts = state.results.map(function (item) {
+          return item.source + " 入库 " + item.rows + " 条（" + item.seconds.toFixed(1) + " 秒）";
+        });
+        text.innerHTML = "采集完成：" + parts.join("；") + "。数据量：年度 " +
+          state.counts.annual + " 条、季度 " + state.counts.quarter + " 期。";
+      } else {
+        text.innerHTML = "当前没有正在运行的采集任务。最近一次成功采集：{{ last_update or '尚未采集' }}";
+      }
+    }
+  }
+
+  function poll() {
+    GDP.getJSON("/api/crawl/status").then(function (state) {
+      updateUI(state);
+      if (state.running) {
+        sawRunning = true;
+        timer = setTimeout(poll, 1000);          // 采集期间每秒轮询一次进度
+      } else if (sawRunning && state.results && state.results.length) {
+        // 只在“本页面看着它跑完”时才刷新页面，避免打开页面就无限重载
+        setTimeout(function () { window.location.reload(); }, 1800);
+      }
+    }).catch(function (error) {
+      document.getElementById("crawl-text").textContent = "获取采集状态失败：" + error.message;
+    });
+  }
+
+  function startCrawl() {
+    var sources = [];
+    if (document.getElementById("src-worldbank").checked) sources.push("worldbank");
+    if (document.getElementById("src-eastmoney").checked) sources.push("eastmoney");
+    if (document.getElementById("src-bea").checked) sources.push("bea");
+    if (document.getElementById("src-wikiregion").checked) sources.push("wikiregion");
+    if (document.getElementById("src-manual").checked) sources.push("manual");
+    if (!sources.length) { alert("请至少选择一个数据源"); return; }
+    fetch("/api/crawl/start", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ sources: sources })
+    }).then(function (response) { return response.json(); })
+      .then(function (data) {
+        if (!data.ok) { alert(data.message); return; }
+        poll();
+      })
+      .catch(function (error) { alert("启动采集失败：" + error.message); });
+  }
+
+  // 页面打开时先问一次状态：如果后台正在采集（比如另一个窗口启动的），进度条会接着显示。
+  // 演示站点是只读快照、没有采集面板，这时不轮询，免得对着一堆不存在的元素取值。
+  if (document.getElementById("btn-crawl")) {
+    poll();
+  }
+</script>
+{% endblock %}

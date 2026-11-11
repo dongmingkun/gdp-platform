@@ -1,0 +1,3 @@
+# 通用进程声明：Railway / Heroku / Zeabur 这类平台会自动读它
+# （Render 用 render.yaml，Docker 平台用 Dockerfile）
+web: waitress-serve --host=0.0.0.0 --port=$PORT --threads=8 wsgi:app

@@ -1,0 +1,13 @@
+{
+  "name": "gdp-platform-docbuild",
+  "version": "1.0.0",
+  "private": true,
+  "description": "《课程设计说明书》与《软件使用说明书》的 DOCX 生成脚本（docx-js）",
+  "scripts": {
+    "build": "node generate.js"
+  },
+  "dependencies": {
+    "docx": "^9.7.1",
+    "image-size": "^2.0.4"
+  }
+}

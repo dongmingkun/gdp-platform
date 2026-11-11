@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% block title %}份额变化{% endblock %}
+
+{% block content %}
+<div class="panel">
+  <div class="panel-head">
+    <h2>各国 GDP 占全球比重</h2>
+    <span class="hint">分母为全球所有国家合计（不含“世界”“欧盟”等区域汇总项）</span>
+  </div>
+  <form class="toolbar" method="get" action="{{ url_for('page_share') }}">
+    <div class="field">
+      <label>年份</label>
+      <select name="year">
+        {% for y in years %}<option value="{{ y }}" {{ 'selected' if y == year }}>{{ y }} 年</option>{% endfor %}
+      </select>
+    </div>
+    <div class="field">
+      <label>显示数量</label>
+      <select name="top">
+        {% for n in [5, 8, 10, 15, 20] %}<option value="{{ n }}" {{ 'selected' if n == top }}>前 {{ n }} 名</option>{% endfor %}
+      </select>
+    </div>
+    <button type="submit">查询</button>
+  </form>
+</div>
+
+<div class="panel">
+  <div class="panel-head">
+    <h2>{{ year }} 年份额分布</h2>
+    <span class="hint" id="share-hint">加载中…</span>
+  </div>
+  <div id="chart-share" class="chart chart-lg"></div>
+</div>
+
+<div class="panel">
+  <div class="panel-head"><h2>份额与体量对照</h2></div>
+  <div class="table-wrap">
+    <table class="data">
+      <thead><tr><th>名次</th><th>国家/地区</th><th class="num">GDP 总量</th><th class="num">占全球比重</th><th>累计占比</th></tr></thead>
+      <tbody id="share-table"></tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/charts.js') }}"></script>
+<script>
+  GDP.getJSON("/api/share?year=" + {{ year }} + "&top=" + {{ top }})
+    .then(function (data) {
+      if (!data.items.length) { GDP.showEmpty("chart-share"); return; }
+      GDP.drawPie("chart-share", data.items);
+
+      var cumulative = 0;
+      var body = data.items.map(function (item, index) {
+        cumulative += item.ratio;
+        var label = item.name === "其他国家" ? "-" : (index + 1);
+        return "<tr" + (index < 3 ? ' class="top' + (index + 1) + '"' : "") + ">" +
+          '<td><span class="rank-no">' + label + "</span></td>" +
+          "<td><b>" + item.name + "</b></td>" +
+          '<td class="num">' + GDP.fmtUSD(item.value) + "</td>" +
+          '<td class="num">' + GDP.fmtPercent(item.ratio) + "</td>" +
+          "<td>" + cumulative.toFixed(2) + "%</td></tr>";
+      }).join("");
+      document.getElementById("share-table").innerHTML = body;
+
+      var top10 = data.items.filter(function (i) { return i.name !== "其他国家"; });
+      var sum10 = top10.reduce(function (acc, i) { return acc + i.ratio; }, 0);
+      document.getElementById("share-hint").innerHTML =
+        "全球合计 " + GDP.fmtUSD(data.total) + " · 展示的 " + top10.length +
+        " 个国家合计占 <b>" + sum10.toFixed(2) + "%</b>";
+    })
+    .catch(function (error) { GDP.showError("chart-share", error.message); });
+</script>
+{% endblock %}
