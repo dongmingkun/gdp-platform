@@ -357,8 +357,9 @@ def build_notes(out_dir, meta, log):
     log("  README.md 与 .nojekyll（GitHub Pages 用）")
 
 
-#: 导出目录里需要保留的东西：源码目录与 git 元数据（重新导出时不能删）
-PRESERVE = {"source", ".git"}
+#: 导出目录里需要保留的东西：源码目录、git 元数据，以及仓库根目录的配置文件
+#: （.gitignore 与自定义域名用的 CNAME 不属于站点内容，但必须留着）
+PRESERVE = {".git", "source", ".gitignore", "CNAME"}
 
 
 def clean_output(out_dir):
@@ -410,8 +411,11 @@ def main():
     build_assets(app, out_dir, log)
     build_notes(out_dir, meta, log)
 
-    size = sum(path.stat().st_size for path in out_dir.rglob("*") if path.is_file())
-    count = sum(1 for path in out_dir.rglob("*") if path.is_file())
+    # 只统计站点文件：source/ 与 .git 是仓库里另外的东西，不算进站点体积
+    site_files = [path for path in out_dir.rglob("*")
+                  if path.is_file() and not any(part in PRESERVE for part in path.parts)]
+    size = sum(path.stat().st_size for path in site_files)
+    count = len(site_files)
     print("-" * 72)
     print("完成：%d 个文件、%.1f MB（其中 HTML %d 份）" % (count, size / 1024.0 / 1024.0, pages))
     print("本地预览：cd %s && python -m http.server 8100" % out_dir)
