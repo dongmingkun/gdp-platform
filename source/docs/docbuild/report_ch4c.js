@@ -93,5 +93,5 @@ for route, target in ROUTE_FILES.items():
     html = html.replace('href="%s?' % route,
                         'href="%s?' % target)
 # 再在 charts.js 之后挂上 static-api.js，由它接管页面发出的 /api/... 请求` },
-  { t: "tip", title: "验证结果", text: "静态站点共 61 个文件（9 个页面 + 24 份区域视图 + 13 个数据包 + 9 个 CSV + 6 个静态资源），发布到 GitHub Pages 后 9 个页面与全部资源均返回 200；浏览器实测图表正常、下钻与分页可用、控制台零报错。" },
+  { t: "tip", title: "验证结果", text: "静态站点根目录只保留 9 个页面，区域页的预生成视图集中放在 views/ 目录（24 份），另有数据包、CSV 与前端资源；发布到 GitHub Pages 后页面与全部资源均返回 200，浏览器实测图表正常、下钻与分页可用、控制台零报错。" },
 ];

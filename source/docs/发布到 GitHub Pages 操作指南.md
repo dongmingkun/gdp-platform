@@ -18,7 +18,7 @@ GitHub Pages **只能托管静态文件**（HTML / CSS / JS / 图片），不能
 数值也与在线版一致——这一点是逐条比对过的（34 个查询，结果完全相同）：
 
 ```bash
-python deploy/export_static.py        # 生成 dist/（9 个页面 + 24 份区域视图 + 数据包）
+python deploy/export_static.py        # 生成 dist/（9 个页面 + views/ 下的区域视图 + 数据包）
 python deploy/verify_static.py        # 前端数据层 vs Python 后端：34 个查询逐条比对
 ```
 
@@ -31,7 +31,7 @@ python deploy/verify_static.py        # 前端数据层 vs Python 后端：34 �
 
 ## 实际情况（2026-10-17 已发布）
 
-- 仓库已建好并已推送：**https://github.com/dongmingkun/gdp-platform**（`dist` 里的 61 个文件全部在 `main` 分支上）；
+- 仓库已建好并已推送：**https://github.com/dongmingkun/gdp-platform**（`dist` 里的站点文件与源码全部在 `main` 分支上；区域页的预生成视图在 `views/` 目录）；
 - 本地 `dist/` 已经是一个 git 仓库（`origin` 指向上面这个地址），**以后更新只需三条命令**；
 - 还差最后一步：在仓库 **Settings → Pages** 里把 Source 设为 `Deploy from a branch`、Branch 选 `main` + `/(root)`。
 
