@@ -53,7 +53,7 @@
   <form class="toolbar toolbar-grid" method="get" action="region.html" id="region-form">
     <div class="field">
       <label>经济体</label>
-      <select name="economy" onchange="submitForm()">
+      <select name="economy">
         
         <option value="CHN" selected>中国</option>
         
@@ -65,7 +65,7 @@
     </div>
     <div class="field">
       <label>区域层级</label>
-      <select name="level" onchange="submitForm()">
+      <select name="level">
         
         <option value="city" selected>
           地级行政区（城市）（361 个）
@@ -86,7 +86,7 @@
     </div>
     <div class="field">
       <label>统计口径</label>
-      <select name="mode" onchange="submitForm()">
+      <select name="mode">
         <option value="latest" >各区域最新可得</option>
         <option value="year" selected>限定某一年</option>
       </select>
@@ -94,14 +94,14 @@
     
     <div class="field">
       <label>年份</label>
-      <select name="year" onchange="submitForm()">
+      <select name="year">
         <option value="2025" selected>2025 年</option><option value="2024" >2024 年</option><option value="2023" >2023 年</option><option value="2022" >2022 年</option><option value="2021" >2021 年</option><option value="2020" >2020 年</option><option value="2019" >2019 年</option><option value="2018" >2018 年</option><option value="2017" >2017 年</option><option value="2015" >2015 年</option>
       </select>
     </div>
     
     <div class="field">
       <label>显示数量</label>
-      <select name="limit" onchange="submitForm()">
+      <select name="limit">
         <option value="10" >前 10 名</option><option value="20" selected>前 20 名</option><option value="30" >前 30 名</option><option value="50" >前 50 名</option><option value="100" >前 100 名</option><option value="200" >前 200 名</option><option value="400" >前 400 名</option>
       </select>
     </div>
@@ -901,194 +901,8 @@
 
 <script src="static/js/charts.js"></script>
   <script src="static/js/static-api.js"></script>
-<script>
-  function submitForm() { document.getElementById("region-form").submit(); }
-
-  var CURRENCY = "CNY";
-  var MODE = "year";
-  var METRIC = "gdp";
-  var RANK = [{"currency": "CNY", "gdp_native": 5670870000000.0, "gdp_usd": null, "growth_rate": 5.16, "increment_native": 278200000000.0, "parent_code": "中国", "parent_name": "中国", "per_capita_native": 228664.0, "population": 2480.0, "region_code": "上海", "region_name": "上海", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "gdp_native": 5207300000000.0, "gdp_usd": null, "growth_rate": 4.47, "increment_native": 223030000000.00003, "parent_code": "中国", "parent_name": "中国", "per_capita_native": 238539.0, "population": 2183.0, "region_code": "北京", "region_name": "北京", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "gdp_native": 3873180000000.0005, "gdp_usd": null, "growth_rate": 5.24, "increment_native": 192990000000.0, "parent_code": "广东", "parent_name": "广东", "per_capita_native": 215296.0, "population": 1799.0, "region_code": "深圳市", "region_name": "深圳市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "gdp_native": 3375800000000.0, "gdp_usd": null, "growth_rate": 4.86, "increment_native": 156480000000.0, "parent_code": "中国", "parent_name": "中国", "per_capita_native": 105824.0, "population": 3190.0, "region_code": "重庆", "region_name": "重庆", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "gdp_native": 3203950000000.0, "gdp_usd": null, "growth_rate": 3.24, "increment_native": 100700000000.0, "parent_code": "广东", "parent_name": "广东", "per_capita_native": 168807.0, "population": 1898.0, "region_code": "广州市", "region_name": "广州市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "gdp_native": 2769510000000.0, "gdp_usd": null, "growth_rate": 3.62, "increment_native": 96810000000.0, "parent_code": "江苏", "parent_name": "江苏", "per_capita_native": 213203.0, "population": 1299.0, "region_code": "苏州市", "region_name": "苏州市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "gdp_native": 2476360000000.0, "gdp_usd": null, "growth_rate": 5.33, "increment_native": 125230000000.0, "parent_code": "四川", "parent_name": "四川", "per_capita_native": 115340.0, "population": 2147.0, "region_code": "成都市", "region_name": "成都市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "gdp_native": 2301090000000.0, "gdp_usd": null, "growth_rate": 5.26, "increment_native": 115090000000.00002, "parent_code": "浙江", "parent_name": "浙江", "per_capita_native": 182337.0, "population": 1262.0, "region_code": "杭州市", "region_name": "杭州市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "gdp_native": 2214740000000.0, "gdp_usd": null, "growth_rate": 4.93, "increment_native": 104109999999.99998, "parent_code": "湖北", "parent_name": "湖北", "per_capita_native": 160372.0, "population": 1381.0, "region_code": "武汉", "region_name": "武汉", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "gdp_native": 1942880000000.0, "gdp_usd": null, "growth_rate": 5.02, "increment_native": 92800000000.0, "parent_code": "江苏", "parent_name": "江苏", "per_capita_native": 202806.0, "population": 958.0, "region_code": "南京市", "region_name": "南京市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "gdp_native": 1871570000000.0, "gdp_usd": null, "growth_rate": 3.13, "increment_native": 56800000000.0, "parent_code": "浙江", "parent_name": "浙江", "per_capita_native": 191367.0, "population": 978.0, "region_code": "宁波市", "region_name": "宁波市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "gdp_native": 1854000000000.0, "gdp_usd": null, "growth_rate": 2.86, "increment_native": 51550000000.0, "parent_code": "中国", "parent_name": "中国", "per_capita_native": 135924.0, "population": 1364.0, "region_code": "天津", "region_name": "天津", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "gdp_native": 1756070000000.0, "gdp_usd": null, "growth_rate": 5.03, "increment_native": 84120000000.0, "parent_code": "山东", "parent_name": "山东", "per_capita_native": 168206.0, "population": 1044.0, "region_code": "青岛市", "region_name": "青岛市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "gdp_native": 1677390000000.0002, "gdp_usd": null, "growth_rate": 3.14, "increment_native": 51060000000.0, "parent_code": "江苏", "parent_name": "江苏", "per_capita_native": 223354.0, "population": 751.0, "region_code": "无锡市", "region_name": "无锡市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "gdp_native": 1573780000000.0, "gdp_usd": null, "growth_rate": 3.07, "increment_native": 46900000000.0, "parent_code": "湖南", "parent_name": "湖南", "per_capita_native": 148190.0, "population": 1062.0, "region_code": "长沙市", "region_name": "长沙市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "gdp_native": 1524460000000.0, "gdp_usd": null, "growth_rate": 4.9, "increment_native": 71250000000.0, "parent_code": "河南", "parent_name": "河南", "per_capita_native": 116460.0, "population": 1309.0, "region_code": "郑州市", "region_name": "郑州市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "gdp_native": 1511230000000.0, "gdp_usd": null, "growth_rate": 6.15, "increment_native": 87560000000.0, "parent_code": "福建", "parent_name": "福建", "per_capita_native": 177792.0, "population": 850.0, "region_code": "福州市", "region_name": "福州市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "gdp_native": 1421010000000.0, "gdp_usd": null, "growth_rate": 5.05, "increment_native": 68250000000.0, "parent_code": "山东", "parent_name": "山东", "per_capita_native": 149423.0, "population": 951.0, "region_code": "济南市", "region_name": "济南市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "gdp_native": 1421000000000.0, "gdp_usd": null, "growth_rate": 5.2, "increment_native": 70230000000.0, "parent_code": "安徽", "parent_name": "安徽", "per_capita_native": 142100.0, "population": 1000.0, "region_code": "合肥市", "region_name": "合肥市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "gdp_native": 1390270000000.0, "gdp_usd": null, "growth_rate": 4.39, "increment_native": 58490000000.0, "parent_code": "陕西", "parent_name": "陕西", "per_capita_native": 105563.0, "population": 1317.0, "region_code": "西安市", "region_name": "西安市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}];
-  var TOTAL = 138560680000000.0;
-  var CHILDREN = [{"currency": "CNY", "economy": "CHN", "gdp_native": 3873180000000.0005, "gdp_usd": null, "growth_rate": 5.24, "increment_native": 192990000000.0, "level": "city", "parent_name": "广东", "per_capita_native": 215296.0, "population": 1799.0, "region_code": "深圳市", "region_name": "深圳市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "economy": "CHN", "gdp_native": 3203950000000.0, "gdp_usd": null, "growth_rate": 3.24, "increment_native": 100700000000.0, "level": "city", "parent_name": "广东", "per_capita_native": 168807.0, "population": 1898.0, "region_code": "广州市", "region_name": "广州市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "economy": "CHN", "gdp_native": 1315740000000.0, "gdp_usd": null, "growth_rate": -1.53, "increment_native": -20450000000.0, "level": "city", "parent_name": "广东", "per_capita_native": 135643.0, "population": 970.0, "region_code": "佛山市", "region_name": "佛山市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "economy": "CHN", "gdp_native": 1276020000000.0, "gdp_usd": null, "growth_rate": 3.89, "increment_native": 47810000000.0, "level": "city", "parent_name": "广东", "per_capita_native": 120721.0, "population": 1057.0, "region_code": "东莞市", "region_name": "东莞市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "economy": "CHN", "gdp_native": 636370000000.0, "gdp_usd": null, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "广东", "per_capita_native": 103982.0, "population": 612.0, "region_code": "惠州市", "region_name": "惠州市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "economy": "CHN", "gdp_native": 457310000000.00006, "gdp_usd": null, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "广东", "per_capita_native": 181472.0, "population": 252.0, "region_code": "珠海市", "region_name": "珠海市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "economy": "CHN", "gdp_native": 429389999999.99994, "gdp_usd": null, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "广东", "per_capita_native": 89085.0, "population": 482.0, "region_code": "江门市", "region_name": "江门市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "economy": "CHN", "gdp_native": 426060000000.00006, "gdp_usd": null, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "广东", "per_capita_native": 94891.0, "population": 449.0, "region_code": "中山市", "region_name": "中山市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "economy": "CHN", "gdp_native": 410639999999.99994, "gdp_usd": null, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "广东", "per_capita_native": 65493.0, "population": 627.0, "region_code": "茂名市", "region_name": "茂名市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "economy": "CHN", "gdp_native": 395290000000.0, "gdp_usd": null, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "广东", "per_capita_native": 55518.0, "population": 712.0, "region_code": "湛江市", "region_name": "湛江市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "economy": "CHN", "gdp_native": 302380000000.0, "gdp_usd": null, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "广东", "per_capita_native": 54190.0, "population": 558.0, "region_code": "汕头市", "region_name": "汕头市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "economy": "CHN", "gdp_native": 297480000000.0, "gdp_usd": null, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "广东", "per_capita_native": 72029.0, "population": 413.0, "region_code": "肇庆市", "region_name": "肇庆市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "economy": "CHN", "gdp_native": 255380000000.00003, "gdp_usd": null, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "广东", "per_capita_native": 44961.0, "population": 568.0, "region_code": "揭阳市", "region_name": "揭阳市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "economy": "CHN", "gdp_native": 231750000000.0, "gdp_usd": null, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "广东", "per_capita_native": 58083.0, "population": 399.0, "region_code": "清远市", "region_name": "清远市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "economy": "CHN", "gdp_native": 170510000000.0, "gdp_usd": null, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "广东", "per_capita_native": 59828.0, "population": 285.0, "region_code": "韶关市", "region_name": "韶关市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "economy": "CHN", "gdp_native": 167120000000.0, "gdp_usd": null, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "广东", "per_capita_native": 63544.0, "population": 263.0, "region_code": "阳江市", "region_name": "阳江市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "economy": "CHN", "gdp_native": 158320000000.0, "gdp_usd": null, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "广东", "per_capita_native": 41229.0, "population": 384.0, "region_code": "梅州市", "region_name": "梅州市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "economy": "CHN", "gdp_native": 154630000000.0, "gdp_usd": null, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "广东", "per_capita_native": 57270.0, "population": 270.0, "region_code": "汕尾市", "region_name": "汕尾市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "economy": "CHN", "gdp_native": 145220000000.0, "gdp_usd": null, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "广东", "per_capita_native": 56287.0, "population": 258.0, "region_code": "潮州市", "region_name": "潮州市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "economy": "CHN", "gdp_native": 143460000000.0, "gdp_usd": null, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "广东", "per_capita_native": 50514.0, "population": 284.0, "region_code": "河源市", "region_name": "河源市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}];
-  var GROWTH = {"areas": 34, "average": 4.287058823529412, "max": 6.73, "min": -1.53};
-
-  function moneyText(value) { return GDP.fmtMoney(value, CURRENCY); }
-  function axisMoney(value) { return GDP.fmtAxisMoney(value, CURRENCY); }
-  function rateText(value) { return (value > 0 ? "+" : "") + Number(value).toFixed(2) + "%"; }
-
-  // 表格数值统一由前端格式化：金额按货币，增速按正负着色
-  document.querySelectorAll("td[data-value]").forEach(function (cell) {
-    var value = parseFloat(cell.dataset.value);
-    if (!isNaN(value)) cell.textContent = GDP.fmtMoney(value, cell.dataset.currency);
-  });
-  document.querySelectorAll("td[data-money]").forEach(function (cell) {
-    var value = parseFloat(cell.dataset.money);
-    cell.textContent = isNaN(value) ? "—" : GDP.fmtMoney(value, cell.dataset.currency);
-  });
-  document.querySelectorAll("tr[data-rate]").forEach(function (row) {
-    var rate = parseFloat(row.dataset.rate);
-    var cell = row.querySelector("td[data-rate-cell]");
-    if (cell) {
-      if (isNaN(rate)) { cell.innerHTML = "<span class='muted'>—</span>"; }
-      else {
-        cell.innerHTML = "<span class='" + (rate >= 0 ? "growth-up" : "growth-down") + "'>" +
-                         (rate > 0 ? "▲ " : (rate < 0 ? "▼ " : "")) + rate.toFixed(2) + "%</span>";
-      }
-    }
-    var prevCell = row.querySelector("td[data-prev]");
-    if (prevCell) {
-      var gdp = parseFloat(row.dataset.gdp), inc = parseFloat(row.dataset.inc);
-      prevCell.textContent = (isNaN(gdp) || isNaN(inc)) ? "—" : GDP.fmtMoney(gdp - inc, CURRENCY);
-    }
-  });
-
-  function drawRegionChart(items) {
-    if (!items.length) {
-      GDP.showEmpty("chart-region", METRIC === "growth"
-        ? "这个层级还没有增速数据，可到「数据集」页用“人工整理”数据源补充"
-        : "没有符合条件的区域，试试切换统计口径或清空筛选");
-      return;
-    }
-    if (METRIC === "growth") {
-      var sorted = items.filter(function (i) { return typeof i.growth_rate === "number"; })
-                        .sort(function (a, b) { return b.growth_rate - a.growth_rate; });
-      GDP.drawRankBar("chart-region", sorted.map(function (item) {
-        return { name: item.region_name, value: item.growth_rate };
-      }), {
-        format: rateText,
-        axisFormat: function (v) { return v.toFixed(0) + "%"; },
-        colorBySign: true
-      });
-    } else {
-      GDP.drawRankBar("chart-region", items.map(function (item) {
-        return { name: item.region_name + (MODE === "latest" ? "（" + item.year + "）" : ""),
-                 value: item.gdp_native };
-      }), { format: moneyText, axisFormat: axisMoney });
-    }
-  }
-  drawRegionChart(RANK);
-
-  if (RANK.length && METRIC === "growth") {
-    document.getElementById("kpi-average").innerHTML =
-      (GROWTH.average === null || GROWTH.average === undefined)
-        ? "-" : "<span style='font-size:22px'>" + GROWTH.average.toFixed(2) + "%</span>";
-    var ranked = RANK.filter(function (i) { return typeof i.growth_rate === "number"; })
-                     .sort(function (a, b) { return b.growth_rate - a.growth_rate; });
-    if (ranked.length) {
-      document.getElementById("kpi-top").textContent = ranked[0].region_name;
-      document.getElementById("kpi-top-foot").innerHTML =
-        "<b class='growth-up'>" + rateText(ranked[0].growth_rate) + "</b>（" + ranked[0].year + " 年）";
-      var worst = ranked[ranked.length - 1];
-      document.getElementById("kpi-bottom").textContent = worst.region_name;
-      document.getElementById("kpi-bottom-foot").innerHTML = "<b class='" +
-        (worst.growth_rate >= 0 ? "growth-up" : "growth-down") + "'>" + rateText(worst.growth_rate) +
-        "</b>（" + worst.year + " 年）";
-    }
-  } else if (RANK.length) {
-    // 注意：变量名不能叫 top —— window.top 是只读的窗口属性，
-    // 用 var top = ... 赋值会被静默忽略，取值时拿到的是窗口对象（踩过这个坑）
-    var topRegion = RANK[0];
-    document.getElementById("kpi-total").innerHTML = moneyText(TOTAL);
-    document.getElementById("kpi-top").textContent = topRegion.region_name;
-    document.getElementById("kpi-top-foot").innerHTML = moneyText(topRegion.gdp_native) +
-      "（" + topRegion.year + " 年）" +
-      (TOTAL ? "，占合计 <b>" + (topRegion.gdp_native / TOTAL * 100).toFixed(1) + "%</b>" : "");
-    var sum = RANK.reduce(function (acc, item) { return acc + item.gdp_native; }, 0);
-    document.getElementById("kpi-share").innerHTML = TOTAL
-      ? "<span style='font-size:22px'>" + (sum / TOTAL * 100).toFixed(1) + "%</span>" : "-";
-  }
-
-  // ---- 下钻：选定省份后即时刷新图表与表格，不再整页跳回顶部 ----
-  var YEAR = 2025;
-
-  function renderChildren(items) {
-    var body = document.getElementById("children-body");
-    if (!body) return;
-    body.innerHTML = items.map(function (row, index) {
-      var rate = row.growth_rate;
-      var rateCell = (rate === null || rate === undefined)
-        ? "<span class='muted'>—</span>"
-        : "<span class='" + (rate >= 0 ? "growth-up" : "growth-down") + "'>" +
-          (rate > 0 ? "▲ " : (rate < 0 ? "▼ " : "")) + rate.toFixed(2) + "%</span>";
-      return "<tr><td><span class='rank-no'>" + (index + 1) + "</span></td>" +
-        "<td><b>" + row.region_name + "</b></td>" +
-        "<td class='num'>" + GDP.fmtMoney(row.gdp_native, row.currency) + "</td>" +
-        "<td class='num'>" + (row.increment_native === null || row.increment_native === undefined
-            ? "—" : GDP.fmtMoney(row.increment_native, row.currency)) + "</td>" +
-        "<td class='num'>" + rateCell + "</td>" +
-        "<td class='num'>" + (row.per_capita_native ? GDP.fmtNum(row.per_capita_native, 0) + " 元" : "—") + "</td>" +
-        "<td class='num'>" + row.year + "</td></tr>";
-    }).join("");
-    if (items.length) {
-      GDP.drawRankBar("chart-children", items.map(function (item) {
-        return { name: item.region_name, value: item.gdp_native };
-      }), { format: moneyText, axisFormat: axisMoney });
-    } else {
-      GDP.showEmpty("chart-children", "该区域没有下级数据");
-    }
-  }
-
-  function loadChildren(code) {
-    var title = document.getElementById("drill-title");
-    if (title) title.textContent = code;
-    GDP.showLoading("chart-children");
-    GDP.getJSON("/api/region/children?parent=" + encodeURIComponent(code) + "&limit=100"
-                + (YEAR ? "&year=" + YEAR : ""))
-      .then(function (data) { renderChildren(data.items); })
-      .catch(function (error) { GDP.showError("chart-children", error.message); });
-  }
-
-  var drillSelect = document.getElementById("drill-parent");
-  if (drillSelect) {
-    drillSelect.addEventListener("change", function () { loadChildren(drillSelect.value); });
-    var drillForm = document.getElementById("drill-form");
-    if (drillForm) {
-      drillForm.addEventListener("submit", function (event) {
-        event.preventDefault();
-        loadChildren(drillSelect.value);
-        document.getElementById("drill").scrollIntoView({ behavior: "smooth", block: "start" });
-      });
-    }
-    document.querySelectorAll(".chip-row .chip").forEach(function (chip) {
-      chip.addEventListener("click", function () {
-        drillSelect.value = chip.dataset.parent;
-        loadChildren(drillSelect.value);
-        document.getElementById("drill").scrollIntoView({ behavior: "smooth", block: "start" });
-      });
-    });
-  }
-  // 首屏用服务端已给的数据直接画，不再多发一次请求
-  renderChildren(CHILDREN);
-
-  GDP.getJSON("/api/region/compare?top=6").then(function (data) {
-    var chart = GDP.initChart("chart-compare");
-    if (!chart) return;
-    var china = (data.CHN && data.CHN.items) || [];
-    var usa = (data.USA && data.USA.items) || [];
-    var names = china.map(function (i) { return i.name; })
-      .concat(usa.map(function (i) { return i.name; }));
-    var values = china.map(function (i) { return i.gdp_usd; })
-      .concat(usa.map(function (i) { return i.gdp_usd; }));
-    chart.setOption(GDP.baseOption({
-      tooltip: { trigger: "item", formatter: function (p) { return p.name + "<br>" + GDP.fmtUSD(p.value); } },
-      grid: { left: 100, right: 80, top: 30, bottom: 20, containLabel: true },
-      xAxis: { type: "value", splitLine: { lineStyle: { color: "#EDF2F1" } },
-               axisLabel: { formatter: function (v) { return GDP.fmtAxisMoney(v, "USD"); } } },
-      yAxis: { type: "category", data: names.slice().reverse(), axisTick: { show: false } },
-      series: [{
-        type: "bar", barWidth: "55%",
-        data: values.slice().reverse().map(function (value, index) {
-          return { value: value, itemStyle: { color: index < usa.length ? "#3B7DD8" : "#15857A" } };
-        }),
-        label: { show: true, position: "right", fontSize: 11, color: "#4A5C64",
-                 formatter: function (p) { return GDP.fmtUSD(p.value); } }
-      }]
-    }));
-    document.querySelector("#chart-compare").insertAdjacentHTML("beforebegin",
-      '<p class="progress-text">蓝色为美国州级（' + (data.USA ? data.USA.year : "-") +
-      ' 年），绿色为中国省级（' + (data.CHN ? data.CHN.year : "-") + ' 年）。</p>');
-  }).catch(function (error) { GDP.showError("chart-compare", error.message); });
-</script>
+<script type="application/json" id="page-data">{"children": [{"currency": "CNY", "economy": "CHN", "gdp_native": 3873180000000.0005, "gdp_usd": null, "growth_rate": 5.24, "increment_native": 192990000000.0, "level": "city", "parent_name": "广东", "per_capita_native": 215296.0, "population": 1799.0, "region_code": "深圳市", "region_name": "深圳市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "economy": "CHN", "gdp_native": 3203950000000.0, "gdp_usd": null, "growth_rate": 3.24, "increment_native": 100700000000.0, "level": "city", "parent_name": "广东", "per_capita_native": 168807.0, "population": 1898.0, "region_code": "广州市", "region_name": "广州市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "economy": "CHN", "gdp_native": 1315740000000.0, "gdp_usd": null, "growth_rate": -1.53, "increment_native": -20450000000.0, "level": "city", "parent_name": "广东", "per_capita_native": 135643.0, "population": 970.0, "region_code": "佛山市", "region_name": "佛山市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "economy": "CHN", "gdp_native": 1276020000000.0, "gdp_usd": null, "growth_rate": 3.89, "increment_native": 47810000000.0, "level": "city", "parent_name": "广东", "per_capita_native": 120721.0, "population": 1057.0, "region_code": "东莞市", "region_name": "东莞市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "economy": "CHN", "gdp_native": 636370000000.0, "gdp_usd": null, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "广东", "per_capita_native": 103982.0, "population": 612.0, "region_code": "惠州市", "region_name": "惠州市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "economy": "CHN", "gdp_native": 457310000000.00006, "gdp_usd": null, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "广东", "per_capita_native": 181472.0, "population": 252.0, "region_code": "珠海市", "region_name": "珠海市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "economy": "CHN", "gdp_native": 429389999999.99994, "gdp_usd": null, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "广东", "per_capita_native": 89085.0, "population": 482.0, "region_code": "江门市", "region_name": "江门市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "economy": "CHN", "gdp_native": 426060000000.00006, "gdp_usd": null, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "广东", "per_capita_native": 94891.0, "population": 449.0, "region_code": "中山市", "region_name": "中山市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "economy": "CHN", "gdp_native": 410639999999.99994, "gdp_usd": null, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "广东", "per_capita_native": 65493.0, "population": 627.0, "region_code": "茂名市", "region_name": "茂名市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "economy": "CHN", "gdp_native": 395290000000.0, "gdp_usd": null, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "广东", "per_capita_native": 55518.0, "population": 712.0, "region_code": "湛江市", "region_name": "湛江市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "economy": "CHN", "gdp_native": 302380000000.0, "gdp_usd": null, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "广东", "per_capita_native": 54190.0, "population": 558.0, "region_code": "汕头市", "region_name": "汕头市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "economy": "CHN", "gdp_native": 297480000000.0, "gdp_usd": null, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "广东", "per_capita_native": 72029.0, "population": 413.0, "region_code": "肇庆市", "region_name": "肇庆市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "economy": "CHN", "gdp_native": 255380000000.00003, "gdp_usd": null, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "广东", "per_capita_native": 44961.0, "population": 568.0, "region_code": "揭阳市", "region_name": "揭阳市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "economy": "CHN", "gdp_native": 231750000000.0, "gdp_usd": null, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "广东", "per_capita_native": 58083.0, "population": 399.0, "region_code": "清远市", "region_name": "清远市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "economy": "CHN", "gdp_native": 170510000000.0, "gdp_usd": null, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "广东", "per_capita_native": 59828.0, "population": 285.0, "region_code": "韶关市", "region_name": "韶关市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "economy": "CHN", "gdp_native": 167120000000.0, "gdp_usd": null, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "广东", "per_capita_native": 63544.0, "population": 263.0, "region_code": "阳江市", "region_name": "阳江市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "economy": "CHN", "gdp_native": 158320000000.0, "gdp_usd": null, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "广东", "per_capita_native": 41229.0, "population": 384.0, "region_code": "梅州市", "region_name": "梅州市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "economy": "CHN", "gdp_native": 154630000000.0, "gdp_usd": null, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "广东", "per_capita_native": 57270.0, "population": 270.0, "region_code": "汕尾市", "region_name": "汕尾市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "economy": "CHN", "gdp_native": 145220000000.0, "gdp_usd": null, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "广东", "per_capita_native": 56287.0, "population": 258.0, "region_code": "潮州市", "region_name": "潮州市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "economy": "CHN", "gdp_native": 143460000000.0, "gdp_usd": null, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "广东", "per_capita_native": 50514.0, "population": 284.0, "region_code": "河源市", "region_name": "河源市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}], "currency": "CNY", "growth": {"areas": 34, "average": 4.287058823529412, "max": 6.73, "min": -1.53}, "metric": "gdp", "mode": "year", "rank": [{"currency": "CNY", "gdp_native": 5670870000000.0, "gdp_usd": null, "growth_rate": 5.16, "increment_native": 278200000000.0, "parent_code": "中国", "parent_name": "中国", "per_capita_native": 228664.0, "population": 2480.0, "region_code": "上海", "region_name": "上海", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "gdp_native": 5207300000000.0, "gdp_usd": null, "growth_rate": 4.47, "increment_native": 223030000000.00003, "parent_code": "中国", "parent_name": "中国", "per_capita_native": 238539.0, "population": 2183.0, "region_code": "北京", "region_name": "北京", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "gdp_native": 3873180000000.0005, "gdp_usd": null, "growth_rate": 5.24, "increment_native": 192990000000.0, "parent_code": "广东", "parent_name": "广东", "per_capita_native": 215296.0, "population": 1799.0, "region_code": "深圳市", "region_name": "深圳市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "gdp_native": 3375800000000.0, "gdp_usd": null, "growth_rate": 4.86, "increment_native": 156480000000.0, "parent_code": "中国", "parent_name": "中国", "per_capita_native": 105824.0, "population": 3190.0, "region_code": "重庆", "region_name": "重庆", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "gdp_native": 3203950000000.0, "gdp_usd": null, "growth_rate": 3.24, "increment_native": 100700000000.0, "parent_code": "广东", "parent_name": "广东", "per_capita_native": 168807.0, "population": 1898.0, "region_code": "广州市", "region_name": "广州市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "gdp_native": 2769510000000.0, "gdp_usd": null, "growth_rate": 3.62, "increment_native": 96810000000.0, "parent_code": "江苏", "parent_name": "江苏", "per_capita_native": 213203.0, "population": 1299.0, "region_code": "苏州市", "region_name": "苏州市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "gdp_native": 2476360000000.0, "gdp_usd": null, "growth_rate": 5.33, "increment_native": 125230000000.0, "parent_code": "四川", "parent_name": "四川", "per_capita_native": 115340.0, "population": 2147.0, "region_code": "成都市", "region_name": "成都市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "gdp_native": 2301090000000.0, "gdp_usd": null, "growth_rate": 5.26, "increment_native": 115090000000.00002, "parent_code": "浙江", "parent_name": "浙江", "per_capita_native": 182337.0, "population": 1262.0, "region_code": "杭州市", "region_name": "杭州市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "gdp_native": 2214740000000.0, "gdp_usd": null, "growth_rate": 4.93, "increment_native": 104109999999.99998, "parent_code": "湖北", "parent_name": "湖北", "per_capita_native": 160372.0, "population": 1381.0, "region_code": "武汉", "region_name": "武汉", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "gdp_native": 1942880000000.0, "gdp_usd": null, "growth_rate": 5.02, "increment_native": 92800000000.0, "parent_code": "江苏", "parent_name": "江苏", "per_capita_native": 202806.0, "population": 958.0, "region_code": "南京市", "region_name": "南京市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "gdp_native": 1871570000000.0, "gdp_usd": null, "growth_rate": 3.13, "increment_native": 56800000000.0, "parent_code": "浙江", "parent_name": "浙江", "per_capita_native": 191367.0, "population": 978.0, "region_code": "宁波市", "region_name": "宁波市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "gdp_native": 1854000000000.0, "gdp_usd": null, "growth_rate": 2.86, "increment_native": 51550000000.0, "parent_code": "中国", "parent_name": "中国", "per_capita_native": 135924.0, "population": 1364.0, "region_code": "天津", "region_name": "天津", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "gdp_native": 1756070000000.0, "gdp_usd": null, "growth_rate": 5.03, "increment_native": 84120000000.0, "parent_code": "山东", "parent_name": "山东", "per_capita_native": 168206.0, "population": 1044.0, "region_code": "青岛市", "region_name": "青岛市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "gdp_native": 1677390000000.0002, "gdp_usd": null, "growth_rate": 3.14, "increment_native": 51060000000.0, "parent_code": "江苏", "parent_name": "江苏", "per_capita_native": 223354.0, "population": 751.0, "region_code": "无锡市", "region_name": "无锡市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "gdp_native": 1573780000000.0, "gdp_usd": null, "growth_rate": 3.07, "increment_native": 46900000000.0, "parent_code": "湖南", "parent_name": "湖南", "per_capita_native": 148190.0, "population": 1062.0, "region_code": "长沙市", "region_name": "长沙市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "gdp_native": 1524460000000.0, "gdp_usd": null, "growth_rate": 4.9, "increment_native": 71250000000.0, "parent_code": "河南", "parent_name": "河南", "per_capita_native": 116460.0, "population": 1309.0, "region_code": "郑州市", "region_name": "郑州市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "gdp_native": 1511230000000.0, "gdp_usd": null, "growth_rate": 6.15, "increment_native": 87560000000.0, "parent_code": "福建", "parent_name": "福建", "per_capita_native": 177792.0, "population": 850.0, "region_code": "福州市", "region_name": "福州市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "gdp_native": 1421010000000.0, "gdp_usd": null, "growth_rate": 5.05, "increment_native": 68250000000.0, "parent_code": "山东", "parent_name": "山东", "per_capita_native": 149423.0, "population": 951.0, "region_code": "济南市", "region_name": "济南市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "gdp_native": 1421000000000.0, "gdp_usd": null, "growth_rate": 5.2, "increment_native": 70230000000.0, "parent_code": "安徽", "parent_name": "安徽", "per_capita_native": 142100.0, "population": 1000.0, "region_code": "合肥市", "region_name": "合肥市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "gdp_native": 1390270000000.0, "gdp_usd": null, "growth_rate": 4.39, "increment_native": 58490000000.0, "parent_code": "陕西", "parent_name": "陕西", "per_capita_native": 105563.0, "population": 1317.0, "region_code": "西安市", "region_name": "西安市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}], "total": 138560680000000.0, "year": 2025}</script>
+<script src="static/js/pages/region.js"></script>
 
 </body>
 </html>

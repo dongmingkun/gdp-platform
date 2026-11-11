@@ -253,16 +253,8 @@
 
 <script src="static/js/charts.js"></script>
   <script src="static/js/static-api.js"></script>
-<script>
-  var METRIC = "gdp";
-  GDP.getJSON("/api/rank?metric=" + METRIC + "&limit=" + 15 + "&year=" + 2025)
-    .then(function (data) {
-      GDP.drawRankBar("chart-rank", data.items.map(function (item) {
-        return { name: item.name_cn, value: item.value };
-      }));
-    })
-    .catch(function (error) { GDP.showError("chart-rank", error.message); });
-</script>
+<script type="application/json" id="page-data">{"limit": 15, "metric": "gdp", "year": 2025}</script>
+<script src="static/js/pages/rank.js"></script>
 
 </body>
 </html>

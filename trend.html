@@ -218,10 +218,10 @@
     <div class="field">
       <label>快捷选择</label>
       <div style="display:flex;gap:8px;flex-wrap:wrap">
-        <button type="button" class="ghost" onclick="preset(['CHN'])">只看中国</button>
-        <button type="button" class="ghost" onclick="preset(['CHN','USA'])">中美</button>
-        <button type="button" class="ghost" onclick="preset(['CHN','USA','JPN','IND'])">中美日印</button>
-        <button type="button" class="ghost" onclick="clearAll()">清空</button>
+        <button type="button" class="ghost" data-preset="CHN">只看中国</button>
+        <button type="button" class="ghost" data-preset="CHN,USA">中美</button>
+        <button type="button" class="ghost" data-preset="CHN,USA,JPN,IND">中美日印</button>
+        <button type="button" class="ghost" data-clear="1">清空</button>
       </div>
     </div>
     <button type="submit">查询</button>
@@ -259,32 +259,7 @@
 
 <script src="static/js/charts.js"></script>
   <script src="static/js/static-api.js"></script>
-<script>
-  function boxes() { return document.querySelectorAll('#country-box input[type=checkbox]'); }
-  function preset(codes) {
-    boxes().forEach(function (box) { box.checked = codes.indexOf(box.value) >= 0; });
-  }
-  function clearAll() {
-    boxes().forEach(function (box) { box.checked = false; });
-  }
-
-  // 直接用当前地址栏的参数请求接口：表单提交后地址栏就是最新的筛选条件，
-  // 页面负责渲染筛选控件，图表交给接口，两者用的是同一份参数。
-  var query = window.location.search.replace(/^\?/, "");
-  GDP.getJSON("/api/trend" + (query ? "?" + query : ""))
-    .then(function (data) {
-      if (!data.items.length) { GDP.showEmpty("chart-trend", "请至少勾选一个国家"); return; }
-      var percent = data.metric === "growth";
-      GDP.drawLines("chart-trend", data.items.map(function (item) {
-        return { name: item.label, data: item.data };
-      }), { percent: percent, usd: data.metric === "gdp" });
-      var names = data.items.map(function (i) { return i.name; });
-      document.getElementById("chart-hint").innerHTML =
-        "共 " + data.items.length + " 个国家：" + names.join("、") +
-        " · 数据来源：世界银行开放数据";
-    })
-    .catch(function (error) { GDP.showError("chart-trend", error.message); });
-</script>
+<script src="static/js/pages/trend.js"></script>
 
 </body>
 </html>

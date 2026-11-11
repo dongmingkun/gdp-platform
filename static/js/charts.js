@@ -59,6 +59,13 @@
   }
 
   /** 取 JSON 接口数据，失败时抛出便于统一提示的错误 */
+  /** 读取服务端注入的页面数据（<script type="application/json" id="page-data">） */
+  function pageData() {
+    var node = document.getElementById("page-data");
+    if (!node) { return {}; }
+    try { return JSON.parse(node.textContent); } catch (error) { return {}; }
+  }
+
   function getJSON(url) {
     return fetch(url).then(function (response) {
       if (!response.ok) throw new Error("接口请求失败（HTTP " + response.status + "）：" + url);
@@ -302,6 +309,7 @@
     fmtAxisMoney: fmtAxisMoney,
     fmtNum: fmtNum,
     fmtPercent: fmtPercent,
+    pageData: pageData,
     getJSON: getJSON,
     initChart: initChart,
     showLoading: showLoading,

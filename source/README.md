@@ -86,8 +86,10 @@ gdp-platform/
 │   └─ charts.py                      matplotlib 分析图
 ├─ webapp/                            应用层与展示层
 │   ├─ app.py                         Flask 路由、18 个 JSON 接口、后台采集线程
-│   ├─ templates/                     9 个页面（Jinja2）
+│   ├─ templates/                     9 个页面（Jinja2，只放结构与数据，不写内联脚本）
 │   └─ static/                        样式表、前端脚本、本地 ECharts
+│       ├─ js/charts.js               图表封装与格式化工具（含 GDP.pageData()）
+│       ├─ js/pages/*.js              每个页面一个脚本（index/region/rank/trend/compare/share/china/dataset）
 │       └─ js/static-api.js           静态站点的前端数据层（把 /api/... 在浏览器里算出来）
 ├─ gui/console.py                     Tkinter 桌面采集控制台
 ├─ data/manual/                       手动整理的数据文件（CSV）与格式说明
@@ -192,5 +194,8 @@ GDP_PUBLIC=1 GDP_PORT=8000 python wsgi.py     # Windows 可双击 deploy/start_p
 - 区域页顶部有「快捷视图」一键切换常用口径（中国城市 2025、中国省级、美国州/县、日本、增速排行），
   指标用分段按钮切换；「下钻查看」选定省份后**原地刷新**图表与表格（不整页跳转、不丢失滚动位置），
   旁边还有按体量排序的常用省份按钮（广东、江苏、山东…）。
+- 前端约定：模板只负责结构与服务端数据（`<script type="application/json" id="page-data">`），
+  行为全部在 `static/js/pages/*.js` 里，页面脚本通过 `GDP.pageData()` 取服务端数据；
+  这样 HTML 里没有内联脚本，静态导出时也只需替换数据来源（`static-api.js`）。
 - 提交时若需要控制体积，可删除 `docs/docbuild/node_modules/`（11 MB，说明书生成脚本的依赖）
   与 `docs/out/pages/`（排版自检用的分页图），它们不影响程序运行。

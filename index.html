@@ -205,59 +205,8 @@
 
 <script src="static/js/charts.js"></script>
   <script src="static/js/static-api.js"></script>
-<script>
-  var FOCUS = {"areas": 336, "blocks": {"东北": {"areas": 36, "gdp": 65108.79999999999, "share": 5.317056682534833}, "东部": {"areas": 84, "gdp": 599731.5, "share": 48.97658042847725}, "中部": {"areas": 82, "gdp": 295153.8999999999, "share": 24.10350085351316}, "西部": {"areas": 130, "gdp": 264532.89999999997, "share": 21.602862035474757}}, "empty": false, "growth_areas": 34, "growth_average": 4.287058823529412, "growth_fast": [["绍兴市", 6.73], ["福州市", 6.15], ["石家庄市", 5.46]], "growth_slow": [["佛山市", -1.53], ["沈阳市", 0.81], ["天津", 2.86]], "per_capita_bottom": ["玉树州", 22651.0], "per_capita_ratio": 12.066266390004856, "per_capita_top": ["鄂尔多斯市", 273313.0], "tiers": {"中低收入": 4, "中高收入": 235, "高收入": 97}, "top_cities": [["上海", 56708.7], ["北京", 52073.0], ["深圳市", 38731.8], ["重庆", 33758.0], ["广州市", 32039.5]], "trillion_count": 29, "trillion_top": ["上海", "北京", "深圳市", "重庆", "广州市", "苏州市"], "year": 2025};
-  var SUMMARY = {"china_first_value": 361560229445.507, "china_first_year": 1990, "china_multiple": 53.92750031701502, "china_per_capita": 13861.970224368, "china_per_capita_first": 318.50335359039, "china_per_capita_multiple": 43.522211204705656, "china_per_capita_rank": 72, "china_rank": 2, "china_rank_start": [1990, 11], "china_share": 16.74438480352644, "china_value": 19498039388042.6, "china_vs_usa": 63.367661654298225, "country_count": 217, "crawl_total": 82, "empty": false, "last_update": "2026-10-17 13:16:20", "latest_year": 2025, "record_count": 8985, "top_country": {"code": "USA", "name_cn": "美国", "name_en": "United States", "region": "北美地区", "value": 30769700000000.0}, "usa_value": 30769700000000.0, "world_total": 116445241893486.75, "year_range": [1990, 2025]};
-
-  // 城市前五：横向柱状图
-  GDP.getJSON("/api/region/rank?economy=CHN&level=city&mode=year&year=" + FOCUS.year + "&limit=5")
-    .then(function (data) {
-      GDP.drawRankBar("chart-cities", data.items.map(function (item) {
-        return { name: item.region_name, value: item.gdp_native };
-      }));
-    })
-    .catch(function (error) { GDP.showError("chart-cities", error.message); });
-
-  // 增长两端：取增速最高的 5 个与最低的 5 个，正负用颜色区分
-  GDP.getJSON("/api/region/rank?economy=CHN&level=city&mode=year&year=" + FOCUS.year + "&metric=growth&limit=400")
-    .then(function (data) {
-      var items = data.items.filter(function (i) { return typeof i.growth_rate === "number"; });
-      if (!items.length) { GDP.showEmpty("chart-growth", "暂无增速数据"); return; }
-      var head = items.slice(0, 5);
-      var tail = items.slice(-5);
-      GDP.drawRankBar("chart-growth", head.concat(tail).map(function (item) {
-        return { name: item.region_name, value: item.growth_rate };
-      }), {
-        format: function (v) { return (v > 0 ? "+" : "") + v.toFixed(2) + "%"; },
-        axisFormat: function (v) { return v.toFixed(0) + "%"; },
-        colorBySign: true
-      });
-    })
-    .catch(function (error) { GDP.showError("chart-growth", error.message); });
-
-  // 中国全球排名变化
-  GDP.getJSON("/api/china/rank?metric=gdp")
-    .then(function (data) {
-      var chart = GDP.initChart("chart-rank");
-      if (!chart) return;
-      var years = data.items.map(function (d) { return d[0]; });
-      var ranks = data.items.map(function (d) { return d[1]; });
-      chart.setOption(GDP.baseOption({
-        tooltip: { trigger: "axis", valueFormatter: function (v) { return "全球第 " + v + " 名"; } },
-        grid: { left: 70, right: 30, top: 30, bottom: 40, containLabel: true },
-        xAxis: { type: "category", data: years, boundaryGap: false,
-                 axisLine: { lineStyle: { color: "#DDE5E4" } } },
-        yAxis: { type: "value", inverse: true, min: 1, max: Math.max.apply(null, ranks) + 1,
-                 splitLine: { lineStyle: { color: "#EDF2F1" } },
-                 axisLabel: { formatter: function (v) { return "第" + v + "名"; } } },
-        series: [{
-          name: "全球排名", type: "line", data: ranks, smooth: true, symbolSize: 6,
-          lineStyle: { width: 2.6, color: "#FF6A3B" }, itemStyle: { color: "#FF6A3B" }
-        }]
-      }));
-    })
-    .catch(function (error) { GDP.showError("chart-rank", error.message); });
-</script>
+<script type="application/json" id="page-data">{"focus": {"areas": 336, "blocks": {"东北": {"areas": 36, "gdp": 65108.79999999999, "share": 5.317056682534833}, "东部": {"areas": 84, "gdp": 599731.5, "share": 48.97658042847725}, "中部": {"areas": 82, "gdp": 295153.8999999999, "share": 24.10350085351316}, "西部": {"areas": 130, "gdp": 264532.89999999997, "share": 21.602862035474757}}, "empty": false, "growth_areas": 34, "growth_average": 4.287058823529412, "growth_fast": [["绍兴市", 6.73], ["福州市", 6.15], ["石家庄市", 5.46]], "growth_slow": [["佛山市", -1.53], ["沈阳市", 0.81], ["天津", 2.86]], "per_capita_bottom": ["玉树州", 22651.0], "per_capita_ratio": 12.066266390004856, "per_capita_top": ["鄂尔多斯市", 273313.0], "tiers": {"中低收入": 4, "中高收入": 235, "高收入": 97}, "top_cities": [["上海", 56708.7], ["北京", 52073.0], ["深圳市", 38731.8], ["重庆", 33758.0], ["广州市", 32039.5]], "trillion_count": 29, "trillion_top": ["上海", "北京", "深圳市", "重庆", "广州市", "苏州市"], "year": 2025}, "summary": {"china_first_value": 361560229445.507, "china_first_year": 1990, "china_multiple": 53.92750031701502, "china_per_capita": 13861.970224368, "china_per_capita_first": 318.50335359039, "china_per_capita_multiple": 43.522211204705656, "china_per_capita_rank": 72, "china_rank": 2, "china_rank_start": [1990, 11], "china_share": 16.74438480352644, "china_value": 19498039388042.6, "china_vs_usa": 63.367661654298225, "country_count": 217, "crawl_total": 82, "empty": false, "last_update": "2026-10-17 13:16:20", "latest_year": 2025, "record_count": 8985, "top_country": {"code": "USA", "name_cn": "美国", "name_en": "United States", "region": "北美地区", "value": 30769700000000.0}, "usa_value": 30769700000000.0, "world_total": 116445241893486.75, "year_range": [1990, 2025]}}</script>
+<script src="static/js/pages/index.js"></script>
 
 </body>
 </html>

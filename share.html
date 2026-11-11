@@ -97,33 +97,8 @@
 
 <script src="static/js/charts.js"></script>
   <script src="static/js/static-api.js"></script>
-<script>
-  GDP.getJSON("/api/share?year=" + 2025 + "&top=" + 10)
-    .then(function (data) {
-      if (!data.items.length) { GDP.showEmpty("chart-share"); return; }
-      GDP.drawPie("chart-share", data.items);
-
-      var cumulative = 0;
-      var body = data.items.map(function (item, index) {
-        cumulative += item.ratio;
-        var label = item.name === "其他国家" ? "-" : (index + 1);
-        return "<tr" + (index < 3 ? ' class="top' + (index + 1) + '"' : "") + ">" +
-          '<td><span class="rank-no">' + label + "</span></td>" +
-          "<td><b>" + item.name + "</b></td>" +
-          '<td class="num">' + GDP.fmtUSD(item.value) + "</td>" +
-          '<td class="num">' + GDP.fmtPercent(item.ratio) + "</td>" +
-          "<td>" + cumulative.toFixed(2) + "%</td></tr>";
-      }).join("");
-      document.getElementById("share-table").innerHTML = body;
-
-      var top10 = data.items.filter(function (i) { return i.name !== "其他国家"; });
-      var sum10 = top10.reduce(function (acc, i) { return acc + i.ratio; }, 0);
-      document.getElementById("share-hint").innerHTML =
-        "全球合计 " + GDP.fmtUSD(data.total) + " · 展示的 " + top10.length +
-        " 个国家合计占 <b>" + sum10.toFixed(2) + "%</b>";
-    })
-    .catch(function (error) { GDP.showError("chart-share", error.message); });
-</script>
+<script type="application/json" id="page-data">{"top": 10, "year": 2025}</script>
+<script src="static/js/pages/share.js"></script>
 
 </body>
 </html>

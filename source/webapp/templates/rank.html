@@ -77,14 +77,6 @@
 
 {% block scripts %}
 <script src="{{ url_for('static', filename='js/charts.js') }}"></script>
-<script>
-  var METRIC = {{ metric|tojson }};
-  GDP.getJSON("/api/rank?metric=" + METRIC + "&limit=" + {{ limit }} + "&year=" + {{ year }})
-    .then(function (data) {
-      GDP.drawRankBar("chart-rank", data.items.map(function (item) {
-        return { name: item.name_cn, value: item.value };
-      }));
-    })
-    .catch(function (error) { GDP.showError("chart-rank", error.message); });
-</script>
+<script type="application/json" id="page-data">{{ {"metric": metric, "limit": limit, "year": year}|tojson }}</script>
+<script src="{{ url_for('static', filename='js/pages/rank.js') }}"></script>
 {% endblock %}
