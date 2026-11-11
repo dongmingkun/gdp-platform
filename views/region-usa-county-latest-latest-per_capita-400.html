@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>区域对比 · 全球 GDP 数据采集与可视化分析平台</title>
+  <link rel="stylesheet" href="../static/css/style.css">
+
+  <script src="../static/vendor/echarts.min.js"></script>
+</head>
+<body>
+<header class="topbar">
+  <div class="container topbar-inner">
+    <div class="brand">
+      <span class="logo">GDP</span>
+      <div class="brand-text">
+        <strong>全球 GDP 数据采集与可视化分析平台</strong>
+        <small>城市经济格局 · 全球参照 · 数据口径与来源可查</small>
+      </div>
+    </div>
+    <nav class="nav">
+      <a href="../index.html" class="">总览</a>
+      <a href="../region.html" class="active">城市格局</a>
+      <a href="../rank.html" class="">全球排行</a>
+      <a href="../trend.html" class="">趋势分析</a>
+      <a href="../compare.html" class="">国家对比</a>
+      <a href="../share.html" class="">份额变化</a>
+      <a href="../china.html" class="">中国季度</a>
+      <a href="../dataset.html" class="">数据集</a>
+      <a href="../about.html" class="">关于</a>
+    </nav>
+  </div>
+</header>
+
+
+
+<div class="demo-bar">
+  <div class="container">
+    <strong>在线演示站点</strong>
+    数据为 <b>2026-10-17 13:16:20</b> 的只读快照，采集与数据补录功能已关闭；
+    全部功能与源码见项目本地版本（Python 课程大作业）。
+  </div>
+</div>
+
+
+<main class="container">
+
+<div class="panel">
+  <div class="panel-head">
+    <h2>区域 GDP 对比与增长趋势</h2>
+    <span class="hint">美国数据来自经济分析局（BEA）官方批量文件；中国与日本数据来自维基百科统计条目；带「人工整理」标记的记录来自榜单整理</span>
+  </div>
+  <form class="toolbar toolbar-grid" method="get" action="../region.html" id="region-form">
+    <input type="hidden" name="metric" value="per_capita">
+    <div class="field">
+      <label>经济体</label>
+      <select name="economy">
+
+        <option value="CHN" >中国</option>
+
+        <option value="USA" selected>美国</option>
+
+        <option value="JPN" >日本</option>
+
+      </select>
+    </div>
+    <div class="field">
+      <label>区域层级</label>
+      <select name="level">
+
+        <option value="county" selected>
+          县级行政区（县）（3127 个）
+        </option>
+
+        <option value="state" >
+          州级行政区（51 个）
+        </option>
+
+      </select>
+    </div>
+    <div class="field field-metric">
+      <label>指标</label>
+      <div class="segmented">
+        <button type="submit" data-metric="gdp" value="gdp" class="">GDP 总量</button>
+        <button type="submit" data-metric="per_capita" value="per_capita" class="on">人均 GDP</button>
+        <button type="submit" data-metric="growth" value="growth" class="">名义增速</button>
+      </div>
+    </div>
+    <div class="field">
+      <label>统计口径</label>
+      <select name="mode">
+        <option value="latest" selected>各区域最新可得</option>
+        <option value="year" >限定某一年</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label>显示数量</label>
+      <select name="limit">
+        <option value="10" >前 10 名</option><option value="20" >前 20 名</option><option value="30" >前 30 名</option><option value="50" >前 50 名</option><option value="100" >前 100 名</option><option value="200" >前 200 名</option><option value="400" selected>前 400 名</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>筛选区域</label>
+      <input type="text" name="keyword" value="" placeholder="城市或省份名">
+    </div>
+    <div class="field field-actions">
+      <label>&nbsp;</label>
+      <div class="action-row">
+        <button type="submit">查询</button>
+        <a class="btn ghost" href="../views/region-usa-county-latest-latest-gdp-20.html">重置</a>
+        <a class="btn ghost" data-region-export href="../data/dataset/region-export-USA-county.csv">导出 CSV</a>
+      </div>
+    </div>
+  </form>
+  <div class="quick-row">
+    <span class="quick-label">快捷视图</span>
+    <a class="chip "
+       href="../views/region-chn-city-year-2025-gdp-400.html">中国城市 2025（全部 336）</a>
+    <a class="chip "
+       href="../views/region-chn-city-latest-latest-gdp-20.html">中国城市·各年最新</a>
+    <a class="chip "
+       href="../views/region-chn-province-year-2025-gdp-20.html">中国省级 2025</a>
+    <a class="chip "
+       href="../views/region-usa-state-latest-latest-gdp-20.html">美国各州</a>
+    <a class="chip on"
+       href="../views/region-usa-county-latest-latest-gdp-20.html">美国各县</a>
+    <a class="chip "
+       href="../views/region-jpn-prefecture-latest-latest-gdp-20.html">日本都道府县</a>
+    <a class="chip "
+       href="../views/region-chn-city-year-2025-growth-400.html">2025 增速排行</a>
+  </div>
+</div>
+
+<div class="cards">
+  <div class="card">
+    <div class="label">美国 · 县级行政区（县）</div>
+    <div class="value">3127<span class="unit">个区域</span></div>
+    <div class="foot">
+      每个区域取各自最新可得年份
+
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="label">当前列表人均 GDP 最高</div>
+    <div class="value" style="font-size:20px" id="kpi-top">—</div>
+    <div class="foot" id="kpi-top-foot">—</div>
+  </div>
+  <div class="card">
+    <div class="label">当前列表人均 GDP 最低</div>
+    <div class="value" style="font-size:20px" id="kpi-bottom">—</div>
+    <div class="foot" id="kpi-bottom-foot">—</div>
+  </div>
+  <div class="card">
+    <div class="label">本页有效人均样本</div>
+    <div class="value">0<span class="unit">个</span></div>
+    <div class="foot">只列出有有效人均值的区域；不对人均值求合计</div>
+  </div>
+
+</div>
+
+
+<div class="panel panel-tight">
+  <div class="panel-head">
+    <h2>数据年份分布</h2>
+    <span class="hint">各省条目的更新程度不同，因此每个区域标注了自己的数据年份</span>
+  </div>
+  <div class="tags">
+
+    <span class="tag">2024 年 · 3115 个</span>
+
+    <span class="tag">2023 年 · 8 个</span>
+
+    <span class="tag">2019 年 · 1 个</span>
+
+    <span class="tag">2008 年 · 2 个</span>
+
+    <span class="tag">2007 年 · 1 个</span>
+
+  </div>
+</div>
+
+
+<div class="panel">
+  <div class="panel-head">
+    <h2>美国 县级行政区（县）人均 GDP排行</h2>
+    <span class="hint">各区域最新可得年份 · 鼠标悬停查看数值</span>
+  </div>
+  <div id="chart-region" class="chart chart-lg"></div>
+</div>
+
+<div class="panel">
+  <div class="panel-head">
+    <h2>排行明细</h2>
+    <div class="head-actions">
+      <span class="hint">共 0 条 · 「上年（推算）」= GDP − 增量</span>
+
+    </div>
+  </div>
+
+  <div class="empty">
+
+      没有符合条件的区域。
+
+  </div>
+
+</div>
+
+
+<div class="panel" id="drill">
+  <div class="panel-head">
+    <h2>下钻查看：<span id="drill-title">California</span> 下辖县</h2>
+    <span class="hint">选定后下方图表与表格即时刷新，不必等整页加载</span>
+  </div>
+  <form class="toolbar" method="get" action="/region#drill" id="drill-form">
+    <input type="hidden" name="economy" value="USA">
+    <input type="hidden" name="level" value="county">
+    <input type="hidden" name="mode" value="latest">
+    <input type="hidden" name="metric" value="per_capita">
+
+    <div class="field">
+      <label>选择州</label>
+
+      <select name="parent" id="drill-parent">
+
+        <option value="06000" selected>California</option>
+
+        <option value="48000" >Texas</option>
+
+        <option value="36000" >New York</option>
+
+        <option value="12000" >Florida</option>
+
+        <option value="17000" >Illinois</option>
+
+        <option value="42000" >Pennsylvania</option>
+
+        <option value="39000" >Ohio</option>
+
+        <option value="13000" >Georgia</option>
+
+        <option value="53000" >Washington</option>
+
+        <option value="34000" >New Jersey</option>
+
+        <option value="37000" >North Carolina</option>
+
+        <option value="25000" >Massachusetts</option>
+
+        <option value="51000" >Virginia</option>
+
+        <option value="26000" >Michigan</option>
+
+        <option value="04000" >Arizona</option>
+
+        <option value="47000" >Tennessee</option>
+
+        <option value="08000" >Colorado</option>
+
+        <option value="24000" >Maryland</option>
+
+        <option value="18000" >Indiana</option>
+
+        <option value="27000" >Minnesota</option>
+
+        <option value="55000" >Wisconsin</option>
+
+        <option value="29000" >Missouri</option>
+
+        <option value="45000" >South Carolina</option>
+
+        <option value="09000" >Connecticut</option>
+
+        <option value="41000" >Oregon</option>
+
+        <option value="22000" >Louisiana</option>
+
+        <option value="01000" >Alabama</option>
+
+        <option value="49000" >Utah</option>
+
+        <option value="21000" >Kentucky</option>
+
+        <option value="32000" >Nevada</option>
+
+        <option value="19000" >Iowa</option>
+
+        <option value="40000" >Oklahoma</option>
+
+        <option value="20000" >Kansas</option>
+
+        <option value="31000" >Nebraska</option>
+
+        <option value="05000" >Arkansas</option>
+
+        <option value="11000" >District of Columbia</option>
+
+        <option value="28000" >Mississippi</option>
+
+        <option value="35000" >New Mexico</option>
+
+        <option value="16000" >Idaho</option>
+
+        <option value="33000" >New Hampshire</option>
+
+        <option value="15000" >Hawaii</option>
+
+        <option value="10000" >Delaware</option>
+
+        <option value="54000" >West Virginia</option>
+
+        <option value="23000" >Maine</option>
+
+        <option value="44000" >Rhode Island</option>
+
+        <option value="38000" >North Dakota</option>
+
+        <option value="30000" >Montana</option>
+
+        <option value="46000" >South Dakota</option>
+
+        <option value="02000" >Alaska</option>
+
+        <option value="56000" >Wyoming</option>
+
+        <option value="50000" >Vermont</option>
+
+      </select>
+    </div>
+    <button type="submit" id="drill-button">查看</button>
+    <div class="field">
+      <label>常用州</label>
+      <div class="chip-row">
+
+        <button type="button" class="chip" data-parent="06000">California</button>
+
+        <button type="button" class="chip" data-parent="48000">Texas</button>
+
+        <button type="button" class="chip" data-parent="36000">New York</button>
+
+        <button type="button" class="chip" data-parent="12000">Florida</button>
+
+        <button type="button" class="chip" data-parent="17000">Illinois</button>
+
+        <button type="button" class="chip" data-parent="42000">Pennsylvania</button>
+
+        <button type="button" class="chip" data-parent="39000">Ohio</button>
+
+        <button type="button" class="chip" data-parent="13000">Georgia</button>
+
+      </div>
+    </div>
+  </form>
+  <div id="chart-children" class="chart"></div>
+  <div class="table-wrap table-sm" style="margin-top:12px">
+    <table class="data">
+      <thead><tr><th>名次</th><th>区域</th><th class="num">GDP</th><th class="num">增量</th>
+                 <th class="num">名义增速</th><th class="num">人均 GDP</th><th class="num">数据年份</th></tr></thead>
+      <tbody id="children-body">
+
+        <tr data-gdp="1002965029000.0" data-inc=""
+            data-rate="">
+          <td><span class="rank-no">1</span></td>
+          <td><b>Los Angeles, CA</b></td>
+          <td class="num" data-value="1002965029000.0" data-currency="USD">-</td>
+          <td class="num" data-money="" data-currency="USD">-</td>
+          <td class="num" data-rate-cell="-">-</td>
+          <td class="num">—</td>
+          <td class="num">2024</td>
+        </tr>
+
+        <tr data-gdp="438483301000.0" data-inc=""
+            data-rate="">
+          <td><span class="rank-no">2</span></td>
+          <td><b>Santa Clara, CA</b></td>
+          <td class="num" data-value="438483301000.0" data-currency="USD">-</td>
+          <td class="num" data-money="" data-currency="USD">-</td>
+          <td class="num" data-rate-cell="-">-</td>
+          <td class="num">—</td>
+          <td class="num">2024</td>
+        </tr>
+
+        <tr data-gdp="351752654000.0" data-inc=""
+            data-rate="">
+          <td><span class="rank-no">3</span></td>
+          <td><b>Orange, CA</b></td>
+          <td class="num" data-value="351752654000.0" data-currency="USD">-</td>
+          <td class="num" data-money="" data-currency="USD">-</td>
+          <td class="num" data-rate-cell="-">-</td>
+          <td class="num">—</td>
+          <td class="num">2024</td>
+        </tr>
+
+        <tr data-gdp="331867565000.0" data-inc=""
+            data-rate="">
+          <td><span class="rank-no">4</span></td>
+          <td><b>San Diego, CA</b></td>
+          <td class="num" data-value="331867565000.0" data-currency="USD">-</td>
+          <td class="num" data-money="" data-currency="USD">-</td>
+          <td class="num" data-rate-cell="-">-</td>
+          <td class="num">—</td>
+          <td class="num">2024</td>
+        </tr>
+
+        <tr data-gdp="268321762000.0" data-inc=""
+            data-rate="">
+          <td><span class="rank-no">5</span></td>
+          <td><b>San Francisco, CA</b></td>
+          <td class="num" data-value="268321762000.0" data-currency="USD">-</td>
+          <td class="num" data-money="" data-currency="USD">-</td>
+          <td class="num" data-rate-cell="-">-</td>
+          <td class="num">—</td>
+          <td class="num">2024</td>
+        </tr>
+
+        <tr data-gdp="217017754000.0" data-inc=""
+            data-rate="">
+          <td><span class="rank-no">6</span></td>
+          <td><b>San Mateo, CA</b></td>
+          <td class="num" data-value="217017754000.0" data-currency="USD">-</td>
+          <td class="num" data-money="" data-currency="USD">-</td>
+          <td class="num" data-rate-cell="-">-</td>
+          <td class="num">—</td>
+          <td class="num">2024</td>
+        </tr>
+
+        <tr data-gdp="182539223000.0" data-inc=""
+            data-rate="">
+          <td><span class="rank-no">7</span></td>
+          <td><b>Alameda, CA</b></td>
+          <td class="num" data-value="182539223000.0" data-currency="USD">-</td>
+          <td class="num" data-money="" data-currency="USD">-</td>
+          <td class="num" data-rate-cell="-">-</td>
+          <td class="num">—</td>
+          <td class="num">2024</td>
+        </tr>
+
+        <tr data-gdp="137913905000.0" data-inc=""
+            data-rate="">
+          <td><span class="rank-no">8</span></td>
+          <td><b>San Bernardino, CA</b></td>
+          <td class="num" data-value="137913905000.0" data-currency="USD">-</td>
+          <td class="num" data-money="" data-currency="USD">-</td>
+          <td class="num" data-rate-cell="-">-</td>
+          <td class="num">—</td>
+          <td class="num">2024</td>
+        </tr>
+
+        <tr data-gdp="135538141000.0" data-inc=""
+            data-rate="">
+          <td><span class="rank-no">9</span></td>
+          <td><b>Sacramento, CA</b></td>
+          <td class="num" data-value="135538141000.0" data-currency="USD">-</td>
+          <td class="num" data-money="" data-currency="USD">-</td>
+          <td class="num" data-rate-cell="-">-</td>
+          <td class="num">—</td>
+          <td class="num">2024</td>
+        </tr>
+
+        <tr data-gdp="134756586000.0" data-inc=""
+            data-rate="">
+          <td><span class="rank-no">10</span></td>
+          <td><b>Riverside, CA</b></td>
+          <td class="num" data-value="134756586000.0" data-currency="USD">-</td>
+          <td class="num" data-money="" data-currency="USD">-</td>
+          <td class="num" data-rate-cell="-">-</td>
+          <td class="num">—</td>
+          <td class="num">2024</td>
+        </tr>
+
+        <tr data-gdp="96579110000.0" data-inc=""
+            data-rate="">
+          <td><span class="rank-no">11</span></td>
+          <td><b>Contra Costa, CA</b></td>
+          <td class="num" data-value="96579110000.0" data-currency="USD">-</td>
+          <td class="num" data-money="" data-currency="USD">-</td>
+          <td class="num" data-rate-cell="-">-</td>
+          <td class="num">—</td>
+          <td class="num">2024</td>
+        </tr>
+
+        <tr data-gdp="69605643000.0" data-inc=""
+            data-rate="">
+          <td><span class="rank-no">12</span></td>
+          <td><b>Ventura, CA</b></td>
+          <td class="num" data-value="69605643000.0" data-currency="USD">-</td>
+          <td class="num" data-money="" data-currency="USD">-</td>
+          <td class="num" data-rate-cell="-">-</td>
+          <td class="num">—</td>
+          <td class="num">2024</td>
+        </tr>
+
+        <tr data-gdp="64216914000.0" data-inc=""
+            data-rate="">
+          <td><span class="rank-no">13</span></td>
+          <td><b>Fresno, CA</b></td>
+          <td class="num" data-value="64216914000.0" data-currency="USD">-</td>
+          <td class="num" data-money="" data-currency="USD">-</td>
+          <td class="num" data-rate-cell="-">-</td>
+          <td class="num">—</td>
+          <td class="num">2024</td>
+        </tr>
+
+        <tr data-gdp="63069657000.0" data-inc=""
+            data-rate="">
+          <td><span class="rank-no">14</span></td>
+          <td><b>Kern, CA</b></td>
+          <td class="num" data-value="63069657000.0" data-currency="USD">-</td>
+          <td class="num" data-money="" data-currency="USD">-</td>
+          <td class="num" data-rate-cell="-">-</td>
+          <td class="num">—</td>
+          <td class="num">2024</td>
+        </tr>
+
+        <tr data-gdp="46521159000.0" data-inc=""
+            data-rate="">
+          <td><span class="rank-no">15</span></td>
+          <td><b>San Joaquin, CA</b></td>
+          <td class="num" data-value="46521159000.0" data-currency="USD">-</td>
+          <td class="num" data-money="" data-currency="USD">-</td>
+          <td class="num" data-rate-cell="-">-</td>
+          <td class="num">—</td>
+          <td class="num">2024</td>
+        </tr>
+
+        <tr data-gdp="41424520000.0" data-inc=""
+            data-rate="">
+          <td><span class="rank-no">16</span></td>
+          <td><b>Santa Barbara, CA</b></td>
+          <td class="num" data-value="41424520000.0" data-currency="USD">-</td>
+          <td class="num" data-money="" data-currency="USD">-</td>
+          <td class="num" data-rate-cell="-">-</td>
+          <td class="num">—</td>
+          <td class="num">2024</td>
+        </tr>
+
+        <tr data-gdp="39448025000.0" data-inc=""
+            data-rate="">
+          <td><span class="rank-no">17</span></td>
+          <td><b>Sonoma, CA</b></td>
+          <td class="num" data-value="39448025000.0" data-currency="USD">-</td>
+          <td class="num" data-money="" data-currency="USD">-</td>
+          <td class="num" data-rate-cell="-">-</td>
+          <td class="num">—</td>
+          <td class="num">2024</td>
+        </tr>
+
+        <tr data-gdp="38345355000.0" data-inc=""
+            data-rate="">
+          <td><span class="rank-no">18</span></td>
+          <td><b>Monterey, CA</b></td>
+          <td class="num" data-value="38345355000.0" data-currency="USD">-</td>
+          <td class="num" data-money="" data-currency="USD">-</td>
+          <td class="num" data-rate-cell="-">-</td>
+          <td class="num">—</td>
+          <td class="num">2024</td>
+        </tr>
+
+        <tr data-gdp="37694901000.0" data-inc=""
+            data-rate="">
+          <td><span class="rank-no">19</span></td>
+          <td><b>Solano, CA</b></td>
+          <td class="num" data-value="37694901000.0" data-currency="USD">-</td>
+          <td class="num" data-money="" data-currency="USD">-</td>
+          <td class="num" data-rate-cell="-">-</td>
+          <td class="num">—</td>
+          <td class="num">2024</td>
+        </tr>
+
+        <tr data-gdp="36853590000.0" data-inc=""
+            data-rate="">
+          <td><span class="rank-no">20</span></td>
+          <td><b>Marin, CA</b></td>
+          <td class="num" data-value="36853590000.0" data-currency="USD">-</td>
+          <td class="num" data-money="" data-currency="USD">-</td>
+          <td class="num" data-rate-cell="-">-</td>
+          <td class="num">—</td>
+          <td class="num">2024</td>
+        </tr>
+
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+<div class="panel">
+  <div class="panel-head">
+    <h2>中国省级与美国州级对照（按美元）</h2>
+    <span class="hint">两侧各取最新一年的前六名，数值取自数据源本身</span>
+  </div>
+  <div id="chart-compare" class="chart chart-lg"></div>
+</div>
+
+<div class="panel">
+  <div class="panel-head"><h2>关于区域数据</h2></div>
+  <dl class="meta">
+    <dt>增速与增量</dt>
+    <dd>名义增速 = 当年 GDP 相对上一年的名义增长（含价格因素），与实际增速口径不同；「上年（推算）」由当年 GDP 减去增量得到，把两年的变化摆在一起看。增速数据目前覆盖 2025 年前 34 个城市（来源：另一份榜单明细，与总量表逐位核对一致）。</dd>
+    <dt>年份说明</dt>
+    <dd>中国地级行政区共有 336 个城市为 2025 年数据（含 4 个直辖市，数据源自各地统计局，经榜单整理入库），每个城市同时记录了常住人口与人均 GDP；少数县级单位（如海南、湖北的省直管县）仍为较早年份，逐行标注了数据年份。美国州与县为 2001—2024 年逐年，中国省级为 2025 年（另有 2023 年），日本都道府县为 2019 年。</dd>
+    <dt>直辖市</dt>
+    <dd>北京、天津、上海、重庆在行政级别上属于省级，但在城市排行里也应出现，因此同时计入省级与城市两个层级。</dd>
+    <dt>层级差异</dt>
+    <dd>少数省份的表格把省直管县级市一并列出（如海南、湖北），因此其“城市”数量会多于地级行政区数量。</dd>
+    <dt>货币不同</dt>
+    <dd>人民币、日元、美元不混在一起比较；跨经济体比较使用数据源给出的美元折算值，站内不自造汇率。</dd>
+  </dl>
+</div>
+
+</main>
+
+<footer class="footer">
+  <div class="container footer-inner">
+    <span>全球 GDP 数据采集与可视化分析平台 · Python 课程大作业</span>
+    <span>世界银行 · 东方财富 · BEA · 维基百科 · 人工整理 · 仅供学习研究使用</span>
+  </div>
+</footer>
+
+
+<script src="../static/js/charts.js"></script>
+  <script src="../static/js/static-api.js?v=5d8a63cd"></script>
+<script type="application/json" id="page-data">{"children": [{"currency": "USD", "economy": "USA", "gdp_native": 1002965029000.0, "gdp_usd": 1002965029000.0, "growth_rate": null, "increment_native": null, "level": "county", "parent_name": "California", "per_capita_native": null, "population": null, "region_code": "06037", "region_name": "Los Angeles, CA", "source": "美国经济分析局（BEA）", "year": 2024}, {"currency": "USD", "economy": "USA", "gdp_native": 438483301000.0, "gdp_usd": 438483301000.0, "growth_rate": null, "increment_native": null, "level": "county", "parent_name": "California", "per_capita_native": null, "population": null, "region_code": "06085", "region_name": "Santa Clara, CA", "source": "美国经济分析局（BEA）", "year": 2024}, {"currency": "USD", "economy": "USA", "gdp_native": 351752654000.0, "gdp_usd": 351752654000.0, "growth_rate": null, "increment_native": null, "level": "county", "parent_name": "California", "per_capita_native": null, "population": null, "region_code": "06059", "region_name": "Orange, CA", "source": "美国经济分析局（BEA）", "year": 2024}, {"currency": "USD", "economy": "USA", "gdp_native": 331867565000.0, "gdp_usd": 331867565000.0, "growth_rate": null, "increment_native": null, "level": "county", "parent_name": "California", "per_capita_native": null, "population": null, "region_code": "06073", "region_name": "San Diego, CA", "source": "美国经济分析局（BEA）", "year": 2024}, {"currency": "USD", "economy": "USA", "gdp_native": 268321762000.0, "gdp_usd": 268321762000.0, "growth_rate": null, "increment_native": null, "level": "county", "parent_name": "California", "per_capita_native": null, "population": null, "region_code": "06075", "region_name": "San Francisco, CA", "source": "美国经济分析局（BEA）", "year": 2024}, {"currency": "USD", "economy": "USA", "gdp_native": 217017754000.0, "gdp_usd": 217017754000.0, "growth_rate": null, "increment_native": null, "level": "county", "parent_name": "California", "per_capita_native": null, "population": null, "region_code": "06081", "region_name": "San Mateo, CA", "source": "美国经济分析局（BEA）", "year": 2024}, {"currency": "USD", "economy": "USA", "gdp_native": 182539223000.0, "gdp_usd": 182539223000.0, "growth_rate": null, "increment_native": null, "level": "county", "parent_name": "California", "per_capita_native": null, "population": null, "region_code": "06001", "region_name": "Alameda, CA", "source": "美国经济分析局（BEA）", "year": 2024}, {"currency": "USD", "economy": "USA", "gdp_native": 137913905000.0, "gdp_usd": 137913905000.0, "growth_rate": null, "increment_native": null, "level": "county", "parent_name": "California", "per_capita_native": null, "population": null, "region_code": "06071", "region_name": "San Bernardino, CA", "source": "美国经济分析局（BEA）", "year": 2024}, {"currency": "USD", "economy": "USA", "gdp_native": 135538141000.0, "gdp_usd": 135538141000.0, "growth_rate": null, "increment_native": null, "level": "county", "parent_name": "California", "per_capita_native": null, "population": null, "region_code": "06067", "region_name": "Sacramento, CA", "source": "美国经济分析局（BEA）", "year": 2024}, {"currency": "USD", "economy": "USA", "gdp_native": 134756586000.0, "gdp_usd": 134756586000.0, "growth_rate": null, "increment_native": null, "level": "county", "parent_name": "California", "per_capita_native": null, "population": null, "region_code": "06065", "region_name": "Riverside, CA", "source": "美国经济分析局（BEA）", "year": 2024}, {"currency": "USD", "economy": "USA", "gdp_native": 96579110000.0, "gdp_usd": 96579110000.0, "growth_rate": null, "increment_native": null, "level": "county", "parent_name": "California", "per_capita_native": null, "population": null, "region_code": "06013", "region_name": "Contra Costa, CA", "source": "美国经济分析局（BEA）", "year": 2024}, {"currency": "USD", "economy": "USA", "gdp_native": 69605643000.0, "gdp_usd": 69605643000.0, "growth_rate": null, "increment_native": null, "level": "county", "parent_name": "California", "per_capita_native": null, "population": null, "region_code": "06111", "region_name": "Ventura, CA", "source": "美国经济分析局（BEA）", "year": 2024}, {"currency": "USD", "economy": "USA", "gdp_native": 64216914000.0, "gdp_usd": 64216914000.0, "growth_rate": null, "increment_native": null, "level": "county", "parent_name": "California", "per_capita_native": null, "population": null, "region_code": "06019", "region_name": "Fresno, CA", "source": "美国经济分析局（BEA）", "year": 2024}, {"currency": "USD", "economy": "USA", "gdp_native": 63069657000.0, "gdp_usd": 63069657000.0, "growth_rate": null, "increment_native": null, "level": "county", "parent_name": "California", "per_capita_native": null, "population": null, "region_code": "06029", "region_name": "Kern, CA", "source": "美国经济分析局（BEA）", "year": 2024}, {"currency": "USD", "economy": "USA", "gdp_native": 46521159000.0, "gdp_usd": 46521159000.0, "growth_rate": null, "increment_native": null, "level": "county", "parent_name": "California", "per_capita_native": null, "population": null, "region_code": "06077", "region_name": "San Joaquin, CA", "source": "美国经济分析局（BEA）", "year": 2024}, {"currency": "USD", "economy": "USA", "gdp_native": 41424520000.0, "gdp_usd": 41424520000.0, "growth_rate": null, "increment_native": null, "level": "county", "parent_name": "California", "per_capita_native": null, "population": null, "region_code": "06083", "region_name": "Santa Barbara, CA", "source": "美国经济分析局（BEA）", "year": 2024}, {"currency": "USD", "economy": "USA", "gdp_native": 39448025000.0, "gdp_usd": 39448025000.0, "growth_rate": null, "increment_native": null, "level": "county", "parent_name": "California", "per_capita_native": null, "population": null, "region_code": "06097", "region_name": "Sonoma, CA", "source": "美国经济分析局（BEA）", "year": 2024}, {"currency": "USD", "economy": "USA", "gdp_native": 38345355000.0, "gdp_usd": 38345355000.0, "growth_rate": null, "increment_native": null, "level": "county", "parent_name": "California", "per_capita_native": null, "population": null, "region_code": "06053", "region_name": "Monterey, CA", "source": "美国经济分析局（BEA）", "year": 2024}, {"currency": "USD", "economy": "USA", "gdp_native": 37694901000.0, "gdp_usd": 37694901000.0, "growth_rate": null, "increment_native": null, "level": "county", "parent_name": "California", "per_capita_native": null, "population": null, "region_code": "06095", "region_name": "Solano, CA", "source": "美国经济分析局（BEA）", "year": 2024}, {"currency": "USD", "economy": "USA", "gdp_native": 36853590000.0, "gdp_usd": 36853590000.0, "growth_rate": null, "increment_native": null, "level": "county", "parent_name": "California", "per_capita_native": null, "population": null, "region_code": "06041", "region_name": "Marin, CA", "source": "美国经济分析局（BEA）", "year": 2024}], "currency": "CNY", "growth": {"areas": 0, "average": null, "max": null, "min": null}, "metric": "per_capita", "mode": "latest", "rank": [], "total": 29482468502000.0, "year": 2024}</script>
+<script src="../static/js/pages/region.js"></script>
+
+</body>
+</html>

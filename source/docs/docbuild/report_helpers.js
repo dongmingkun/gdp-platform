@@ -206,6 +206,7 @@ function threeLineTable(caption, headers, rows, widths) {
 
   const headerRow = new TableRow({
     tableHeader: true,
+    cantSplit: true,
     children: headers.map((header, index) => new TableCell({
       width: { size: columns[index], type: WidthType.DXA },
       shading: { type: ShadingType.CLEAR, fill: COLOR.primary },
@@ -216,6 +217,7 @@ function threeLineTable(caption, headers, rows, widths) {
         alignment: (index === 0 || percents[index] >= 36)
           ? AlignmentType.LEFT : AlignmentType.CENTER,
         spacing: { line: 260, lineRule: "atLeast" },
+        keepNext: true,
         children: [new TextRun({
           text: header, size: TABLE_SIZE, bold: true, font: FONT.hei, color: "FFFFFF",
         })],
@@ -224,6 +226,7 @@ function threeLineTable(caption, headers, rows, widths) {
   });
 
   const bodyRows = rows.map((row, rowIndex) => new TableRow({
+    cantSplit: true,
     children: row.map((cell, index) => new TableCell({
       width: { size: columns[index], type: WidthType.DXA },
       margins: { top: 50, bottom: 50, left: 90, right: 90 },
@@ -306,6 +309,7 @@ function callout(kind, title, text) {
     columnWidths: [100, CONTENT_W - 100],
     layout: TableLayoutType.FIXED,
     rows: [new TableRow({
+      cantSplit: true,
       children: [
         new TableCell({
           width: { size: 100, type: WidthType.DXA },

@@ -11,12 +11,12 @@
 def yoy_growth(pairs):
     """把 [(年份, 数值), ...] 折算成年增长率序列 [(年份, 同比增长率%)]。
 
-    第一年没有基期，不计入结果；基期为 0 的年份跳过，避免除零。
+    第一年没有基期，不计入结果；只比较连续年份，缺年和基期为 0 时跳过。
     """
     result = []
     previous = None
     for year, value in pairs:
-        if previous is not None and previous[1]:
+        if previous is not None and year == previous[0] + 1 and previous[1] and value is not None:
             result.append((year, (value - previous[1]) / previous[1] * 100.0))
         previous = (year, value)
     return result

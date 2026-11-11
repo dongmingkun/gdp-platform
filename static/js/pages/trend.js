@@ -35,7 +35,7 @@
       }
       GDP.drawLines("chart-trend", payload.items.map(function (item) {
         return { name: item.label, data: item.data };
-      }), { percent: payload.metric === "growth", usd: payload.metric === "gdp" });
+      }), { percent: payload.metric === "growth", usd: payload.metric !== "growth" });
 
       var names = payload.items.map(function (item) { return item.name; });
       document.getElementById("chart-hint").innerHTML =

@@ -12,11 +12,13 @@
   var SUMMARY = page.summary || {};
 
   // 城市前五：横向柱状图
+  if (!FOCUS.empty && FOCUS.year) {
   GDP.getJSON("/api/region/rank?economy=CHN&level=city&mode=year&year=" + FOCUS.year + "&limit=5")
     .then(function (data) {
       GDP.drawRankBar("chart-cities", data.items.map(function (item) {
         return { name: item.region_name, value: item.gdp_native };
-      }));
+      }), { format: function (v) { return GDP.fmtMoney(v, "CNY"); },
+            axisFormat: function (v) { return GDP.fmtAxisMoney(v, "CNY"); } });
     })
     .catch(function (error) { GDP.showError("chart-cities", error.message); });
 
@@ -27,7 +29,7 @@
       if (!items.length) { GDP.showEmpty("chart-growth", "暂无增速数据"); return; }
       var head = items.slice(0, 5);
       var tail = items.slice(-5);
-      GDP.drawRankBar("chart-growth", head.concat(tail).map(function (item) {
+      GDP.drawRankBar("chart-growth", (items.length <= 10 ? items : head.concat(tail)).map(function (item) {
         return { name: item.region_name, value: item.growth_rate };
       }), {
         format: function (v) { return (v > 0 ? "+" : "") + v.toFixed(2) + "%"; },
@@ -36,12 +38,14 @@
       });
     })
     .catch(function (error) { GDP.showError("chart-growth", error.message); });
+  }
 
   // 中国全球排名变化
   GDP.getJSON("/api/china/rank?metric=gdp")
     .then(function (data) {
       var chart = GDP.initChart("chart-rank");
       if (!chart) return;
+      if (!data.items.length) { GDP.showEmpty("chart-rank", "暂无中国排名数据"); return; }
       var years = data.items.map(function (d) { return d[0]; });
       var ranks = data.items.map(function (d) { return d[1]; });
       chart.setOption(GDP.baseOption({

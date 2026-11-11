@@ -1,0 +1,980 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>区域对比 · 全球 GDP 数据采集与可视化分析平台</title>
+  <link rel="stylesheet" href="../static/css/style.css">
+
+  <script src="../static/vendor/echarts.min.js"></script>
+</head>
+<body>
+<header class="topbar">
+  <div class="container topbar-inner">
+    <div class="brand">
+      <span class="logo">GDP</span>
+      <div class="brand-text">
+        <strong>全球 GDP 数据采集与可视化分析平台</strong>
+        <small>城市经济格局 · 全球参照 · 数据口径与来源可查</small>
+      </div>
+    </div>
+    <nav class="nav">
+      <a href="../index.html" class="">总览</a>
+      <a href="../region.html" class="active">城市格局</a>
+      <a href="../rank.html" class="">全球排行</a>
+      <a href="../trend.html" class="">趋势分析</a>
+      <a href="../compare.html" class="">国家对比</a>
+      <a href="../share.html" class="">份额变化</a>
+      <a href="../china.html" class="">中国季度</a>
+      <a href="../dataset.html" class="">数据集</a>
+      <a href="../about.html" class="">关于</a>
+    </nav>
+  </div>
+</header>
+
+
+
+<div class="demo-bar">
+  <div class="container">
+    <strong>在线演示站点</strong>
+    数据为 <b>2026-10-17 13:16:20</b> 的只读快照，采集与数据补录功能已关闭；
+    全部功能与源码见项目本地版本（Python 课程大作业）。
+  </div>
+</div>
+
+
+<main class="container">
+
+<div class="panel">
+  <div class="panel-head">
+    <h2>区域 GDP 对比与增长趋势</h2>
+    <span class="hint">美国数据来自经济分析局（BEA）官方批量文件；中国与日本数据来自维基百科统计条目；带「人工整理」标记的记录来自榜单整理</span>
+  </div>
+  <form class="toolbar toolbar-grid" method="get" action="../region.html" id="region-form">
+    <input type="hidden" name="metric" value="per_capita">
+    <div class="field">
+      <label>经济体</label>
+      <select name="economy">
+
+        <option value="CHN" selected>中国</option>
+
+        <option value="USA" >美国</option>
+
+        <option value="JPN" >日本</option>
+
+      </select>
+    </div>
+    <div class="field">
+      <label>区域层级</label>
+      <select name="level">
+
+        <option value="city" selected>
+          地级行政区（城市）（361 个）
+        </option>
+
+        <option value="province" >
+          省级行政区（33 个）
+        </option>
+
+      </select>
+    </div>
+    <div class="field field-metric">
+      <label>指标</label>
+      <div class="segmented">
+        <button type="submit" data-metric="gdp" value="gdp" class="">GDP 总量</button>
+        <button type="submit" data-metric="per_capita" value="per_capita" class="on">人均 GDP</button>
+        <button type="submit" data-metric="growth" value="growth" class="">名义增速</button>
+      </div>
+    </div>
+    <div class="field">
+      <label>统计口径</label>
+      <select name="mode">
+        <option value="latest" >各区域最新可得</option>
+        <option value="year" selected>限定某一年</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label>年份</label>
+      <select name="year">
+        <option value="2025" >2025 年</option><option value="2024" >2024 年</option><option value="2023" >2023 年</option><option value="2022" >2022 年</option><option value="2021" >2021 年</option><option value="2020" >2020 年</option><option value="2019" >2019 年</option><option value="2018" >2018 年</option><option value="2017" >2017 年</option><option value="2015" selected>2015 年</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label>显示数量</label>
+      <select name="limit">
+        <option value="10" >前 10 名</option><option value="20" >前 20 名</option><option value="30" selected>前 30 名</option><option value="50" >前 50 名</option><option value="100" >前 100 名</option><option value="200" >前 200 名</option><option value="400" >前 400 名</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>筛选区域</label>
+      <input type="text" name="keyword" value="" placeholder="城市或省份名">
+    </div>
+    <div class="field field-actions">
+      <label>&nbsp;</label>
+      <div class="action-row">
+        <button type="submit">查询</button>
+        <a class="btn ghost" href="../views/region-chn-city-latest-latest-gdp-20.html">重置</a>
+        <a class="btn ghost" data-region-export href="../data/dataset/region-export-CHN-city.csv">导出 CSV</a>
+      </div>
+    </div>
+  </form>
+  <div class="quick-row">
+    <span class="quick-label">快捷视图</span>
+    <a class="chip "
+       href="../views/region-chn-city-year-2025-gdp-400.html">中国城市 2025（全部 336）</a>
+    <a class="chip "
+       href="../views/region-chn-city-latest-latest-gdp-20.html">中国城市·各年最新</a>
+    <a class="chip "
+       href="../views/region-chn-province-year-2025-gdp-20.html">中国省级 2025</a>
+    <a class="chip "
+       href="../views/region-usa-state-latest-latest-gdp-20.html">美国各州</a>
+    <a class="chip "
+       href="../views/region-usa-county-latest-latest-gdp-20.html">美国各县</a>
+    <a class="chip "
+       href="../views/region-jpn-prefecture-latest-latest-gdp-20.html">日本都道府县</a>
+    <a class="chip "
+       href="../views/region-chn-city-year-2025-growth-400.html">2025 增速排行</a>
+  </div>
+</div>
+
+<div class="cards">
+  <div class="card">
+    <div class="label">中国 · 地级行政区（城市）</div>
+    <div class="value">56<span class="unit">个区域</span></div>
+    <div class="foot">
+      数据年份 2015 年
+
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="label">当前列表人均 GDP 最高</div>
+    <div class="value" style="font-size:20px" id="kpi-top">—</div>
+    <div class="foot" id="kpi-top-foot">—</div>
+  </div>
+  <div class="card">
+    <div class="label">当前列表人均 GDP 最低</div>
+    <div class="value" style="font-size:20px" id="kpi-bottom">—</div>
+    <div class="foot" id="kpi-bottom-foot">—</div>
+  </div>
+  <div class="card">
+    <div class="label">本页有效人均样本</div>
+    <div class="value">30<span class="unit">个</span></div>
+    <div class="foot">只列出有有效人均值的区域；不对人均值求合计</div>
+  </div>
+
+</div>
+
+
+
+<div class="panel">
+  <div class="panel-head">
+    <h2>中国 地级行政区（城市）人均 GDP排行</h2>
+    <span class="hint">2015 年 · 鼠标悬停查看数值</span>
+  </div>
+  <div id="chart-region" class="chart chart-lg"></div>
+</div>
+
+<div class="panel">
+  <div class="panel-head">
+    <h2>排行明细</h2>
+    <div class="head-actions">
+      <span class="hint">共 30 条 · 「上年（推算）」= GDP − 增量</span>
+      <a class="btn ghost small" href="#top">回到顶部</a>
+    </div>
+  </div>
+
+  <div class="table-wrap">
+    <table class="data">
+      <thead>
+        <tr><th>名次</th><th>区域</th>
+            <th>所属省份</th>
+            <th class="num">GDP</th><th class="num">增量</th><th class="num">名义增速</th>
+            <th class="num">上年（推算）</th><th class="num">占比</th>
+            <th class="num">人均 GDP</th><th class="num">数据年份</th></tr>
+      </thead>
+      <tbody>
+
+        <tr class="top1"
+            data-gdp="422613000000.0" data-inc=""
+            data-rate="">
+          <td><span class="rank-no">1</span></td>
+          <td><b>鄂尔多斯市</b>
+              </td>
+          <td>内蒙古</td>
+          <td class="num" data-value="422613000000.0" data-currency="CNY">-</td>
+          <td class="num" data-money="" data-currency="CNY">-</td>
+          <td class="num" data-rate-cell="-">-</td>
+          <td class="num" data-prev="-">-</td>
+          <td class="num">8.25%</td>
+          <td class="num">207,163 元</td>
+          <td class="num">2015</td>
+        </tr>
+
+        <tr class="top2"
+            data-gdp="32258000000.0" data-inc=""
+            data-rate="">
+          <td><span class="rank-no">2</span></td>
+          <td><b>阿拉善盟</b>
+              </td>
+          <td>内蒙古</td>
+          <td class="num" data-value="32258000000.0" data-currency="CNY">-</td>
+          <td class="num" data-money="" data-currency="CNY">-</td>
+          <td class="num" data-rate-cell="-">-</td>
+          <td class="num" data-prev="-">-</td>
+          <td class="num">0.63%</td>
+          <td class="num">133,187 元</td>
+          <td class="num">2015</td>
+        </tr>
+
+        <tr class="top3"
+            data-gdp="372193000000.0" data-inc=""
+            data-rate="">
+          <td><span class="rank-no">3</span></td>
+          <td><b>包头市</b>
+              </td>
+          <td>内蒙古</td>
+          <td class="num" data-value="372193000000.0" data-currency="CNY">-</td>
+          <td class="num" data-money="" data-currency="CNY">-</td>
+          <td class="num" data-rate-cell="-">-</td>
+          <td class="num" data-prev="-">-</td>
+          <td class="num">7.27%</td>
+          <td class="num">132,253 元</td>
+          <td class="num">2015</td>
+        </tr>
+
+        <tr class=""
+            data-gdp="309052000000.0" data-inc=""
+            data-rate="">
+          <td><span class="rank-no">4</span></td>
+          <td><b>呼和浩特市</b>
+              </td>
+          <td>内蒙古</td>
+          <td class="num" data-value="309052000000.0" data-currency="CNY">-</td>
+          <td class="num" data-money="" data-currency="CNY">-</td>
+          <td class="num" data-rate-cell="-">-</td>
+          <td class="num" data-prev="-">-</td>
+          <td class="num">6.03%</td>
+          <td class="num">101,492 元</td>
+          <td class="num">2015</td>
+        </tr>
+
+        <tr class=""
+            data-gdp="55983000000.00001" data-inc=""
+            data-rate="">
+          <td><span class="rank-no">5</span></td>
+          <td><b>乌海市</b>
+              </td>
+          <td>内蒙古</td>
+          <td class="num" data-value="55983000000.00001" data-currency="CNY">-</td>
+          <td class="num" data-money="" data-currency="CNY">-</td>
+          <td class="num" data-rate-cell="-">-</td>
+          <td class="num" data-prev="-">-</td>
+          <td class="num">1.09%</td>
+          <td class="num">100,870 元</td>
+          <td class="num">2015</td>
+        </tr>
+
+        <tr class=""
+            data-gdp="100010000000.0" data-inc=""
+            data-rate="">
+          <td><span class="rank-no">6</span></td>
+          <td><b>锡林郭勒盟</b>
+              </td>
+          <td>内蒙古</td>
+          <td class="num" data-value="100010000000.0" data-currency="CNY">-</td>
+          <td class="num" data-money="" data-currency="CNY">-</td>
+          <td class="num" data-rate-cell="-">-</td>
+          <td class="num" data-prev="-">-</td>
+          <td class="num">1.95%</td>
+          <td class="num">96,025 元</td>
+          <td class="num">2015</td>
+        </tr>
+
+        <tr class=""
+            data-gdp="43985000000.0" data-inc=""
+            data-rate="">
+          <td><span class="rank-no">7</span></td>
+          <td><b>海西州</b>
+              </td>
+          <td>青海</td>
+          <td class="num" data-value="43985000000.0" data-currency="CNY">-</td>
+          <td class="num" data-money="" data-currency="CNY">-</td>
+          <td class="num" data-rate-cell="-">-</td>
+          <td class="num" data-prev="-">-</td>
+          <td class="num">0.86%</td>
+          <td class="num">86,713 元</td>
+          <td class="num">2015</td>
+        </tr>
+
+        <tr class=""
+            data-gdp="19004000000.0" data-inc=""
+            data-rate="">
+          <td><span class="rank-no">8</span></td>
+          <td><b>嘉峪关市</b>
+              </td>
+          <td>甘肃</td>
+          <td class="num" data-value="19004000000.0" data-currency="CNY">-</td>
+          <td class="num" data-money="" data-currency="CNY">-</td>
+          <td class="num" data-rate-cell="-">-</td>
+          <td class="num" data-prev="-">-</td>
+          <td class="num">0.37%</td>
+          <td class="num">78,336 元</td>
+          <td class="num">2015</td>
+        </tr>
+
+        <tr class=""
+            data-gdp="249188000000.0" data-inc=""
+            data-rate="">
+          <td><span class="rank-no">9</span></td>
+          <td><b>榆林市</b>
+              </td>
+          <td>陕西</td>
+          <td class="num" data-value="249188000000.0" data-currency="CNY">-</td>
+          <td class="num" data-money="" data-currency="CNY">-</td>
+          <td class="num" data-rate-cell="-">-</td>
+          <td class="num" data-prev="-">-</td>
+          <td class="num">4.87%</td>
+          <td class="num">73,453 元</td>
+          <td class="num">2015</td>
+        </tr>
+
+        <tr class=""
+            data-gdp="149386000000.0" data-inc=""
+            data-rate="">
+          <td><span class="rank-no">10</span></td>
+          <td><b>银川市</b>
+              </td>
+          <td>宁夏</td>
+          <td class="num" data-value="149386000000.0" data-currency="CNY">-</td>
+          <td class="num" data-money="" data-currency="CNY">-</td>
+          <td class="num" data-rate-cell="-">-</td>
+          <td class="num" data-prev="-">-</td>
+          <td class="num">2.92%</td>
+          <td class="num">69,595 元</td>
+          <td class="num">2015</td>
+        </tr>
+
+        <tr class=""
+            data-gdp="580120000000.0" data-inc=""
+            data-rate="">
+          <td><span class="rank-no">11</span></td>
+          <td><b>西安市</b>
+              </td>
+          <td>陕西</td>
+          <td class="num" data-value="580120000000.0" data-currency="CNY">-</td>
+          <td class="num" data-money="" data-currency="CNY">-</td>
+          <td class="num" data-rate-cell="-">-</td>
+          <td class="num" data-prev="-">-</td>
+          <td class="num">11.33%</td>
+          <td class="num">66,938 元</td>
+          <td class="num">2015</td>
+        </tr>
+
+        <tr class=""
+            data-gdp="159601000000.0" data-inc=""
+            data-rate="">
+          <td><span class="rank-no">12</span></td>
+          <td><b>呼伦贝尔市</b>
+              </td>
+          <td>内蒙古</td>
+          <td class="num" data-value="159601000000.0" data-currency="CNY">-</td>
+          <td class="num" data-money="" data-currency="CNY">-</td>
+          <td class="num" data-rate-cell="-">-</td>
+          <td class="num" data-prev="-">-</td>
+          <td class="num">3.12%</td>
+          <td class="num">63,133 元</td>
+          <td class="num">2015</td>
+        </tr>
+
+        <tr class=""
+            data-gdp="48260000000.0" data-inc=""
+            data-rate="">
+          <td><span class="rank-no">13</span></td>
+          <td><b>石嘴山市</b>
+              </td>
+          <td>宁夏</td>
+          <td class="num" data-value="48260000000.0" data-currency="CNY">-</td>
+          <td class="num" data-money="" data-currency="CNY">-</td>
+          <td class="num" data-rate-cell="-">-</td>
+          <td class="num" data-prev="-">-</td>
+          <td class="num">0.94%</td>
+          <td class="num">61,844 元</td>
+          <td class="num">2015</td>
+        </tr>
+
+        <tr class=""
+            data-gdp="37673000000.0" data-inc=""
+            data-rate="">
+          <td><span class="rank-no">14</span></td>
+          <td><b>拉萨市</b>
+              </td>
+          <td>西藏</td>
+          <td class="num" data-value="37673000000.0" data-currency="CNY">-</td>
+          <td class="num" data-money="" data-currency="CNY">-</td>
+          <td class="num" data-rate-cell="-">-</td>
+          <td class="num" data-prev="-">-</td>
+          <td class="num">0.74%</td>
+          <td class="num">60,171 元</td>
+          <td class="num">2015</td>
+        </tr>
+
+        <tr class=""
+            data-gdp="187744000000.0" data-inc=""
+            data-rate="">
+          <td><span class="rank-no">15</span></td>
+          <td><b>通辽市</b>
+              </td>
+          <td>内蒙古</td>
+          <td class="num" data-value="187744000000.0" data-currency="CNY">-</td>
+          <td class="num" data-money="" data-currency="CNY">-</td>
+          <td class="num" data-rate-cell="-">-</td>
+          <td class="num" data-prev="-">-</td>
+          <td class="num">3.67%</td>
+          <td class="num">60,128 元</td>
+          <td class="num">2015</td>
+        </tr>
+
+        <tr class=""
+            data-gdp="209598999999.99997" data-inc=""
+            data-rate="">
+          <td><span class="rank-no">16</span></td>
+          <td><b>兰州市</b>
+              </td>
+          <td>甘肃</td>
+          <td class="num" data-value="209598999999.99997" data-currency="CNY">-</td>
+          <td class="num" data-money="" data-currency="CNY">-</td>
+          <td class="num" data-rate-cell="-">-</td>
+          <td class="num" data-prev="-">-</td>
+          <td class="num">4.09%</td>
+          <td class="num">56,972 元</td>
+          <td class="num">2015</td>
+        </tr>
+
+        <tr class=""
+            data-gdp="119827000000.0" data-inc=""
+            data-rate="">
+          <td><span class="rank-no">17</span></td>
+          <td><b>延安市</b>
+              </td>
+          <td>陕西</td>
+          <td class="num" data-value="119827000000.0" data-currency="CNY">-</td>
+          <td class="num" data-money="" data-currency="CNY">-</td>
+          <td class="num" data-rate-cell="-">-</td>
+          <td class="num" data-prev="-">-</td>
+          <td class="num">2.34%</td>
+          <td class="num">53,908 元</td>
+          <td class="num">2015</td>
+        </tr>
+
+        <tr class=""
+            data-gdp="88743000000.0" data-inc=""
+            data-rate="">
+          <td><span class="rank-no">18</span></td>
+          <td><b>巴彦淖尔市</b>
+              </td>
+          <td>内蒙古</td>
+          <td class="num" data-value="88743000000.0" data-currency="CNY">-</td>
+          <td class="num" data-money="" data-currency="CNY">-</td>
+          <td class="num" data-rate-cell="-">-</td>
+          <td class="num" data-prev="-">-</td>
+          <td class="num">1.73%</td>
+          <td class="num">52,987 元</td>
+          <td class="num">2015</td>
+        </tr>
+
+        <tr class=""
+            data-gdp="113161999999.99998" data-inc=""
+            data-rate="">
+          <td><span class="rank-no">19</span></td>
+          <td><b>西宁市</b>
+              </td>
+          <td>青海</td>
+          <td class="num" data-value="113161999999.99998" data-currency="CNY">-</td>
+          <td class="num" data-money="" data-currency="CNY">-</td>
+          <td class="num" data-rate-cell="-">-</td>
+          <td class="num" data-prev="-">-</td>
+          <td class="num">2.21%</td>
+          <td class="num">49,185 元</td>
+          <td class="num">2015</td>
+        </tr>
+
+        <tr class=""
+            data-gdp="10433000000.0" data-inc=""
+            data-rate="">
+          <td><span class="rank-no">20</span></td>
+          <td><b>林芝市</b>
+              </td>
+          <td>西藏</td>
+          <td class="num" data-value="10433000000.0" data-currency="CNY">-</td>
+          <td class="num" data-money="" data-currency="CNY">-</td>
+          <td class="num" data-rate-cell="-">-</td>
+          <td class="num" data-prev="-">-</td>
+          <td class="num">0.20%</td>
+          <td class="num">49,039 元</td>
+          <td class="num">2015</td>
+        </tr>
+
+        <tr class=""
+            data-gdp="54479999999.99999" data-inc=""
+            data-rate="">
+          <td><span class="rank-no">21</span></td>
+          <td><b>酒泉市</b>
+              </td>
+          <td>甘肃</td>
+          <td class="num" data-value="54479999999.99999" data-currency="CNY">-</td>
+          <td class="num" data-money="" data-currency="CNY">-</td>
+          <td class="num" data-rate-cell="-">-</td>
+          <td class="num" data-prev="-">-</td>
+          <td class="num">1.06%</td>
+          <td class="num">48,920 元</td>
+          <td class="num">2015</td>
+        </tr>
+
+        <tr class=""
+            data-gdp="22452000000.0" data-inc=""
+            data-rate="">
+          <td><span class="rank-no">22</span></td>
+          <td><b>金昌市</b>
+              </td>
+          <td>甘肃</td>
+          <td class="num" data-value="22452000000.0" data-currency="CNY">-</td>
+          <td class="num" data-money="" data-currency="CNY">-</td>
+          <td class="num" data-rate-cell="-">-</td>
+          <td class="num" data-prev="-">-</td>
+          <td class="num">0.44%</td>
+          <td class="num">47,739 元</td>
+          <td class="num">2015</td>
+        </tr>
+
+        <tr class=""
+            data-gdp="178763000000.0" data-inc=""
+            data-rate="">
+          <td><span class="rank-no">23</span></td>
+          <td><b>宝鸡市</b>
+              </td>
+          <td>陕西</td>
+          <td class="num" data-value="178763000000.0" data-currency="CNY">-</td>
+          <td class="num" data-money="" data-currency="CNY">-</td>
+          <td class="num" data-rate-cell="-">-</td>
+          <td class="num" data-prev="-">-</td>
+          <td class="num">3.49%</td>
+          <td class="num">47,565 元</td>
+          <td class="num">2015</td>
+        </tr>
+
+        <tr class=""
+            data-gdp="215292000000.0" data-inc=""
+            data-rate="">
+          <td><span class="rank-no">24</span></td>
+          <td><b>咸阳市</b>
+              </td>
+          <td>陕西</td>
+          <td class="num" data-value="215292000000.0" data-currency="CNY">-</td>
+          <td class="num" data-money="" data-currency="CNY">-</td>
+          <td class="num" data-rate-cell="-">-</td>
+          <td class="num" data-prev="-">-</td>
+          <td class="num">4.20%</td>
+          <td class="num">43,365 元</td>
+          <td class="num">2015</td>
+        </tr>
+
+        <tr class=""
+            data-gdp="186127000000.0" data-inc=""
+            data-rate="">
+          <td><span class="rank-no">25</span></td>
+          <td><b>赤峰市</b>
+              </td>
+          <td>内蒙古</td>
+          <td class="num" data-value="186127000000.0" data-currency="CNY">-</td>
+          <td class="num" data-money="" data-currency="CNY">-</td>
+          <td class="num" data-rate-cell="-">-</td>
+          <td class="num" data-prev="-">-</td>
+          <td class="num">3.63%</td>
+          <td class="num">43,269 元</td>
+          <td class="num">2015</td>
+        </tr>
+
+        <tr class=""
+            data-gdp="91377000000.0" data-inc=""
+            data-rate="">
+          <td><span class="rank-no">26</span></td>
+          <td><b>乌兰察布市</b>
+              </td>
+          <td>内蒙古</td>
+          <td class="num" data-value="91377000000.0" data-currency="CNY">-</td>
+          <td class="num" data-money="" data-currency="CNY">-</td>
+          <td class="num" data-rate-cell="-">-</td>
+          <td class="num" data-prev="-">-</td>
+          <td class="num">1.78%</td>
+          <td class="num">43,221 元</td>
+          <td class="num">2015</td>
+        </tr>
+
+        <tr class=""
+            data-gdp="3711999999.9999995" data-inc=""
+            data-rate="">
+          <td><span class="rank-no">27</span></td>
+          <td><b>阿里地区</b>
+              </td>
+          <td>西藏</td>
+          <td class="num" data-value="3711999999.9999995" data-currency="CNY">-</td>
+          <td class="num" data-money="" data-currency="CNY">-</td>
+          <td class="num" data-rate-cell="-">-</td>
+          <td class="num" data-prev="-">-</td>
+          <td class="num">0.07%</td>
+          <td class="num">36,378 元</td>
+          <td class="num">2015</td>
+        </tr>
+
+        <tr class=""
+            data-gdp="30716000000.000004" data-inc=""
+            data-rate="">
+          <td><span class="rank-no">28</span></td>
+          <td><b>铜川市</b>
+              </td>
+          <td>陕西</td>
+          <td class="num" data-value="30716000000.000004" data-currency="CNY">-</td>
+          <td class="num" data-money="" data-currency="CNY">-</td>
+          <td class="num" data-rate-cell="-">-</td>
+          <td class="num" data-prev="-">-</td>
+          <td class="num">0.60%</td>
+          <td class="num">36,322 元</td>
+          <td class="num">2015</td>
+        </tr>
+
+        <tr class=""
+            data-gdp="9486000000.0" data-inc=""
+            data-rate="">
+          <td><span class="rank-no">29</span></td>
+          <td><b>海北州</b>
+              </td>
+          <td>青海</td>
+          <td class="num" data-value="9486000000.0" data-currency="CNY">-</td>
+          <td class="num" data-money="" data-currency="CNY">-</td>
+          <td class="num" data-rate-cell="-">-</td>
+          <td class="num" data-prev="-">-</td>
+          <td class="num">0.19%</td>
+          <td class="num">34,122 元</td>
+          <td class="num">2015</td>
+        </tr>
+
+        <tr class=""
+            data-gdp="11362000000.0" data-inc=""
+            data-rate="">
+          <td><span class="rank-no">30</span></td>
+          <td><b>山南地区</b>
+              </td>
+          <td>西藏</td>
+          <td class="num" data-value="11362000000.0" data-currency="CNY">-</td>
+          <td class="num" data-money="" data-currency="CNY">-</td>
+          <td class="num" data-rate-cell="-">-</td>
+          <td class="num" data-prev="-">-</td>
+          <td class="num">0.22%</td>
+          <td class="num">32,384 元</td>
+          <td class="num">2015</td>
+        </tr>
+
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+
+<div class="panel" id="drill">
+  <div class="panel-head">
+    <h2>下钻查看：<span id="drill-title">内蒙古</span> 下辖城市</h2>
+    <span class="hint">选定后下方图表与表格即时刷新，不必等整页加载</span>
+  </div>
+  <form class="toolbar" method="get" action="/region#drill" id="drill-form">
+    <input type="hidden" name="economy" value="CHN">
+    <input type="hidden" name="level" value="city">
+    <input type="hidden" name="mode" value="year">
+    <input type="hidden" name="metric" value="per_capita">
+    <input type="hidden" name="year" value="2015">
+    <div class="field">
+      <label>选择省份</label>
+
+      <select name="parent" id="drill-parent">
+
+        <option value="上海" >上海</option>
+
+        <option value="云南" >云南</option>
+
+        <option value="内蒙古" selected>内蒙古</option>
+
+        <option value="北京" >北京</option>
+
+        <option value="吉林" >吉林</option>
+
+        <option value="四川" >四川</option>
+
+        <option value="天津" >天津</option>
+
+        <option value="宁夏" >宁夏</option>
+
+        <option value="安徽" >安徽</option>
+
+        <option value="山东" >山东</option>
+
+        <option value="山西" >山西</option>
+
+        <option value="广东" >广东</option>
+
+        <option value="广西" >广西</option>
+
+        <option value="新疆" >新疆</option>
+
+        <option value="江苏" >江苏</option>
+
+        <option value="江西" >江西</option>
+
+        <option value="河北" >河北</option>
+
+        <option value="河南" >河南</option>
+
+        <option value="浙江" >浙江</option>
+
+        <option value="海南" >海南</option>
+
+        <option value="湖北" >湖北</option>
+
+        <option value="湖南" >湖南</option>
+
+        <option value="澳门" >澳门</option>
+
+        <option value="甘肃" >甘肃</option>
+
+        <option value="福建" >福建</option>
+
+        <option value="西藏" >西藏</option>
+
+        <option value="贵州" >贵州</option>
+
+        <option value="辽宁" >辽宁</option>
+
+        <option value="重庆" >重庆</option>
+
+        <option value="陕西" >陕西</option>
+
+        <option value="青海" >青海</option>
+
+        <option value="香港" >香港</option>
+
+        <option value="黑龙江" >黑龙江</option>
+
+      </select>
+    </div>
+    <button type="submit" id="drill-button">查看</button>
+    <div class="field">
+      <label>常用省份</label>
+      <div class="chip-row">
+
+        <button type="button" class="chip" data-parent="上海">上海</button>
+
+        <button type="button" class="chip" data-parent="云南">云南</button>
+
+        <button type="button" class="chip" data-parent="内蒙古">内蒙古</button>
+
+        <button type="button" class="chip" data-parent="北京">北京</button>
+
+        <button type="button" class="chip" data-parent="吉林">吉林</button>
+
+        <button type="button" class="chip" data-parent="四川">四川</button>
+
+        <button type="button" class="chip" data-parent="天津">天津</button>
+
+        <button type="button" class="chip" data-parent="宁夏">宁夏</button>
+
+      </div>
+    </div>
+  </form>
+  <div id="chart-children" class="chart"></div>
+  <div class="table-wrap table-sm" style="margin-top:12px">
+    <table class="data">
+      <thead><tr><th>名次</th><th>区域</th><th class="num">GDP</th><th class="num">增量</th>
+                 <th class="num">名义增速</th><th class="num">人均 GDP</th><th class="num">数据年份</th></tr></thead>
+      <tbody id="children-body">
+
+        <tr data-gdp="422613000000.0" data-inc=""
+            data-rate="">
+          <td><span class="rank-no">1</span></td>
+          <td><b>鄂尔多斯市</b></td>
+          <td class="num" data-value="422613000000.0" data-currency="CNY">-</td>
+          <td class="num" data-money="" data-currency="CNY">-</td>
+          <td class="num" data-rate-cell="-">-</td>
+          <td class="num">207,163 元</td>
+          <td class="num">2015</td>
+        </tr>
+
+        <tr data-gdp="372193000000.0" data-inc=""
+            data-rate="">
+          <td><span class="rank-no">2</span></td>
+          <td><b>包头市</b></td>
+          <td class="num" data-value="372193000000.0" data-currency="CNY">-</td>
+          <td class="num" data-money="" data-currency="CNY">-</td>
+          <td class="num" data-rate-cell="-">-</td>
+          <td class="num">132,253 元</td>
+          <td class="num">2015</td>
+        </tr>
+
+        <tr data-gdp="309052000000.0" data-inc=""
+            data-rate="">
+          <td><span class="rank-no">3</span></td>
+          <td><b>呼和浩特市</b></td>
+          <td class="num" data-value="309052000000.0" data-currency="CNY">-</td>
+          <td class="num" data-money="" data-currency="CNY">-</td>
+          <td class="num" data-rate-cell="-">-</td>
+          <td class="num">101,492 元</td>
+          <td class="num">2015</td>
+        </tr>
+
+        <tr data-gdp="187744000000.0" data-inc=""
+            data-rate="">
+          <td><span class="rank-no">4</span></td>
+          <td><b>通辽市</b></td>
+          <td class="num" data-value="187744000000.0" data-currency="CNY">-</td>
+          <td class="num" data-money="" data-currency="CNY">-</td>
+          <td class="num" data-rate-cell="-">-</td>
+          <td class="num">60,128 元</td>
+          <td class="num">2015</td>
+        </tr>
+
+        <tr data-gdp="186127000000.0" data-inc=""
+            data-rate="">
+          <td><span class="rank-no">5</span></td>
+          <td><b>赤峰市</b></td>
+          <td class="num" data-value="186127000000.0" data-currency="CNY">-</td>
+          <td class="num" data-money="" data-currency="CNY">-</td>
+          <td class="num" data-rate-cell="-">-</td>
+          <td class="num">43,269 元</td>
+          <td class="num">2015</td>
+        </tr>
+
+        <tr data-gdp="159601000000.0" data-inc=""
+            data-rate="">
+          <td><span class="rank-no">6</span></td>
+          <td><b>呼伦贝尔市</b></td>
+          <td class="num" data-value="159601000000.0" data-currency="CNY">-</td>
+          <td class="num" data-money="" data-currency="CNY">-</td>
+          <td class="num" data-rate-cell="-">-</td>
+          <td class="num">63,133 元</td>
+          <td class="num">2015</td>
+        </tr>
+
+        <tr data-gdp="100010000000.0" data-inc=""
+            data-rate="">
+          <td><span class="rank-no">7</span></td>
+          <td><b>锡林郭勒盟</b></td>
+          <td class="num" data-value="100010000000.0" data-currency="CNY">-</td>
+          <td class="num" data-money="" data-currency="CNY">-</td>
+          <td class="num" data-rate-cell="-">-</td>
+          <td class="num">96,025 元</td>
+          <td class="num">2015</td>
+        </tr>
+
+        <tr data-gdp="91377000000.0" data-inc=""
+            data-rate="">
+          <td><span class="rank-no">8</span></td>
+          <td><b>乌兰察布市</b></td>
+          <td class="num" data-value="91377000000.0" data-currency="CNY">-</td>
+          <td class="num" data-money="" data-currency="CNY">-</td>
+          <td class="num" data-rate-cell="-">-</td>
+          <td class="num">43,221 元</td>
+          <td class="num">2015</td>
+        </tr>
+
+        <tr data-gdp="88743000000.0" data-inc=""
+            data-rate="">
+          <td><span class="rank-no">9</span></td>
+          <td><b>巴彦淖尔市</b></td>
+          <td class="num" data-value="88743000000.0" data-currency="CNY">-</td>
+          <td class="num" data-money="" data-currency="CNY">-</td>
+          <td class="num" data-rate-cell="-">-</td>
+          <td class="num">52,987 元</td>
+          <td class="num">2015</td>
+        </tr>
+
+        <tr data-gdp="55983000000.00001" data-inc=""
+            data-rate="">
+          <td><span class="rank-no">10</span></td>
+          <td><b>乌海市</b></td>
+          <td class="num" data-value="55983000000.00001" data-currency="CNY">-</td>
+          <td class="num" data-money="" data-currency="CNY">-</td>
+          <td class="num" data-rate-cell="-">-</td>
+          <td class="num">100,870 元</td>
+          <td class="num">2015</td>
+        </tr>
+
+        <tr data-gdp="50231000000.0" data-inc=""
+            data-rate="">
+          <td><span class="rank-no">11</span></td>
+          <td><b>兴安盟</b></td>
+          <td class="num" data-value="50231000000.0" data-currency="CNY">-</td>
+          <td class="num" data-money="" data-currency="CNY">-</td>
+          <td class="num" data-rate-cell="-">-</td>
+          <td class="num">31,391 元</td>
+          <td class="num">2015</td>
+        </tr>
+
+        <tr data-gdp="32258000000.0" data-inc=""
+            data-rate="">
+          <td><span class="rank-no">12</span></td>
+          <td><b>阿拉善盟</b></td>
+          <td class="num" data-value="32258000000.0" data-currency="CNY">-</td>
+          <td class="num" data-money="" data-currency="CNY">-</td>
+          <td class="num" data-rate-cell="-">-</td>
+          <td class="num">133,187 元</td>
+          <td class="num">2015</td>
+        </tr>
+
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+<div class="panel">
+  <div class="panel-head">
+    <h2>中国省级与美国州级对照（按美元）</h2>
+    <span class="hint">两侧各取最新一年的前六名，数值取自数据源本身</span>
+  </div>
+  <div id="chart-compare" class="chart chart-lg"></div>
+</div>
+
+<div class="panel">
+  <div class="panel-head"><h2>关于区域数据</h2></div>
+  <dl class="meta">
+    <dt>增速与增量</dt>
+    <dd>名义增速 = 当年 GDP 相对上一年的名义增长（含价格因素），与实际增速口径不同；「上年（推算）」由当年 GDP 减去增量得到，把两年的变化摆在一起看。增速数据目前覆盖 2025 年前 34 个城市（来源：另一份榜单明细，与总量表逐位核对一致）。</dd>
+    <dt>年份说明</dt>
+    <dd>中国地级行政区共有 336 个城市为 2025 年数据（含 4 个直辖市，数据源自各地统计局，经榜单整理入库），每个城市同时记录了常住人口与人均 GDP；少数县级单位（如海南、湖北的省直管县）仍为较早年份，逐行标注了数据年份。美国州与县为 2001—2024 年逐年，中国省级为 2025 年（另有 2023 年），日本都道府县为 2019 年。</dd>
+    <dt>直辖市</dt>
+    <dd>北京、天津、上海、重庆在行政级别上属于省级，但在城市排行里也应出现，因此同时计入省级与城市两个层级。</dd>
+    <dt>层级差异</dt>
+    <dd>少数省份的表格把省直管县级市一并列出（如海南、湖北），因此其“城市”数量会多于地级行政区数量。</dd>
+    <dt>货币不同</dt>
+    <dd>人民币、日元、美元不混在一起比较；跨经济体比较使用数据源给出的美元折算值，站内不自造汇率。</dd>
+  </dl>
+</div>
+
+</main>
+
+<footer class="footer">
+  <div class="container footer-inner">
+    <span>全球 GDP 数据采集与可视化分析平台 · Python 课程大作业</span>
+    <span>世界银行 · 东方财富 · BEA · 维基百科 · 人工整理 · 仅供学习研究使用</span>
+  </div>
+</footer>
+
+
+<script src="../static/js/charts.js"></script>
+  <script src="../static/js/static-api.js?v=5d8a63cd"></script>
+<script type="application/json" id="page-data">{"children": [{"currency": "CNY", "economy": "CHN", "gdp_native": 422613000000.0, "gdp_usd": 67853000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "内蒙古", "per_capita_native": 207163.0, "population": null, "region_code": "鄂尔多斯市", "region_name": "鄂尔多斯市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2015}, {"currency": "CNY", "economy": "CHN", "gdp_native": 372193000000.0, "gdp_usd": 59757000000.00001, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "内蒙古", "per_capita_native": 132253.0, "population": null, "region_code": "包头市", "region_name": "包头市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2015}, {"currency": "CNY", "economy": "CHN", "gdp_native": 309052000000.0, "gdp_usd": 49620000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "内蒙古", "per_capita_native": 101492.0, "population": null, "region_code": "呼和浩特市", "region_name": "呼和浩特市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2015}, {"currency": "CNY", "economy": "CHN", "gdp_native": 187744000000.0, "gdp_usd": 30143000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "内蒙古", "per_capita_native": 60128.0, "population": null, "region_code": "通辽市", "region_name": "通辽市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2015}, {"currency": "CNY", "economy": "CHN", "gdp_native": 186127000000.0, "gdp_usd": 29883999999.999996, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "内蒙古", "per_capita_native": 43269.0, "population": null, "region_code": "赤峰市", "region_name": "赤峰市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2015}, {"currency": "CNY", "economy": "CHN", "gdp_native": 159601000000.0, "gdp_usd": 25625000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "内蒙古", "per_capita_native": 63133.0, "population": null, "region_code": "呼伦贝尔市", "region_name": "呼伦贝尔市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2015}, {"currency": "CNY", "economy": "CHN", "gdp_native": 100010000000.0, "gdp_usd": 16057000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "内蒙古", "per_capita_native": 96025.0, "population": null, "region_code": "锡林郭勒盟", "region_name": "锡林郭勒盟", "source": "维基百科条目（数据源自官方统计公报）", "year": 2015}, {"currency": "CNY", "economy": "CHN", "gdp_native": 91377000000.0, "gdp_usd": 14671000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "内蒙古", "per_capita_native": 43221.0, "population": null, "region_code": "乌兰察布市", "region_name": "乌兰察布市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2015}, {"currency": "CNY", "economy": "CHN", "gdp_native": 88743000000.0, "gdp_usd": 14247999999.999998, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "内蒙古", "per_capita_native": 52987.0, "population": null, "region_code": "巴彦淖尔市", "region_name": "巴彦淖尔市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2015}, {"currency": "CNY", "economy": "CHN", "gdp_native": 55983000000.00001, "gdp_usd": 8988000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "内蒙古", "per_capita_native": 100870.0, "population": null, "region_code": "乌海市", "region_name": "乌海市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2015}, {"currency": "CNY", "economy": "CHN", "gdp_native": 50231000000.0, "gdp_usd": 8065000000.000001, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "内蒙古", "per_capita_native": 31391.0, "population": null, "region_code": "兴安盟", "region_name": "兴安盟", "source": "维基百科条目（数据源自官方统计公报）", "year": 2015}, {"currency": "CNY", "economy": "CHN", "gdp_native": 32258000000.0, "gdp_usd": 5179000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "内蒙古", "per_capita_native": 133187.0, "population": null, "region_code": "阿拉善盟", "region_name": "阿拉善盟", "source": "维基百科条目（数据源自官方统计公报）", "year": 2015}], "currency": "CNY", "growth": {"areas": 0, "average": null, "max": null, "min": null}, "metric": "per_capita", "mode": "year", "rank": [{"currency": "CNY", "gdp_native": 422613000000.0, "gdp_usd": 67853000000.0, "growth_rate": null, "increment_native": null, "parent_code": "内蒙古", "parent_name": "内蒙古", "per_capita_native": 207163.0, "population": null, "region_code": "鄂尔多斯市", "region_name": "鄂尔多斯市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2015}, {"currency": "CNY", "gdp_native": 32258000000.0, "gdp_usd": 5179000000.0, "growth_rate": null, "increment_native": null, "parent_code": "内蒙古", "parent_name": "内蒙古", "per_capita_native": 133187.0, "population": null, "region_code": "阿拉善盟", "region_name": "阿拉善盟", "source": "维基百科条目（数据源自官方统计公报）", "year": 2015}, {"currency": "CNY", "gdp_native": 372193000000.0, "gdp_usd": 59757000000.00001, "growth_rate": null, "increment_native": null, "parent_code": "内蒙古", "parent_name": "内蒙古", "per_capita_native": 132253.0, "population": null, "region_code": "包头市", "region_name": "包头市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2015}, {"currency": "CNY", "gdp_native": 309052000000.0, "gdp_usd": 49620000000.0, "growth_rate": null, "increment_native": null, "parent_code": "内蒙古", "parent_name": "内蒙古", "per_capita_native": 101492.0, "population": null, "region_code": "呼和浩特市", "region_name": "呼和浩特市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2015}, {"currency": "CNY", "gdp_native": 55983000000.00001, "gdp_usd": 8988000000.0, "growth_rate": null, "increment_native": null, "parent_code": "内蒙古", "parent_name": "内蒙古", "per_capita_native": 100870.0, "population": null, "region_code": "乌海市", "region_name": "乌海市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2015}, {"currency": "CNY", "gdp_native": 100010000000.0, "gdp_usd": 16057000000.0, "growth_rate": null, "increment_native": null, "parent_code": "内蒙古", "parent_name": "内蒙古", "per_capita_native": 96025.0, "population": null, "region_code": "锡林郭勒盟", "region_name": "锡林郭勒盟", "source": "维基百科条目（数据源自官方统计公报）", "year": 2015}, {"currency": "CNY", "gdp_native": 43985000000.0, "gdp_usd": 7062000000.0, "growth_rate": null, "increment_native": null, "parent_code": "青海", "parent_name": "青海", "per_capita_native": 86713.0, "population": null, "region_code": "海西州", "region_name": "海西州", "source": "维基百科条目（数据源自官方统计公报）", "year": 2015}, {"currency": "CNY", "gdp_native": 19004000000.0, "gdp_usd": 3051000000.0, "growth_rate": null, "increment_native": null, "parent_code": "甘肃", "parent_name": "甘肃", "per_capita_native": 78336.0, "population": null, "region_code": "嘉峪关市", "region_name": "嘉峪关市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2015}, {"currency": "CNY", "gdp_native": 249188000000.0, "gdp_usd": 40008000000.0, "growth_rate": null, "increment_native": null, "parent_code": "陕西", "parent_name": "陕西", "per_capita_native": 73453.0, "population": null, "region_code": "榆林市", "region_name": "榆林市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2015}, {"currency": "CNY", "gdp_native": 149386000000.0, "gdp_usd": 23985000000.0, "growth_rate": null, "increment_native": null, "parent_code": "宁夏", "parent_name": "宁夏", "per_capita_native": 69595.0, "population": null, "region_code": "银川市", "region_name": "银川市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2015}, {"currency": "CNY", "gdp_native": 580120000000.0, "gdp_usd": 93141000000.0, "growth_rate": null, "increment_native": null, "parent_code": "陕西", "parent_name": "陕西", "per_capita_native": 66938.0, "population": null, "region_code": "西安市", "region_name": "西安市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2015}, {"currency": "CNY", "gdp_native": 159601000000.0, "gdp_usd": 25625000000.0, "growth_rate": null, "increment_native": null, "parent_code": "内蒙古", "parent_name": "内蒙古", "per_capita_native": 63133.0, "population": null, "region_code": "呼伦贝尔市", "region_name": "呼伦贝尔市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2015}, {"currency": "CNY", "gdp_native": 48260000000.0, "gdp_usd": 7748000000.0, "growth_rate": null, "increment_native": null, "parent_code": "宁夏", "parent_name": "宁夏", "per_capita_native": 61844.0, "population": null, "region_code": "石嘴山市", "region_name": "石嘴山市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2015}, {"currency": "CNY", "gdp_native": 37673000000.0, "gdp_usd": 6049000000.0, "growth_rate": null, "increment_native": null, "parent_code": "西藏", "parent_name": "西藏", "per_capita_native": 60171.0, "population": null, "region_code": "拉萨市", "region_name": "拉萨市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2015}, {"currency": "CNY", "gdp_native": 187744000000.0, "gdp_usd": 30143000000.0, "growth_rate": null, "increment_native": null, "parent_code": "内蒙古", "parent_name": "内蒙古", "per_capita_native": 60128.0, "population": null, "region_code": "通辽市", "region_name": "通辽市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2015}, {"currency": "CNY", "gdp_native": 209598999999.99997, "gdp_usd": 33652000000.0, "growth_rate": null, "increment_native": null, "parent_code": "甘肃", "parent_name": "甘肃", "per_capita_native": 56972.0, "population": null, "region_code": "兰州市", "region_name": "兰州市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2015}, {"currency": "CNY", "gdp_native": 119827000000.0, "gdp_usd": 19239000000.0, "growth_rate": null, "increment_native": null, "parent_code": "陕西", "parent_name": "陕西", "per_capita_native": 53908.0, "population": null, "region_code": "延安市", "region_name": "延安市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2015}, {"currency": "CNY", "gdp_native": 88743000000.0, "gdp_usd": 14247999999.999998, "growth_rate": null, "increment_native": null, "parent_code": "内蒙古", "parent_name": "内蒙古", "per_capita_native": 52987.0, "population": null, "region_code": "巴彦淖尔市", "region_name": "巴彦淖尔市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2015}, {"currency": "CNY", "gdp_native": 113161999999.99998, "gdp_usd": 18169000000.0, "growth_rate": null, "increment_native": null, "parent_code": "青海", "parent_name": "青海", "per_capita_native": 49185.0, "population": null, "region_code": "西宁市", "region_name": "西宁市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2015}, {"currency": "CNY", "gdp_native": 10433000000.0, "gdp_usd": 1675000000.0, "growth_rate": null, "increment_native": null, "parent_code": "西藏", "parent_name": "西藏", "per_capita_native": 49039.0, "population": null, "region_code": "林芝市", "region_name": "林芝市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2015}, {"currency": "CNY", "gdp_native": 54479999999.99999, "gdp_usd": 8747000000.0, "growth_rate": null, "increment_native": null, "parent_code": "甘肃", "parent_name": "甘肃", "per_capita_native": 48920.0, "population": null, "region_code": "酒泉市", "region_name": "酒泉市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2015}, {"currency": "CNY", "gdp_native": 22452000000.0, "gdp_usd": 3604999999.9999995, "growth_rate": null, "increment_native": null, "parent_code": "甘肃", "parent_name": "甘肃", "per_capita_native": 47739.0, "population": null, "region_code": "金昌市", "region_name": "金昌市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2015}, {"currency": "CNY", "gdp_native": 178763000000.0, "gdp_usd": 28701000000.0, "growth_rate": null, "increment_native": null, "parent_code": "陕西", "parent_name": "陕西", "per_capita_native": 47565.0, "population": null, "region_code": "宝鸡市", "region_name": "宝鸡市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2015}, {"currency": "CNY", "gdp_native": 215292000000.0, "gdp_usd": 34566000000.0, "growth_rate": null, "increment_native": null, "parent_code": "陕西", "parent_name": "陕西", "per_capita_native": 43365.0, "population": null, "region_code": "咸阳市", "region_name": "咸阳市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2015}, {"currency": "CNY", "gdp_native": 186127000000.0, "gdp_usd": 29883999999.999996, "growth_rate": null, "increment_native": null, "parent_code": "内蒙古", "parent_name": "内蒙古", "per_capita_native": 43269.0, "population": null, "region_code": "赤峰市", "region_name": "赤峰市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2015}, {"currency": "CNY", "gdp_native": 91377000000.0, "gdp_usd": 14671000000.0, "growth_rate": null, "increment_native": null, "parent_code": "内蒙古", "parent_name": "内蒙古", "per_capita_native": 43221.0, "population": null, "region_code": "乌兰察布市", "region_name": "乌兰察布市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2015}, {"currency": "CNY", "gdp_native": 3711999999.9999995, "gdp_usd": 596000000.0, "growth_rate": null, "increment_native": null, "parent_code": "西藏", "parent_name": "西藏", "per_capita_native": 36378.0, "population": null, "region_code": "阿里地区", "region_name": "阿里地区", "source": "维基百科条目（数据源自官方统计公报）", "year": 2015}, {"currency": "CNY", "gdp_native": 30716000000.000004, "gdp_usd": 4932000000.0, "growth_rate": null, "increment_native": null, "parent_code": "陕西", "parent_name": "陕西", "per_capita_native": 36322.0, "population": null, "region_code": "铜川市", "region_name": "铜川市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2015}, {"currency": "CNY", "gdp_native": 9486000000.0, "gdp_usd": 1523000000.0, "growth_rate": null, "increment_native": null, "parent_code": "青海", "parent_name": "青海", "per_capita_native": 34122.0, "population": null, "region_code": "海北州", "region_name": "海北州", "source": "维基百科条目（数据源自官方统计公报）", "year": 2015}, {"currency": "CNY", "gdp_native": 11362000000.0, "gdp_usd": 1823999999.9999998, "growth_rate": null, "increment_native": null, "parent_code": "西藏", "parent_name": "西藏", "per_capita_native": 32384.0, "population": null, "region_code": "山南地区", "region_name": "山南地区", "source": "维基百科条目（数据源自官方统计公报）", "year": 2015}], "total": 5121199000000.0, "year": 2015}</script>
+<script src="../static/js/pages/region.js"></script>
+
+</body>
+</html>

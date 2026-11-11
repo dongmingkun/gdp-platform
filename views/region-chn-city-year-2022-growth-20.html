@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>区域对比 · 全球 GDP 数据采集与可视化分析平台</title>
+  <link rel="stylesheet" href="../static/css/style.css">
+
+  <script src="../static/vendor/echarts.min.js"></script>
+</head>
+<body>
+<header class="topbar">
+  <div class="container topbar-inner">
+    <div class="brand">
+      <span class="logo">GDP</span>
+      <div class="brand-text">
+        <strong>全球 GDP 数据采集与可视化分析平台</strong>
+        <small>城市经济格局 · 全球参照 · 数据口径与来源可查</small>
+      </div>
+    </div>
+    <nav class="nav">
+      <a href="../index.html" class="">总览</a>
+      <a href="../region.html" class="active">城市格局</a>
+      <a href="../rank.html" class="">全球排行</a>
+      <a href="../trend.html" class="">趋势分析</a>
+      <a href="../compare.html" class="">国家对比</a>
+      <a href="../share.html" class="">份额变化</a>
+      <a href="../china.html" class="">中国季度</a>
+      <a href="../dataset.html" class="">数据集</a>
+      <a href="../about.html" class="">关于</a>
+    </nav>
+  </div>
+</header>
+
+
+
+<div class="demo-bar">
+  <div class="container">
+    <strong>在线演示站点</strong>
+    数据为 <b>2026-10-17 13:16:20</b> 的只读快照，采集与数据补录功能已关闭；
+    全部功能与源码见项目本地版本（Python 课程大作业）。
+  </div>
+</div>
+
+
+<main class="container">
+
+<div class="panel">
+  <div class="panel-head">
+    <h2>区域 GDP 对比与增长趋势</h2>
+    <span class="hint">美国数据来自经济分析局（BEA）官方批量文件；中国与日本数据来自维基百科统计条目；带「人工整理」标记的记录来自榜单整理</span>
+  </div>
+  <form class="toolbar toolbar-grid" method="get" action="../region.html" id="region-form">
+    <input type="hidden" name="metric" value="growth">
+    <div class="field">
+      <label>经济体</label>
+      <select name="economy">
+
+        <option value="CHN" selected>中国</option>
+
+        <option value="USA" >美国</option>
+
+        <option value="JPN" >日本</option>
+
+      </select>
+    </div>
+    <div class="field">
+      <label>区域层级</label>
+      <select name="level">
+
+        <option value="city" selected>
+          地级行政区（城市）（361 个）
+        </option>
+
+        <option value="province" >
+          省级行政区（33 个）
+        </option>
+
+      </select>
+    </div>
+    <div class="field field-metric">
+      <label>指标</label>
+      <div class="segmented">
+        <button type="submit" data-metric="gdp" value="gdp" class="">GDP 总量</button>
+        <button type="submit" data-metric="per_capita" value="per_capita" class="">人均 GDP</button>
+        <button type="submit" data-metric="growth" value="growth" class="on">名义增速</button>
+      </div>
+    </div>
+    <div class="field">
+      <label>统计口径</label>
+      <select name="mode">
+        <option value="latest" >各区域最新可得</option>
+        <option value="year" selected>限定某一年</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label>年份</label>
+      <select name="year">
+        <option value="2025" >2025 年</option><option value="2024" >2024 年</option><option value="2023" >2023 年</option><option value="2022" selected>2022 年</option><option value="2021" >2021 年</option><option value="2020" >2020 年</option><option value="2019" >2019 年</option><option value="2018" >2018 年</option><option value="2017" >2017 年</option><option value="2015" >2015 年</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label>显示数量</label>
+      <select name="limit">
+        <option value="10" >前 10 名</option><option value="20" selected>前 20 名</option><option value="30" >前 30 名</option><option value="50" >前 50 名</option><option value="100" >前 100 名</option><option value="200" >前 200 名</option><option value="400" >前 400 名</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>筛选区域</label>
+      <input type="text" name="keyword" value="" placeholder="城市或省份名">
+    </div>
+    <div class="field field-actions">
+      <label>&nbsp;</label>
+      <div class="action-row">
+        <button type="submit">查询</button>
+        <a class="btn ghost" href="../views/region-chn-city-latest-latest-gdp-20.html">重置</a>
+        <a class="btn ghost" data-region-export href="../data/dataset/region-export-CHN-city.csv">导出 CSV</a>
+      </div>
+    </div>
+  </form>
+  <div class="quick-row">
+    <span class="quick-label">快捷视图</span>
+    <a class="chip "
+       href="../views/region-chn-city-year-2025-gdp-400.html">中国城市 2025（全部 336）</a>
+    <a class="chip "
+       href="../views/region-chn-city-latest-latest-gdp-20.html">中国城市·各年最新</a>
+    <a class="chip "
+       href="../views/region-chn-province-year-2025-gdp-20.html">中国省级 2025</a>
+    <a class="chip "
+       href="../views/region-usa-state-latest-latest-gdp-20.html">美国各州</a>
+    <a class="chip "
+       href="../views/region-usa-county-latest-latest-gdp-20.html">美国各县</a>
+    <a class="chip "
+       href="../views/region-jpn-prefecture-latest-latest-gdp-20.html">日本都道府县</a>
+    <a class="chip on"
+       href="../views/region-chn-city-year-2025-growth-400.html">2025 增速排行</a>
+  </div>
+</div>
+
+<div class="cards">
+  <div class="card">
+    <div class="label">中国 · 地级行政区（城市）</div>
+    <div class="value">0<span class="unit">个区域</span></div>
+    <div class="foot">
+      数据年份 2022 年
+       · 仅统计有增速数据的区域
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="label">样本名义增速简单平均</div>
+    <div class="value" id="kpi-average">-</div>
+    <div class="foot">共 0 个区域有增速数据</div>
+  </div>
+  <div class="card accent">
+    <div class="label">本页增速最高</div>
+    <div class="value" style="font-size:20px" id="kpi-top">-</div>
+    <div class="foot" id="kpi-top-foot">—</div>
+  </div>
+  <div class="card accent">
+    <div class="label">本页增速最低</div>
+    <div class="value" style="font-size:20px" id="kpi-bottom">-</div>
+    <div class="foot" id="kpi-bottom-foot">—</div>
+  </div>
+
+</div>
+
+
+
+<div class="panel">
+  <div class="panel-head">
+    <h2>中国 地级行政区（城市）名义增速排行</h2>
+    <span class="hint">2022 年 · 鼠标悬停查看数值</span>
+  </div>
+  <div id="chart-region" class="chart chart-lg"></div>
+</div>
+
+<div class="panel">
+  <div class="panel-head">
+    <h2>排行明细</h2>
+    <div class="head-actions">
+      <span class="hint">共 0 条 · 「上年（推算）」= GDP − 增量</span>
+
+    </div>
+  </div>
+
+  <div class="empty">
+
+      这个层级还没有增速数据。增速来自榜单整理（目前覆盖 2025 年前 34 个城市），可到「数据集」页用“人工整理”数据源补充。
+
+  </div>
+
+</div>
+
+
+<div class="panel" id="drill">
+  <div class="panel-head">
+    <h2>下钻查看：<span id="drill-title">云南</span> 下辖城市</h2>
+    <span class="hint">选定后下方图表与表格即时刷新，不必等整页加载</span>
+  </div>
+  <form class="toolbar" method="get" action="/region#drill" id="drill-form">
+    <input type="hidden" name="economy" value="CHN">
+    <input type="hidden" name="level" value="city">
+    <input type="hidden" name="mode" value="year">
+    <input type="hidden" name="metric" value="growth">
+    <input type="hidden" name="year" value="2022">
+    <div class="field">
+      <label>选择省份</label>
+
+      <select name="parent" id="drill-parent">
+
+        <option value="上海" >上海</option>
+
+        <option value="云南" selected>云南</option>
+
+        <option value="内蒙古" >内蒙古</option>
+
+        <option value="北京" >北京</option>
+
+        <option value="吉林" >吉林</option>
+
+        <option value="四川" >四川</option>
+
+        <option value="天津" >天津</option>
+
+        <option value="宁夏" >宁夏</option>
+
+        <option value="安徽" >安徽</option>
+
+        <option value="山东" >山东</option>
+
+        <option value="山西" >山西</option>
+
+        <option value="广东" >广东</option>
+
+        <option value="广西" >广西</option>
+
+        <option value="新疆" >新疆</option>
+
+        <option value="江苏" >江苏</option>
+
+        <option value="江西" >江西</option>
+
+        <option value="河北" >河北</option>
+
+        <option value="河南" >河南</option>
+
+        <option value="浙江" >浙江</option>
+
+        <option value="海南" >海南</option>
+
+        <option value="湖北" >湖北</option>
+
+        <option value="湖南" >湖南</option>
+
+        <option value="澳门" >澳门</option>
+
+        <option value="甘肃" >甘肃</option>
+
+        <option value="福建" >福建</option>
+
+        <option value="西藏" >西藏</option>
+
+        <option value="贵州" >贵州</option>
+
+        <option value="辽宁" >辽宁</option>
+
+        <option value="重庆" >重庆</option>
+
+        <option value="陕西" >陕西</option>
+
+        <option value="青海" >青海</option>
+
+        <option value="香港" >香港</option>
+
+        <option value="黑龙江" >黑龙江</option>
+
+      </select>
+    </div>
+    <button type="submit" id="drill-button">查看</button>
+    <div class="field">
+      <label>常用省份</label>
+      <div class="chip-row">
+
+        <button type="button" class="chip" data-parent="上海">上海</button>
+
+        <button type="button" class="chip" data-parent="云南">云南</button>
+
+        <button type="button" class="chip" data-parent="内蒙古">内蒙古</button>
+
+        <button type="button" class="chip" data-parent="北京">北京</button>
+
+        <button type="button" class="chip" data-parent="吉林">吉林</button>
+
+        <button type="button" class="chip" data-parent="四川">四川</button>
+
+        <button type="button" class="chip" data-parent="天津">天津</button>
+
+        <button type="button" class="chip" data-parent="宁夏">宁夏</button>
+
+      </div>
+    </div>
+  </form>
+  <div id="chart-children" class="chart"></div>
+  <div class="table-wrap table-sm" style="margin-top:12px">
+    <table class="data">
+      <thead><tr><th>名次</th><th>区域</th><th class="num">GDP</th><th class="num">增量</th>
+                 <th class="num">名义增速</th><th class="num">人均 GDP</th><th class="num">数据年份</th></tr></thead>
+      <tbody id="children-body">
+
+        <tr data-gdp="754137000000.0" data-inc=""
+            data-rate="">
+          <td><span class="rank-no">1</span></td>
+          <td><b>昆明市</b></td>
+          <td class="num" data-value="754137000000.0" data-currency="CNY">-</td>
+          <td class="num" data-money="" data-currency="CNY">-</td>
+          <td class="num" data-rate-cell="-">-</td>
+          <td class="num">88,193 元</td>
+          <td class="num">2022</td>
+        </tr>
+
+        <tr data-gdp="380220000000.0" data-inc=""
+            data-rate="">
+          <td><span class="rank-no">2</span></td>
+          <td><b>曲靖市</b></td>
+          <td class="num" data-value="380220000000.0" data-currency="CNY">-</td>
+          <td class="num" data-money="" data-currency="CNY">-</td>
+          <td class="num" data-rate-cell="-">-</td>
+          <td class="num">66,373 元</td>
+          <td class="num">2022</td>
+        </tr>
+
+        <tr data-gdp="286308000000.0" data-inc=""
+            data-rate="">
+          <td><span class="rank-no">3</span></td>
+          <td><b>红河州</b></td>
+          <td class="num" data-value="286308000000.0" data-currency="CNY">-</td>
+          <td class="num" data-money="" data-currency="CNY">-</td>
+          <td class="num" data-rate-cell="-">-</td>
+          <td class="num">64,768 元</td>
+          <td class="num">2022</td>
+        </tr>
+
+        <tr data-gdp="252057000000.00003" data-inc=""
+            data-rate="">
+          <td><span class="rank-no">4</span></td>
+          <td><b>玉溪市</b></td>
+          <td class="num" data-value="252057000000.00003" data-currency="CNY">-</td>
+          <td class="num" data-money="" data-currency="CNY">-</td>
+          <td class="num" data-rate-cell="-">-</td>
+          <td class="num">111,579 元</td>
+          <td class="num">2022</td>
+        </tr>
+
+        <tr data-gdp="176342000000.0" data-inc=""
+            data-rate="">
+          <td><span class="rank-no">5</span></td>
+          <td><b>楚雄州</b></td>
+          <td class="num" data-value="176342000000.0" data-currency="CNY">-</td>
+          <td class="num" data-money="" data-currency="CNY">-</td>
+          <td class="num" data-rate-cell="-">-</td>
+          <td class="num">74,046 元</td>
+          <td class="num">2022</td>
+        </tr>
+
+        <tr data-gdp="169962000000.0" data-inc=""
+            data-rate="">
+          <td><span class="rank-no">6</span></td>
+          <td><b>大理州</b></td>
+          <td class="num" data-value="169962000000.0" data-currency="CNY">-</td>
+          <td class="num" data-money="" data-currency="CNY">-</td>
+          <td class="num" data-rate-cell="-">-</td>
+          <td class="num">51,302 元</td>
+          <td class="num">2022</td>
+        </tr>
+
+        <tr data-gdp="154102000000.0" data-inc=""
+            data-rate="">
+          <td><span class="rank-no">7</span></td>
+          <td><b>昭通市</b></td>
+          <td class="num" data-value="154102000000.0" data-currency="CNY">-</td>
+          <td class="num" data-money="" data-currency="CNY">-</td>
+          <td class="num" data-rate-cell="-">-</td>
+          <td class="num">30,935 元</td>
+          <td class="num">2022</td>
+        </tr>
+
+        <tr data-gdp="140539000000.0" data-inc=""
+            data-rate="">
+          <td><span class="rank-no">8</span></td>
+          <td><b>文山州</b></td>
+          <td class="num" data-value="140539000000.0" data-currency="CNY">-</td>
+          <td class="num" data-money="" data-currency="CNY">-</td>
+          <td class="num" data-rate-cell="-">-</td>
+          <td class="num">40,748 元</td>
+          <td class="num">2022</td>
+        </tr>
+
+        <tr data-gdp="126244000000.0" data-inc=""
+            data-rate="">
+          <td><span class="rank-no">9</span></td>
+          <td><b>保山市</b></td>
+          <td class="num" data-value="126244000000.0" data-currency="CNY">-</td>
+          <td class="num" data-money="" data-currency="CNY">-</td>
+          <td class="num" data-rate-cell="-">-</td>
+          <td class="num">52,438 元</td>
+          <td class="num">2022</td>
+        </tr>
+
+        <tr data-gdp="107297000000.0" data-inc=""
+            data-rate="">
+          <td><span class="rank-no">10</span></td>
+          <td><b>普洱市</b></td>
+          <td class="num" data-value="107297000000.0" data-currency="CNY">-</td>
+          <td class="num" data-money="" data-currency="CNY">-</td>
+          <td class="num" data-rate-cell="-">-</td>
+          <td class="num">45,168 元</td>
+          <td class="num">2022</td>
+        </tr>
+
+        <tr data-gdp="100024000000.0" data-inc=""
+            data-rate="">
+          <td><span class="rank-no">11</span></td>
+          <td><b>临沧市</b></td>
+          <td class="num" data-value="100024000000.0" data-currency="CNY">-</td>
+          <td class="num" data-money="" data-currency="CNY">-</td>
+          <td class="num" data-rate-cell="-">-</td>
+          <td class="num">44,723 元</td>
+          <td class="num">2022</td>
+        </tr>
+
+        <tr data-gdp="72139000000.0" data-inc=""
+            data-rate="">
+          <td><span class="rank-no">12</span></td>
+          <td><b>西双版纳州</b></td>
+          <td class="num" data-value="72139000000.0" data-currency="CNY">-</td>
+          <td class="num" data-money="" data-currency="CNY">-</td>
+          <td class="num" data-rate-cell="-">-</td>
+          <td class="num">55,194 元</td>
+          <td class="num">2022</td>
+        </tr>
+
+        <tr data-gdp="62010000000.0" data-inc=""
+            data-rate="">
+          <td><span class="rank-no">13</span></td>
+          <td><b>丽江市</b></td>
+          <td class="num" data-value="62010000000.0" data-currency="CNY">-</td>
+          <td class="num" data-money="" data-currency="CNY">-</td>
+          <td class="num" data-rate-cell="-">-</td>
+          <td class="num">49,768 元</td>
+          <td class="num">2022</td>
+        </tr>
+
+        <tr data-gdp="58712000000.0" data-inc=""
+            data-rate="">
+          <td><span class="rank-no">14</span></td>
+          <td><b>德宏州</b></td>
+          <td class="num" data-value="58712000000.0" data-currency="CNY">-</td>
+          <td class="num" data-money="" data-currency="CNY">-</td>
+          <td class="num" data-rate-cell="-">-</td>
+          <td class="num">44,530 元</td>
+          <td class="num">2022</td>
+        </tr>
+
+        <tr data-gdp="30336000000.0" data-inc=""
+            data-rate="">
+          <td><span class="rank-no">15</span></td>
+          <td><b>迪庆州</b></td>
+          <td class="num" data-value="30336000000.0" data-currency="CNY">-</td>
+          <td class="num" data-money="" data-currency="CNY">-</td>
+          <td class="num" data-rate-cell="-">-</td>
+          <td class="num">77,785 元</td>
+          <td class="num">2022</td>
+        </tr>
+
+        <tr data-gdp="24993000000.0" data-inc=""
+            data-rate="">
+          <td><span class="rank-no">16</span></td>
+          <td><b>怒江州</b></td>
+          <td class="num" data-value="24993000000.0" data-currency="CNY">-</td>
+          <td class="num" data-money="" data-currency="CNY">-</td>
+          <td class="num" data-rate-cell="-">-</td>
+          <td class="num">45,441 元</td>
+          <td class="num">2022</td>
+        </tr>
+
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+<div class="panel">
+  <div class="panel-head">
+    <h2>中国省级与美国州级对照（按美元）</h2>
+    <span class="hint">两侧各取最新一年的前六名，数值取自数据源本身</span>
+  </div>
+  <div id="chart-compare" class="chart chart-lg"></div>
+</div>
+
+<div class="panel">
+  <div class="panel-head"><h2>关于区域数据</h2></div>
+  <dl class="meta">
+    <dt>增速与增量</dt>
+    <dd>名义增速 = 当年 GDP 相对上一年的名义增长（含价格因素），与实际增速口径不同；「上年（推算）」由当年 GDP 减去增量得到，把两年的变化摆在一起看。增速数据目前覆盖 2025 年前 34 个城市（来源：另一份榜单明细，与总量表逐位核对一致）。</dd>
+    <dt>年份说明</dt>
+    <dd>中国地级行政区共有 336 个城市为 2025 年数据（含 4 个直辖市，数据源自各地统计局，经榜单整理入库），每个城市同时记录了常住人口与人均 GDP；少数县级单位（如海南、湖北的省直管县）仍为较早年份，逐行标注了数据年份。美国州与县为 2001—2024 年逐年，中国省级为 2025 年（另有 2023 年），日本都道府县为 2019 年。</dd>
+    <dt>直辖市</dt>
+    <dd>北京、天津、上海、重庆在行政级别上属于省级，但在城市排行里也应出现，因此同时计入省级与城市两个层级。</dd>
+    <dt>层级差异</dt>
+    <dd>少数省份的表格把省直管县级市一并列出（如海南、湖北），因此其“城市”数量会多于地级行政区数量。</dd>
+    <dt>货币不同</dt>
+    <dd>人民币、日元、美元不混在一起比较；跨经济体比较使用数据源给出的美元折算值，站内不自造汇率。</dd>
+  </dl>
+</div>
+
+</main>
+
+<footer class="footer">
+  <div class="container footer-inner">
+    <span>全球 GDP 数据采集与可视化分析平台 · Python 课程大作业</span>
+    <span>世界银行 · 东方财富 · BEA · 维基百科 · 人工整理 · 仅供学习研究使用</span>
+  </div>
+</footer>
+
+
+<script src="../static/js/charts.js"></script>
+  <script src="../static/js/static-api.js?v=5d8a63cd"></script>
+<script type="application/json" id="page-data">{"children": [{"currency": "CNY", "economy": "CHN", "gdp_native": 754137000000.0, "gdp_usd": 111230000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "云南", "per_capita_native": 88193.0, "population": null, "region_code": "昆明市", "region_name": "昆明市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2022}, {"currency": "CNY", "economy": "CHN", "gdp_native": 380220000000.0, "gdp_usd": 56079999999.99999, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "云南", "per_capita_native": 66373.0, "population": null, "region_code": "曲靖市", "region_name": "曲靖市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2022}, {"currency": "CNY", "economy": "CHN", "gdp_native": 286308000000.0, "gdp_usd": 42228000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "云南", "per_capita_native": 64768.0, "population": null, "region_code": "红河州", "region_name": "红河州", "source": "维基百科条目（数据源自官方统计公报）", "year": 2022}, {"currency": "CNY", "economy": "CHN", "gdp_native": 252057000000.00003, "gdp_usd": 37177000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "云南", "per_capita_native": 111579.0, "population": null, "region_code": "玉溪市", "region_name": "玉溪市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2022}, {"currency": "CNY", "economy": "CHN", "gdp_native": 176342000000.0, "gdp_usd": 26008999999.999996, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "云南", "per_capita_native": 74046.0, "population": null, "region_code": "楚雄州", "region_name": "楚雄州", "source": "维基百科条目（数据源自官方统计公报）", "year": 2022}, {"currency": "CNY", "economy": "CHN", "gdp_native": 169962000000.0, "gdp_usd": 25068000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "云南", "per_capita_native": 51302.0, "population": null, "region_code": "大理州", "region_name": "大理州", "source": "维基百科条目（数据源自官方统计公报）", "year": 2022}, {"currency": "CNY", "economy": "CHN", "gdp_native": 154102000000.0, "gdp_usd": 22729000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "云南", "per_capita_native": 30935.0, "population": null, "region_code": "昭通市", "region_name": "昭通市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2022}, {"currency": "CNY", "economy": "CHN", "gdp_native": 140539000000.0, "gdp_usd": 20728000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "云南", "per_capita_native": 40748.0, "population": null, "region_code": "文山州", "region_name": "文山州", "source": "维基百科条目（数据源自官方统计公报）", "year": 2022}, {"currency": "CNY", "economy": "CHN", "gdp_native": 126244000000.0, "gdp_usd": 18620000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "云南", "per_capita_native": 52438.0, "population": null, "region_code": "保山市", "region_name": "保山市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2022}, {"currency": "CNY", "economy": "CHN", "gdp_native": 107297000000.0, "gdp_usd": 15826000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "云南", "per_capita_native": 45168.0, "population": null, "region_code": "普洱市", "region_name": "普洱市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2022}, {"currency": "CNY", "economy": "CHN", "gdp_native": 100024000000.0, "gdp_usd": 14753000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "云南", "per_capita_native": 44723.0, "population": null, "region_code": "临沧市", "region_name": "临沧市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2022}, {"currency": "CNY", "economy": "CHN", "gdp_native": 72139000000.0, "gdp_usd": 10640000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "云南", "per_capita_native": 55194.0, "population": null, "region_code": "西双版纳州", "region_name": "西双版纳州", "source": "维基百科条目（数据源自官方统计公报）", "year": 2022}, {"currency": "CNY", "economy": "CHN", "gdp_native": 62010000000.0, "gdp_usd": 9146000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "云南", "per_capita_native": 49768.0, "population": null, "region_code": "丽江市", "region_name": "丽江市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2022}, {"currency": "CNY", "economy": "CHN", "gdp_native": 58712000000.0, "gdp_usd": 8660000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "云南", "per_capita_native": 44530.0, "population": null, "region_code": "德宏州", "region_name": "德宏州", "source": "维基百科条目（数据源自官方统计公报）", "year": 2022}, {"currency": "CNY", "economy": "CHN", "gdp_native": 30336000000.0, "gdp_usd": 4474000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "云南", "per_capita_native": 77785.0, "population": null, "region_code": "迪庆州", "region_name": "迪庆州", "source": "维基百科条目（数据源自官方统计公报）", "year": 2022}, {"currency": "CNY", "economy": "CHN", "gdp_native": 24993000000.0, "gdp_usd": 3686000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "云南", "per_capita_native": 45441.0, "population": null, "region_code": "怒江州", "region_name": "怒江州", "source": "维基百科条目（数据源自官方统计公报）", "year": 2022}], "currency": "CNY", "growth": {"areas": 0, "average": null, "max": null, "min": null}, "metric": "growth", "mode": "year", "rank": [], "total": 5458799000000.0, "year": 2022}</script>
+<script src="../static/js/pages/region.js"></script>
+
+</body>
+</html>

@@ -274,7 +274,7 @@ def create_app(dao=None, start_task_manager=True, public_mode=None):
         keyword = request.args.get("keyword", "").strip() or None
         # 指标：总量 或 名义增速（增速只有部分区域有，页面会提示覆盖情况）
         metric = request.args.get("metric", "gdp")
-        if metric not in ("gdp", "growth"):
+        if metric not in ("gdp", "growth", "per_capita"):
             metric = "gdp"
         growth = dao.region_growth_summary(economy, level, year if mode == "year" else None) if level else {}
         if mode == "latest" and level:
@@ -511,7 +511,7 @@ def create_app(dao=None, start_task_manager=True, public_mode=None):
         keyword = request.args.get("keyword", "").strip() or None
         mode = request.args.get("mode") or "year"
         metric = request.args.get("metric", "gdp")
-        if metric not in ("gdp", "growth"):
+        if metric not in ("gdp", "growth", "per_capita"):
             metric = "gdp"
         if mode == "latest":
             items = dao.region_latest_rank(economy, level, limit, keyword=keyword, metric=metric)
@@ -535,7 +535,7 @@ def create_app(dao=None, start_task_manager=True, public_mode=None):
             levels = dao.region_levels(economy)
             level = levels[0]["level"] if levels else ""
         metric = request.args.get("metric", "gdp")
-        if metric not in ("gdp", "growth"):
+        if metric not in ("gdp", "growth", "per_capita"):
             metric = "gdp"
         keyword = request.args.get("keyword", "").strip() or None
         mode = request.args.get("mode") or "year"
@@ -690,7 +690,8 @@ def build_city_focus(dao, year=2025):
     if not rows:
         return {"empty": True}
     per_capita = sorted([(r["region_name"], r["per_capita_native"]) for r in rows
-                         if r["per_capita_native"]], key=lambda item: -item[1])
+                         if r["per_capita_native"] is not None and r["per_capita_native"] > 0],
+                        key=lambda item: -item[1])
     trillion = [r for r in rows if r["gdp_native"] >= 10000e8]
     # 按省份归入四大板块，看区域份额
     blocks = {"东部": "北京 天津 河北 上海 江苏 浙江 福建 山东 广东 海南".split(),
@@ -706,16 +707,15 @@ def build_city_focus(dao, year=2025):
     block_total = sum(item["gdp"] for item in block_stats.values()) or 1.0
     for item in block_stats.values():
         item["share"] = item["gdp"] / block_total * 100.0
-    # 人均梯队（按世界银行收入分组的大致门槛，汇率取数据源口径 7.14）
-    tiers = {"高收入": 0, "中高收入": 0, "中低收入": 0}
+    # 用本币数值分组，不把城市人均 GDP 解释成居民收入或世界银行收入分类。
+    bands = {"below_50000": 0, "50000_to_100000": 0, "at_least_100000": 0}
     for _, value in per_capita:
-        usd = value / 7.14
-        if usd > 14000:
-            tiers["高收入"] += 1
-        elif usd > 4500:
-            tiers["中高收入"] += 1
+        if value >= 100000:
+            bands["at_least_100000"] += 1
+        elif value >= 50000:
+            bands["50000_to_100000"] += 1
         else:
-            tiers["中低收入"] += 1
+            bands["below_50000"] += 1
     growth = dao.region_rank("CHN", "city", year, 400, metric="growth")
     return {
         "empty": False,
@@ -727,7 +727,8 @@ def build_city_focus(dao, year=2025):
         "per_capita_bottom": per_capita[-1] if per_capita else None,
         "per_capita_ratio": (per_capita[0][1] / per_capita[-1][1]) if len(per_capita) > 1 else None,
         "blocks": block_stats,
-        "tiers": tiers,
+        "per_capita_areas": len(per_capita),
+        "per_capita_bands": bands,
         "growth_areas": len(growth),
         "growth_average": dao.region_growth_summary("CHN", "city", year)["average"],
         "growth_fast": [(r["region_name"], r["growth_rate"]) for r in growth[:3]],
@@ -749,17 +750,18 @@ def build_summary(dao, year=None):
     usa = dao.series(["USA"], "gdp", latest, latest).get("USA") or []
     china_value = china[0][1] if china else 0.0
     usa_value = usa[0][1] if usa else 0.0
-    rank_series = dao.rank_series("CHN", "gdp")
+    rank_series = dao.rank_series("CHN", "gdp", end_year=latest)
     first_rank = rank_series[0] if rank_series else (None, None)
     # 中国自身的历史序列，用来计算“增长了多少倍”，支撑首页的叙事文案
-    china_history = dao.series(["CHN"], "gdp", None, None).get("CHN") or []
-    china_pc_history = dao.series(["CHN"], "per_capita", None, None).get("CHN") or []
+    china_history = dao.series(["CHN"], "gdp", None, latest).get("CHN") or []
+    china_pc_history = dao.series(["CHN"], "per_capita", None, latest).get("CHN") or []
+    counts = dao.counts()
     return {
         "empty": False,
         "latest_year": latest,
         "year_range": dao.year_range(),
-        "country_count": dao.counts()["country"],
-        "record_count": dao.counts()["annual"],
+        "country_count": len(dao.rank(latest, "gdp", None)),
+        "record_count": counts["annual"],
         "world_total": total,
         "top_country": top[0] if top else None,
         "china_value": china_value,
@@ -773,11 +775,12 @@ def build_summary(dao, year=None):
         "china_multiple": (china_value / china_history[0][1])
                           if china_history and china_history[0][1] else None,
         "china_per_capita_first": china_pc_history[0][1] if china_pc_history else None,
+        "china_per_capita_first_year": china_pc_history[0][0] if china_pc_history else None,
         "china_per_capita_multiple": (china_pc[0][1] / china_pc_history[0][1])
                                      if china_pc and china_pc_history and china_pc_history[0][1] else None,
         "usa_value": usa_value,
         "china_vs_usa": (china_value / usa_value * 100.0) if usa_value else 0.0,
-        "crawl_total": dao.counts()["quarter"],
+        "crawl_total": counts["quarter"],
         "last_update": dao.last_success_time(),
     }
 

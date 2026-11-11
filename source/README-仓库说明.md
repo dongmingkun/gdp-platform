@@ -6,9 +6,10 @@
 ## 快速开始
 
 ```bash
-python -m pip install -r requirements.txt    # 只依赖 flask 与 requests
+python -m pip install -r requirements.txt    # flask、requests、lxml
 python run.py                                # 启动网页服务（自动打开浏览器）
-python -m pytest tests -q                    # 85 个单元测试
+python -m pip install -r requirements-dev.txt
+python -m pytest tests -q                    # 运行离线回归测试
 ```
 
 数据库已随源码附带（`data/gdp.db`，17 MB）。需要更新数据时：
@@ -28,7 +29,7 @@ python deploy/export_static.py # 重新导出静态站点（会保留本目录�
 | `analysis/` | 分析层：`indicators.py`（纯函数）、`exporter.py`、`charts.py` |
 | `webapp/` | 应用与展示层：`app.py`（9 个页面 + 18 个接口）、`templates/`、`static/` |
 | `gui/` | Tkinter 桌面采集控制台 |
-| `tests/` | pytest 用例（85 个，全部离线运行） |
+| `tests/` | pytest 用例，覆盖解析、统计、接口、前端图表与静态等价性 |
 | `deploy/` | 部署与发布：Dockerfile、Render/Render 蓝图、Nginx、systemd、静态站点导出与等价性验证 |
 | `data/manual/` | 人工整理的数据文件（格式说明见该目录 README） |
 | `docs/` | 说明文档与文档生成脚本（不含生成出来的 docx/pdf 与截图） |

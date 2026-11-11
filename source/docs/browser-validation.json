@@ -1,0 +1,111 @@
+{
+  "checked_at": "2026-11-11T16:47:13.596Z",
+  "results": [
+    {
+      "site": "flask",
+      "page": "index",
+      "ok": true
+    },
+    {
+      "site": "flask",
+      "page": "rank",
+      "ok": true
+    },
+    {
+      "site": "flask",
+      "page": "trend",
+      "ok": true
+    },
+    {
+      "site": "flask",
+      "page": "compare",
+      "ok": true
+    },
+    {
+      "site": "flask",
+      "page": "share",
+      "ok": true
+    },
+    {
+      "site": "flask",
+      "page": "china",
+      "ok": true
+    },
+    {
+      "site": "flask",
+      "page": "region",
+      "ok": true
+    },
+    {
+      "site": "flask",
+      "page": "dataset",
+      "ok": true
+    },
+    {
+      "site": "flask",
+      "page": "about",
+      "ok": true
+    },
+    {
+      "site": "flask",
+      "flow": "per-capita -> limit -> growth",
+      "ok": true
+    },
+    {
+      "site": "static",
+      "page": "index",
+      "ok": true
+    },
+    {
+      "site": "static",
+      "page": "rank",
+      "ok": true
+    },
+    {
+      "site": "static",
+      "page": "trend",
+      "ok": true
+    },
+    {
+      "site": "static",
+      "page": "compare",
+      "ok": true
+    },
+    {
+      "site": "static",
+      "page": "share",
+      "ok": true
+    },
+    {
+      "site": "static",
+      "page": "china",
+      "ok": true
+    },
+    {
+      "site": "static",
+      "page": "region",
+      "ok": true
+    },
+    {
+      "site": "static",
+      "page": "dataset",
+      "ok": true
+    },
+    {
+      "site": "static",
+      "page": "about",
+      "ok": true
+    },
+    {
+      "site": "static",
+      "flow": "per-capita -> limit -> growth",
+      "ok": true
+    },
+    {
+      "site": "static",
+      "flow": "exact year / 10 rows / latest 400 / empty keyword",
+      "ok": true
+    }
+  ],
+  "errors": []
+}

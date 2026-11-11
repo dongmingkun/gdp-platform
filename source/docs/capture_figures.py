@@ -12,6 +12,7 @@
           python docs/capture_figures.py region    # 只重截区域页那六张（调样式时最快）
 """
 
+import os
 import subprocess
 import sys
 import tempfile
@@ -22,7 +23,7 @@ from PIL import Image
 BASE_DIR = Path(__file__).resolve().parent.parent
 FIG_DIR = BASE_DIR / "docs" / "figures"
 CHROME = r"C:\Program Files\Google\Chrome\Application\chrome.exe"
-BASE_URL = "http://127.0.0.1:5000"
+BASE_URL = os.environ.get("GDP_BASE_URL", "http://127.0.0.1:5000").rstrip("/")
 
 # 视口宽度取 980：比全屏窄一些，插图缩小后排进文档里文字仍然看得清；高度给足，截完再裁
 VIEW_WIDTH = 980
@@ -39,6 +40,8 @@ PAGES = [
     ("/region", "图-区域对比.png", 2500),
     ("/dataset", "图-数据集管理.png", 2400),
     ("/about", "图-关于与数据来源.png", 2600),
+    ("/region?economy=CHN&level=city&mode=year&year=2025&metric=per_capita&limit=400",
+     "图-人均排行-完整.png", 3800),
 ]
 
 # 细节图：(源页面, 输出文件名, 裁剪区域(左, 上, 右, 下))
@@ -60,6 +63,8 @@ DETAILS = [
     ("/dataset", "图-数据集-采集面板.png", (0, 80, VIEW_WIDTH, 430)),
     ("/dataset", "图-数据集-浏览.png", (0, 420, VIEW_WIDTH, 1340)),
     ("/dataset", "图-数据集-采集历史.png", (0, 1340, VIEW_WIDTH, 1916)),
+    ("/region?economy=CHN&level=city&mode=year&year=2025&metric=per_capita&limit=400",
+     "图-优化-人均排行.png", (0, 0, VIEW_WIDTH, 1120)),
 ]
 
 
@@ -231,7 +236,16 @@ def main():
         if source is None:
             continue
         target = FIG_DIR / filename
-        Image.open(source).convert("RGB").crop(box).save(target)
+        detail_image = Image.open(source).convert("RGB")
+        # 报告中的页面概览按完整面板结束，避免把下一张图或表格截成一条残片。
+        panel_ends = {"图-首页-上半.png": 2, "图-排行榜-上半.png": 1,
+                      "图-中国季度-上半.png": 1, "图-优化-人均排行.png": 2}
+        if filename in panel_ends:
+            bands = shot.content_bands(detail_image)
+            last = panel_ends[filename]
+            if len(bands) > last:
+                box = (0, 0, detail_image.width, min(detail_image.height, bands[last][1] + 8))
+        detail_image.crop(box).save(target)
         image = Image.open(target)
         print("  %-24s ← %-9s 细节图 %d×%d" % (filename, page, image.size[0], image.size[1]))
 

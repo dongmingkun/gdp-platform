@@ -8,6 +8,7 @@
     <span class="hint">美国数据来自经济分析局（BEA）官方批量文件；中国与日本数据来自维基百科统计条目；带「人工整理」标记的记录来自榜单整理</span>
   </div>
   <form class="toolbar toolbar-grid" method="get" action="{{ url_for('page_region') }}" id="region-form">
+    <input type="hidden" name="metric" value="{{ metric }}">
     <div class="field">
       <label>经济体</label>
       <select name="economy">
@@ -26,11 +27,12 @@
         {% endfor %}
       </select>
     </div>
-    <div class="field">
+    <div class="field field-metric">
       <label>指标</label>
       <div class="segmented">
-        <button type="submit" name="metric" value="gdp" class="{{ 'on' if metric == 'gdp' }}">GDP 总量</button>
-        <button type="submit" name="metric" value="growth" class="{{ 'on' if metric == 'growth' }}">名义增速</button>
+        <button type="submit" data-metric="gdp" value="gdp" class="{{ 'on' if metric == 'gdp' }}">GDP 总量</button>
+        <button type="submit" data-metric="per_capita" value="per_capita" class="{{ 'on' if metric == 'per_capita' }}">人均 GDP</button>
+        <button type="submit" data-metric="growth" value="growth" class="{{ 'on' if metric == 'growth' }}">名义增速</button>
       </div>
     </div>
     <div class="field">
@@ -63,7 +65,7 @@
       <div class="action-row">
         <button type="submit">查询</button>
         <a class="btn ghost" href="{{ url_for('page_region', economy=economy, level=level) }}">重置</a>
-        <a class="btn ghost" href="{{ url_for('api_region_export', economy=economy, level=level, metric=metric, mode=mode, year=year, keyword=keyword) }}">导出 CSV</a>
+        <a class="btn ghost" data-region-export href="{{ url_for('api_region_export', economy=economy, level=level, metric=metric, mode=mode, year=year, keyword=keyword) }}">导出 CSV</a>
       </div>
     </div>
   </form>
@@ -89,7 +91,7 @@
 <div class="cards">
   <div class="card">
     <div class="label">{{ economy_name }} · {{ level | region_level }}</div>
-    <div class="value">{{ total.areas if metric == 'gdp' else (growth.areas or 0) }}<span class="unit">个区域</span></div>
+    <div class="value">{{ (growth.areas or 0) if metric == 'growth' else total.areas }}<span class="unit">个区域</span></div>
     <div class="foot">
       {% if mode == 'latest' %}每个区域取各自最新可得年份{% else %}数据年份 {{ year }} 年{% endif %}
       {% if metric == 'growth' %} · 仅统计有增速数据的区域{% endif %}
@@ -97,7 +99,7 @@
   </div>
   {% if metric == 'growth' %}
   <div class="card">
-    <div class="label">平均名义增速</div>
+    <div class="label">样本名义增速简单平均</div>
     <div class="value" id="kpi-average">-</div>
     <div class="foot">共 {{ growth.areas or 0 }} 个区域有增速数据</div>
   </div>
@@ -110,6 +112,22 @@
     <div class="label">本页增速最低</div>
     <div class="value" style="font-size:20px" id="kpi-bottom">-</div>
     <div class="foot" id="kpi-bottom-foot">—</div>
+  </div>
+  {% elif metric == 'per_capita' %}
+  <div class="card">
+    <div class="label">当前列表人均 GDP 最高</div>
+    <div class="value" style="font-size:20px" id="kpi-top">—</div>
+    <div class="foot" id="kpi-top-foot">—</div>
+  </div>
+  <div class="card">
+    <div class="label">当前列表人均 GDP 最低</div>
+    <div class="value" style="font-size:20px" id="kpi-bottom">—</div>
+    <div class="foot" id="kpi-bottom-foot">—</div>
+  </div>
+  <div class="card">
+    <div class="label">本页有效人均样本</div>
+    <div class="value">{{ rank|length }}<span class="unit">个</span></div>
+    <div class="foot">只列出有有效人均值的区域；不对人均值求合计</div>
   </div>
   {% else %}
   <div class="card">
@@ -148,7 +166,7 @@
 
 <div class="panel">
   <div class="panel-head">
-    <h2>{{ economy_name }} {{ level | region_level }}{{ '名义增速' if metric == 'growth' else '' }}排行</h2>
+    <h2>{{ economy_name }} {{ level | region_level }}{{ '名义增速' if metric == 'growth' else ('人均 GDP' if metric == 'per_capita' else 'GDP 总量') }}排行</h2>
     <span class="hint">{{ '各区域最新可得年份' if mode == 'latest' else year ~ ' 年' }} · 鼠标悬停查看数值</span>
   </div>
   <div id="chart-region" class="chart chart-lg"></div>
@@ -175,18 +193,18 @@
       <tbody>
         {% for row in rank %}
         <tr class="{{ 'top1' if loop.index == 1 }}{{ 'top2' if loop.index == 2 }}{{ 'top3' if loop.index == 3 }}"
-            data-gdp="{{ row.gdp_native or '' }}" data-inc="{{ row.increment_native or '' }}"
+            data-gdp="{{ row.gdp_native if row.gdp_native is not none else '' }}" data-inc="{{ row.increment_native if row.increment_native is not none else '' }}"
             data-rate="{{ row.growth_rate if row.growth_rate is not none else '' }}">
           <td><span class="rank-no">{{ loop.index }}</span></td>
           <td><b>{{ row.region_name }}</b>
               {% if row.source and '人工' in row.source %}<span class="tag" title="{{ row.source }}">人工整理</span>{% endif %}</td>
           {% if drill_level %}<td>{{ row.parent_name }}</td>{% endif %}
           <td class="num" data-value="{{ row.gdp_native }}" data-currency="{{ row.currency }}">-</td>
-          <td class="num" data-money="{{ row.increment_native or '' }}" data-currency="{{ row.currency }}">-</td>
+          <td class="num" data-money="{{ row.increment_native if row.increment_native is not none else '' }}" data-currency="{{ row.currency }}">-</td>
           <td class="num" data-rate-cell="-">-</td>
           <td class="num" data-prev="-">-</td>
           <td class="num">{{ '%.2f%%'|format(row.gdp_native / total.total * 100) if total.total and row.gdp_native else '-' }}</td>
-          <td class="num">{{ row.per_capita_native|num if row.per_capita_native else '—' }}{% if row.per_capita_native %} 元{% endif %}</td>
+          <td class="num">{{ row.per_capita_native|num if row.per_capita_native else '—' }}{% if row.per_capita_native %} {{ '美元' if row.currency == 'USD' else ('日元' if row.currency == 'JPY' else '元') }}{% endif %}</td>
           <td class="num">{{ row.year }}</td>
         </tr>
         {% endfor %}

@@ -8,16 +8,18 @@ Python 课程大作业。项目聚焦一个现实问题：
 再用「网页端」把这个问题拆成排行、趋势、对比、区域下钻等可点击的答案；
 境外国家与美国州县、日本都道府县数据作为「参照尺度」保留，用于回答「这个差距算大吗」。
 
-- 国家层面：世界银行开放数据（266 个经济体，1990—2025 年）、东方财富数据中心（中国季度 GDP，82 期）
+- 国家层面：世界银行开放数据（当前库含 217 个非汇总国家/地区，1990—2025 年）、东方财富数据中心（中国季度 GDP，82 期）
 - 区域层面：美国经济分析局 BEA（51 个州 + 3 127 个县，2001—2024 年）、维基百科统计条目
   （中国 33 个省级行政区、361 个城市级区域含 4 个直辖市，日本 47 个都道府县）
 - 技术栈：Python 3 · requests · lxml · SQLite · Flask + Jinja2 · ECharts · Tkinter · matplotlib · pytest
-- 第三方依赖：仅 `flask` 与 `requests`（lxml 随 requests 的生态一并安装，用于解析网页表格）
+- 运行依赖：`flask`、`requests`、`lxml`；测试、绘图和文档工具另见 `requirements-dev.txt`
+
+本次优化与教师模板核对见 [`docs/期末优化说明.md`](docs/期末优化说明.md)。本地源码、课程报告和 `dist/` 已更新；发布仓库的 `main` 分支推送后，由 GitHub Pages 自动构建并更新线上站点。
 
 ## 一、快速开始
 
 ```bash
-# 1. 安装依赖（项目已随附采集好的数据库，仅查看数据可跳过）
+# 1. 安装依赖（项目已随附数据库，无需先采集；首次运行仍需安装依赖）
 python -m pip install -r requirements.txt
 
 # 2. 启动网页服务（会自动打开浏览器）
@@ -44,8 +46,10 @@ python -m spider.pipeline      # 采集全部数据源（命令行，带进度�
 python -m analysis.exporter    # 导出数据文件到 data/dataset/
 python -m analysis.charts      # 生成 matplotlib 分析图到 docs/figures/
 python -m spider.manual        # 导入手动整理的数据文件（data/manual/*.csv）
-python -m pytest tests -q      # 运行全部单元测试（85 个用例）
+python -m pip install -r requirements-dev.txt  # 测试、绘图与文档工具
+python -m pytest tests -q      # 运行离线测试（本次验证 106 个用例）
 python docs/make_report_figures.py  # 生成课程设计报告用的功能结构图与数据样例图
+python docs/collect_evidence.py  # 实际测试、环境和数据规模写入 docs/validation.json
 node docs/docbuild/generate_report.js   # 生成《课程设计报告》（按学校模板排版）
 python deploy/export_static.py  # 导出纯静态站点到 dist/（用于 GitHub Pages）
 python deploy/verify_static.py  # 校验静态站前端数据层与后端结果完全一致
@@ -65,7 +69,7 @@ gdp-platform/
 │   ├─ nginx.conf.example / gdp-platform.service   云服务器（反向代理 + systemd）
 │   ├─ start_public.bat                Windows 一键以公共演示模式启动
 │   ├─ export_static.py                导出纯静态站点到 dist/（GitHub Pages 用）
-│   ├─ verify_static.py                静态站等价性验证：34 个查询逐条比对后端结果
+│   ├─ verify_static.py                静态站等价性验证：37 个查询逐条比对后端结果
 │   └─ static_parity_check.js          等价性验证的 Node 端（在 Node 里跑前端数据层）
 ├─ config.py                          全局配置：数据源、数据库路径、爬虫参数、部署环境变量
 ├─ requirements.txt                   第三方依赖
@@ -85,7 +89,7 @@ gdp-platform/
 │   ├─ exporter.py                    导出 CSV / JSON 数据文件
 │   └─ charts.py                      matplotlib 分析图
 ├─ webapp/                            应用层与展示层
-│   ├─ app.py                         Flask 路由、18 个 JSON 接口、后台采集线程
+│   ├─ app.py                         Flask 路由、18 个数据接口、后台采集线程
 │   ├─ templates/                     9 个页面（Jinja2，只放结构与数据，不写内联脚本）
 │   └─ static/                        样式表、前端脚本、本地 ECharts
 │       ├─ js/charts.js               图表封装与格式化工具（含 GDP.pageData()）
@@ -97,7 +101,7 @@ gdp-platform/
 │   ├─ gdp.db                         SQLite 数据库
 │   ├─ raw/                           爬虫原始响应存档（可离线重建数据库）
 │   └─ dataset/                       导出的数据文件（作业提交用）
-├─ tests/                             pytest 单元测试（85 个用例）
+├─ tests/                             pytest 单元测试（106 个用例）
 └─ docs/                              两份说明书、配图、部署说明与文档生成脚本
     ├─ 部署说明.md                     挂到自己的域名：三条路线与常见问题
     ├─ out/                           说明书 DOCX 与 PDF 成品
@@ -126,7 +130,7 @@ gdp-platform/
 | --- | --- |
 | `docs/out/课程设计说明书.docx` / `.pdf` | 题目与设计目的、需求分析与总体设计、数据库设计、关键技术、难点与解决、运行结果与分析、额外学习内容、自我评价、参考来源（53 页） |
 | `docs/out/软件使用说明书.docx` / `.pdf` | 软件简介、安装与启动、各功能使用说明（配界面截图）、补录数据、常见问题、数据说明（31 页） |
-| `docs/out/课程设计报告.docx` / `.pdf` | **按学校模板**（陕西师范大学《python程序设计》）的课程设计报告：1 设计目的 / 2 设计思路 / 3 基本功能描述 / 4 软件实现 / 5 软件评价 / 6 参考资料 / 7 附录（调试报告、测试报告、额外学习内容）（26 页） |
+| `docs/out/课程设计报告.docx` / `.pdf` | **按学校模板**（陕西师范大学《python程序设计》）的课程设计报告：1 设计目的 / 2 设计思路 / 3 基本功能描述 / 4 软件实现 / 5 软件评价 / 6 参考资料 / 7 附录（调试报告、测试报告、额外学习内容）（本次优化后重新生成） |
 | `docs/加分项-额外学习清单.md` | 课程要求之外自行学习的技术清单（15 项，逐条注明用在本项目的哪一处），老师收集加分项时可直接取用 |
 | `docs/部署说明.md` | 把平台挂到自己的域名：免费平台 / 云服务器 / Cloudflare 隧道三条路线与常见问题 |
 | `docs/发布到 GitHub Pages 操作指南.md` | 用 GitHub Pages 发布静态站（`dongmingkun.github.io/...`）的逐步操作与更新办法 |
@@ -170,7 +174,7 @@ GDP_PUBLIC=1 GDP_PORT=8000 python wsgi.py     # Windows 可双击 deploy/start_p
 一条导出路线：`deploy/export_static.py` 把数据库导成 `data/*.json` 数据包与预渲染页面，
 再由 `webapp/static/js/static-api.js` 在浏览器里把各个接口算出来——静态站上**筛选、切换指标、
 下钻、分页、图表、导出 CSV 全部照常可用**，只是不能采集（按公共演示模式渲染，页面顶部有只读快照说明）。
-静态版的查询逻辑与后端逐条比对过（`python deploy/verify_static.py`：34 个查询结果完全相同，
+静态版的查询逻辑与后端逐条比对过（`python deploy/verify_static.py`：37 个查询结果完全相同，
 县级数据为控制体积只导出每个县最新一年，已在站点与验证脚本里如实声明）。
 
 ## 八、几点说明
@@ -186,13 +190,13 @@ GDP_PUBLIC=1 GDP_PORT=8000 python wsgi.py     # Windows 可双击 deploy/start_p
   也支持切换成「限定某一年」；中国的 2025 年数据由下面的补录渠道补齐。
 - 城市层面：**336 个地级行政区（含 4 个直辖市）的 2025 年 GDP、常住人口、人均 GDP 已全部入库**
   （337 个地级区划中仅三沙市无数据），前 34 名另有增量与名义增速；另有 25 个带历史年份的城市级区域（海南、湖北等省的省直管县市与已撤并的旧行政区，如莱芜市、山南地区），也在榜并逐行标注年份。数据来自「2025 年全国 333 地级区划
-  GDP 总量汇总」榜单整理，见 `data/manual/城市GDP_2025_全部地级区划.csv`（来源标注“人工整理·抖音榜单”，页面上带「人工整理」标记）；
+  GDP 总量汇总」榜单整理，见 `data/manual/城市GDP_2025_全部地级区划.csv`（来源标注“人工整理·抖音榜单”，原始视频链接尚未补全、未逐条核验统计公报；页面带「人工整理」标记）；
   其余城市可按同样方式补充：把 CSV 放进 `data/manual/`，执行 `python -m spider.manual`，
   或在网页“数据集”页勾选“人工整理”后一键更新，格式见 `data/manual/README.md`。
 - 区域页支持三种视角：总量、名义增速（正增长绿色、下降红色）、以及明细表里的增量与「上年（推算）」
   （上年 = 当年 GDP − 增量），可以直接看出某一年的增长快慢与基数。
 - 区域页顶部有「快捷视图」一键切换常用口径（中国城市 2025、中国省级、美国州/县、日本、增速排行），
-  指标用分段按钮切换；「下钻查看」选定省份后**原地刷新**图表与表格（不整页跳转、不丢失滚动位置），
+  指标支持 GDP 总量、人均 GDP、名义增速，用分段按钮切换；「下钻查看」选定省份后**原地刷新**图表与表格（不整页跳转、不丢失滚动位置），
   旁边还有按体量排序的常用省份按钮（广东、江苏、山东…）。
 - 前端约定：模板只负责结构与服务端数据（`<script type="application/json" id="page-data">`），
   行为全部在 `static/js/pages/*.js` 里，页面脚本通过 `GDP.pageData()` 取服务端数据；

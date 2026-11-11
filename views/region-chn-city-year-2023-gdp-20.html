@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>区域对比 · 全球 GDP 数据采集与可视化分析平台</title>
   <link rel="stylesheet" href="../static/css/style.css">
-  
+
   <script src="../static/vendor/echarts.min.js"></script>
 </head>
 <body>
@@ -15,7 +15,7 @@
       <span class="logo">GDP</span>
       <div class="brand-text">
         <strong>全球 GDP 数据采集与可视化分析平台</strong>
-        <small>数据来源：世界银行开放数据 · 东方财富数据中心</small>
+        <small>城市经济格局 · 全球参照 · 数据口径与来源可查</small>
       </div>
     </div>
     <nav class="nav">
@@ -44,44 +44,46 @@
 
 
 <main class="container">
-  
+
 <div class="panel">
   <div class="panel-head">
     <h2>区域 GDP 对比与增长趋势</h2>
     <span class="hint">美国数据来自经济分析局（BEA）官方批量文件；中国与日本数据来自维基百科统计条目；带「人工整理」标记的记录来自榜单整理</span>
   </div>
   <form class="toolbar toolbar-grid" method="get" action="../region.html" id="region-form">
+    <input type="hidden" name="metric" value="gdp">
     <div class="field">
       <label>经济体</label>
       <select name="economy">
-        
+
         <option value="CHN" selected>中国</option>
-        
+
         <option value="USA" >美国</option>
-        
+
         <option value="JPN" >日本</option>
-        
+
       </select>
     </div>
     <div class="field">
       <label>区域层级</label>
       <select name="level">
-        
+
         <option value="city" selected>
           地级行政区（城市）（361 个）
         </option>
-        
+
         <option value="province" >
           省级行政区（33 个）
         </option>
-        
+
       </select>
     </div>
-    <div class="field">
+    <div class="field field-metric">
       <label>指标</label>
       <div class="segmented">
-        <button type="submit" name="metric" value="gdp" class="on">GDP 总量</button>
-        <button type="submit" name="metric" value="growth" class="">名义增速</button>
+        <button type="submit" data-metric="gdp" value="gdp" class="on">GDP 总量</button>
+        <button type="submit" data-metric="per_capita" value="per_capita" class="">人均 GDP</button>
+        <button type="submit" data-metric="growth" value="growth" class="">名义增速</button>
       </div>
     </div>
     <div class="field">
@@ -91,14 +93,14 @@
         <option value="year" selected>限定某一年</option>
       </select>
     </div>
-    
+
     <div class="field">
       <label>年份</label>
       <select name="year">
         <option value="2025" >2025 年</option><option value="2024" >2024 年</option><option value="2023" selected>2023 年</option><option value="2022" >2022 年</option><option value="2021" >2021 年</option><option value="2020" >2020 年</option><option value="2019" >2019 年</option><option value="2018" >2018 年</option><option value="2017" >2017 年</option><option value="2015" >2015 年</option>
       </select>
     </div>
-    
+
     <div class="field">
       <label>显示数量</label>
       <select name="limit">
@@ -114,7 +116,7 @@
       <div class="action-row">
         <button type="submit">查询</button>
         <a class="btn ghost" href="../views/region-chn-city-latest-latest-gdp-20.html">重置</a>
-        <a class="btn ghost" href="../data/dataset/region-export-CHN-city.csv">导出 CSV</a>
+        <a class="btn ghost" data-region-export href="../data/dataset/region-export-CHN-city.csv">导出 CSV</a>
       </div>
     </div>
   </form>
@@ -143,10 +145,10 @@
     <div class="value">51<span class="unit">个区域</span></div>
     <div class="foot">
       数据年份 2023 年
-      
+
     </div>
   </div>
-  
+
   <div class="card">
     <div class="label">合计（2023 年）</div>
     <div class="value" id="kpi-total">-</div>
@@ -164,14 +166,14 @@
     <div class="value" id="kpi-share">-</div>
     <div class="foot">占同口径全部区域合计的比重</div>
   </div>
-  
+
 </div>
 
 
 
 <div class="panel">
   <div class="panel-head">
-    <h2>中国 地级行政区（城市）排行</h2>
+    <h2>中国 地级行政区（城市）GDP 总量排行</h2>
     <span class="hint">2023 年 · 鼠标悬停查看数值</span>
   </div>
   <div id="chart-region" class="chart chart-lg"></div>
@@ -182,10 +184,10 @@
     <h2>排行明细</h2>
     <div class="head-actions">
       <span class="hint">共 20 条 · 「上年（推算）」= GDP − 增量</span>
-      
+
     </div>
   </div>
-  
+
   <div class="table-wrap">
     <table class="data">
       <thead>
@@ -196,7 +198,7 @@
             <th class="num">人均 GDP</th><th class="num">数据年份</th></tr>
       </thead>
       <tbody>
-        
+
         <tr class="top1"
             data-gdp="5140450000000.0" data-inc=""
             data-rate="">
@@ -212,7 +214,7 @@
           <td class="num">—</td>
           <td class="num">2023</td>
         </tr>
-        
+
         <tr class="top2"
             data-gdp="4735370000000.0" data-inc=""
             data-rate="">
@@ -228,7 +230,7 @@
           <td class="num">—</td>
           <td class="num">2023</td>
         </tr>
-        
+
         <tr class="top3"
             data-gdp="3061430000000.0" data-inc=""
             data-rate="">
@@ -244,7 +246,7 @@
           <td class="num">—</td>
           <td class="num">2023</td>
         </tr>
-        
+
         <tr class=""
             data-gdp="2465300000000.0" data-inc=""
             data-rate="">
@@ -260,7 +262,7 @@
           <td class="num">190,605 元</td>
           <td class="num">2023</td>
         </tr>
-        
+
         <tr class=""
             data-gdp="1742100000000.0" data-inc=""
             data-rate="">
@@ -276,7 +278,7 @@
           <td class="num">183,016 元</td>
           <td class="num">2023</td>
         </tr>
-        
+
         <tr class=""
             data-gdp="1721180000000.0" data-inc=""
             data-rate="">
@@ -292,7 +294,7 @@
           <td class="num">—</td>
           <td class="num">2023</td>
         </tr>
-        
+
         <tr class=""
             data-gdp="1545600000000.0" data-inc=""
             data-rate="">
@@ -308,7 +310,7 @@
           <td class="num">206,278 元</td>
           <td class="num">2023</td>
         </tr>
-        
+
         <tr class=""
             data-gdp="1181300000000.0" data-inc=""
             data-rate="">
@@ -324,7 +326,7 @@
           <td class="num">152,508 元</td>
           <td class="num">2023</td>
         </tr>
-        
+
         <tr class=""
             data-gdp="1011600000000.0" data-inc=""
             data-rate="">
@@ -340,7 +342,7 @@
           <td class="num">188,366 元</td>
           <td class="num">2023</td>
         </tr>
-        
+
         <tr class=""
             data-gdp="890000000000.0" data-inc=""
             data-rate="">
@@ -356,7 +358,7 @@
           <td class="num">98,683 元</td>
           <td class="num">2023</td>
         </tr>
-        
+
         <tr class=""
             data-gdp="875290000000.0" data-inc=""
             data-rate="">
@@ -372,7 +374,7 @@
           <td class="num">116,163 元</td>
           <td class="num">2023</td>
         </tr>
-        
+
         <tr class=""
             data-gdp="812210000000.0" data-inc=""
             data-rate="">
@@ -388,7 +390,7 @@
           <td class="num">88,519 元</td>
           <td class="num">2023</td>
         </tr>
-        
+
         <tr class=""
             data-gdp="742300000000.0" data-inc=""
             data-rate="">
@@ -404,7 +406,7 @@
           <td class="num">161,940 元</td>
           <td class="num">2023</td>
         </tr>
-        
+
         <tr class=""
             data-gdp="740400000000.0" data-inc=""
             data-rate="">
@@ -420,7 +422,7 @@
           <td class="num">110,681 元</td>
           <td class="num">2023</td>
         </tr>
-        
+
         <tr class=""
             data-gdp="721285000000.0" data-inc=""
             data-rate="">
@@ -436,7 +438,7 @@
           <td class="num">110,067 元</td>
           <td class="num">2023</td>
         </tr>
-        
+
         <tr class=""
             data-gdp="700206000000.0" data-inc=""
             data-rate="">
@@ -452,7 +454,7 @@
           <td class="num">77,084 元</td>
           <td class="num">2023</td>
         </tr>
-        
+
         <tr class=""
             data-gdp="673200000000.0" data-inc=""
             data-rate="">
@@ -468,7 +470,7 @@
           <td class="num">149,383 元</td>
           <td class="num">2023</td>
         </tr>
-        
+
         <tr class=""
             data-gdp="526400000000.0" data-inc=""
             data-rate="">
@@ -484,7 +486,7 @@
           <td class="num">163,273 元</td>
           <td class="num">2023</td>
         </tr>
-        
+
         <tr class=""
             data-gdp="501500000000.0" data-inc=""
             data-rate="">
@@ -500,7 +502,7 @@
           <td class="num">110,329 元</td>
           <td class="num">2023</td>
         </tr>
-        
+
         <tr class=""
             data-gdp="460621000000.0" data-inc=""
             data-rate="">
@@ -516,11 +518,11 @@
           <td class="num">51,245 元</td>
           <td class="num">2023</td>
         </tr>
-        
+
       </tbody>
     </table>
   </div>
-  
+
 </div>
 
 
@@ -537,98 +539,98 @@
     <input type="hidden" name="year" value="2023">
     <div class="field">
       <label>选择省份</label>
-      
+
       <select name="parent" id="drill-parent">
-        
+
         <option value="广东" >广东</option>
-        
+
         <option value="江苏" selected>江苏</option>
-        
+
         <option value="山东" >山东</option>
-        
+
         <option value="浙江" >浙江</option>
-        
+
         <option value="四川" >四川</option>
-        
+
         <option value="河南" >河南</option>
-        
+
         <option value="湖北" >湖北</option>
-        
+
         <option value="福建" >福建</option>
-        
+
         <option value="上海" >上海</option>
-        
+
         <option value="湖南" >湖南</option>
-        
+
         <option value="安徽" >安徽</option>
-        
+
         <option value="北京" >北京</option>
-        
+
         <option value="河北" >河北</option>
-        
+
         <option value="陕西" >陕西</option>
-        
+
         <option value="江西" >江西</option>
-        
+
         <option value="辽宁" >辽宁</option>
-        
+
         <option value="重庆" >重庆</option>
-        
+
         <option value="云南" >云南</option>
-        
+
         <option value="广西" >广西</option>
-        
+
         <option value="山西" >山西</option>
-        
+
         <option value="内蒙古" >内蒙古</option>
-        
+
         <option value="贵州" >贵州</option>
-        
+
         <option value="新疆" >新疆</option>
-        
+
         <option value="天津" >天津</option>
-        
+
         <option value="黑龙江" >黑龙江</option>
-        
+
         <option value="吉林" >吉林</option>
-        
+
         <option value="甘肃" >甘肃</option>
-        
+
         <option value="海南" >海南</option>
-        
+
         <option value="宁夏" >宁夏</option>
-        
+
         <option value="青海" >青海</option>
-        
+
         <option value="西藏" >西藏</option>
-        
+
         <option value="澳门" >澳门</option>
-        
+
         <option value="香港" >香港</option>
-        
+
       </select>
     </div>
     <button type="submit" id="drill-button">查看</button>
     <div class="field">
       <label>常用省份</label>
       <div class="chip-row">
-        
+
         <button type="button" class="chip" data-parent="广东">广东</button>
-        
+
         <button type="button" class="chip" data-parent="江苏">江苏</button>
-        
+
         <button type="button" class="chip" data-parent="山东">山东</button>
-        
+
         <button type="button" class="chip" data-parent="浙江">浙江</button>
-        
+
         <button type="button" class="chip" data-parent="四川">四川</button>
-        
+
         <button type="button" class="chip" data-parent="河南">河南</button>
-        
+
         <button type="button" class="chip" data-parent="湖北">湖北</button>
-        
+
         <button type="button" class="chip" data-parent="福建">福建</button>
-        
+
       </div>
     </div>
   </form>
@@ -638,7 +640,7 @@
       <thead><tr><th>名次</th><th>区域</th><th class="num">GDP</th><th class="num">增量</th>
                  <th class="num">名义增速</th><th class="num">人均 GDP</th><th class="num">数据年份</th></tr></thead>
       <tbody id="children-body">
-        
+
         <tr data-gdp="2465300000000.0" data-inc=""
             data-rate="">
           <td><span class="rank-no">1</span></td>
@@ -649,7 +651,7 @@
           <td class="num">190,605 元</td>
           <td class="num">2023</td>
         </tr>
-        
+
         <tr data-gdp="1742100000000.0" data-inc=""
             data-rate="">
           <td><span class="rank-no">2</span></td>
@@ -660,7 +662,7 @@
           <td class="num">183,016 元</td>
           <td class="num">2023</td>
         </tr>
-        
+
         <tr data-gdp="1545600000000.0" data-inc=""
             data-rate="">
           <td><span class="rank-no">3</span></td>
@@ -671,7 +673,7 @@
           <td class="num">206,278 元</td>
           <td class="num">2023</td>
         </tr>
-        
+
         <tr data-gdp="1181300000000.0" data-inc=""
             data-rate="">
           <td><span class="rank-no">4</span></td>
@@ -682,7 +684,7 @@
           <td class="num">152,508 元</td>
           <td class="num">2023</td>
         </tr>
-        
+
         <tr data-gdp="1011600000000.0" data-inc=""
             data-rate="">
           <td><span class="rank-no">5</span></td>
@@ -693,7 +695,7 @@
           <td class="num">188,366 元</td>
           <td class="num">2023</td>
         </tr>
-        
+
         <tr data-gdp="890000000000.0" data-inc=""
             data-rate="">
           <td><span class="rank-no">6</span></td>
@@ -704,7 +706,7 @@
           <td class="num">98,683 元</td>
           <td class="num">2023</td>
         </tr>
-        
+
         <tr data-gdp="742300000000.0" data-inc=""
             data-rate="">
           <td><span class="rank-no">7</span></td>
@@ -715,7 +717,7 @@
           <td class="num">161,940 元</td>
           <td class="num">2023</td>
         </tr>
-        
+
         <tr data-gdp="740400000000.0" data-inc=""
             data-rate="">
           <td><span class="rank-no">8</span></td>
@@ -726,7 +728,7 @@
           <td class="num">110,681 元</td>
           <td class="num">2023</td>
         </tr>
-        
+
         <tr data-gdp="673200000000.0" data-inc=""
             data-rate="">
           <td><span class="rank-no">9</span></td>
@@ -737,7 +739,7 @@
           <td class="num">149,383 元</td>
           <td class="num">2023</td>
         </tr>
-        
+
         <tr data-gdp="526400000000.0" data-inc=""
             data-rate="">
           <td><span class="rank-no">10</span></td>
@@ -748,7 +750,7 @@
           <td class="num">163,273 元</td>
           <td class="num">2023</td>
         </tr>
-        
+
         <tr data-gdp="501500000000.0" data-inc=""
             data-rate="">
           <td><span class="rank-no">11</span></td>
@@ -759,7 +761,7 @@
           <td class="num">110,329 元</td>
           <td class="num">2023</td>
         </tr>
-        
+
         <tr data-gdp="439800000000.0" data-inc=""
             data-rate="">
           <td><span class="rank-no">12</span></td>
@@ -770,7 +772,7 @@
           <td class="num">88,379 元</td>
           <td class="num">2023</td>
         </tr>
-        
+
         <tr data-gdp="436400000000.0" data-inc=""
             data-rate="">
           <td><span class="rank-no">13</span></td>
@@ -781,7 +783,7 @@
           <td class="num">94,918 元</td>
           <td class="num">2023</td>
         </tr>
-        
+
       </tbody>
     </table>
   </div>
@@ -817,13 +819,13 @@
 <footer class="footer">
   <div class="container footer-inner">
     <span>全球 GDP 数据采集与可视化分析平台 · Python 课程大作业</span>
-    <span>数据来源：世界银行开放数据（World Bank Open Data）、东方财富数据中心 · 仅供学习研究使用</span>
+    <span>世界银行 · 东方财富 · BEA · 维基百科 · 人工整理 · 仅供学习研究使用</span>
   </div>
 </footer>
 
 
 <script src="../static/js/charts.js"></script>
-  <script src="../static/js/static-api.js?v=f87c76d3"></script>
+  <script src="../static/js/static-api.js?v=5d8a63cd"></script>
 <script type="application/json" id="page-data">{"children": [{"currency": "CNY", "economy": "CHN", "gdp_native": 2465300000000.0, "gdp_usd": 349900000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "江苏", "per_capita_native": 190605.0, "population": null, "region_code": "苏州市", "region_name": "苏州市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2023}, {"currency": "CNY", "economy": "CHN", "gdp_native": 1742100000000.0, "gdp_usd": 247200000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "江苏", "per_capita_native": 183016.0, "population": null, "region_code": "南京市", "region_name": "南京市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2023}, {"currency": "CNY", "economy": "CHN", "gdp_native": 1545600000000.0, "gdp_usd": 219300000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "江苏", "per_capita_native": 206278.0, "population": null, "region_code": "无锡市", "region_name": "无锡市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2023}, {"currency": "CNY", "economy": "CHN", "gdp_native": 1181300000000.0, "gdp_usd": 167600000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "江苏", "per_capita_native": 152508.0, "population": null, "region_code": "南通市", "region_name": "南通市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2023}, {"currency": "CNY", "economy": "CHN", "gdp_native": 1011600000000.0, "gdp_usd": 143600000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "江苏", "per_capita_native": 188366.0, "population": null, "region_code": "常州市", "region_name": "常州市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2023}, {"currency": "CNY", "economy": "CHN", "gdp_native": 890000000000.0, "gdp_usd": 126300000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "江苏", "per_capita_native": 98683.0, "population": null, "region_code": "徐州市", "region_name": "徐州市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2023}, {"currency": "CNY", "economy": "CHN", "gdp_native": 742300000000.0, "gdp_usd": 105300000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "江苏", "per_capita_native": 161940.0, "population": null, "region_code": "扬州市", "region_name": "扬州市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2023}, {"currency": "CNY", "economy": "CHN", "gdp_native": 740400000000.0, "gdp_usd": 105100000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "江苏", "per_capita_native": 110681.0, "population": null, "region_code": "盐城市", "region_name": "盐城市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2023}, {"currency": "CNY", "economy": "CHN", "gdp_native": 673200000000.0, "gdp_usd": 95500000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "江苏", "per_capita_native": 149383.0, "population": null, "region_code": "泰州市", "region_name": "泰州市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2023}, {"currency": "CNY", "economy": "CHN", "gdp_native": 526400000000.0, "gdp_usd": 74700000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "江苏", "per_capita_native": 163273.0, "population": null, "region_code": "镇江市", "region_name": "镇江市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2023}, {"currency": "CNY", "economy": "CHN", "gdp_native": 501500000000.0, "gdp_usd": 71200000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "江苏", "per_capita_native": 110329.0, "population": null, "region_code": "淮安市", "region_name": "淮安市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2023}, {"currency": "CNY", "economy": "CHN", "gdp_native": 439800000000.0, "gdp_usd": 62400000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "江苏", "per_capita_native": 88379.0, "population": null, "region_code": "宿迁市", "region_name": "宿迁市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2023}, {"currency": "CNY", "economy": "CHN", "gdp_native": 436400000000.0, "gdp_usd": 61900000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "江苏", "per_capita_native": 94918.0, "population": null, "region_code": "连云港市", "region_name": "连云港市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2023}], "currency": "CNY", "growth": {"areas": 0, "average": null, "max": null, "min": null}, "metric": "gdp", "mode": "year", "rank": [{"currency": "CNY", "gdp_native": 5140450000000.0, "gdp_usd": null, "growth_rate": null, "increment_native": null, "parent_code": "CHN", "parent_name": "中国", "per_capita_native": null, "population": null, "region_code": "上海", "region_name": "上海", "source": "维基百科条目（数据源自官方统计公报）", "year": 2023}, {"currency": "CNY", "gdp_native": 4735370000000.0, "gdp_usd": null, "growth_rate": null, "increment_native": null, "parent_code": "CHN", "parent_name": "中国", "per_capita_native": null, "population": null, "region_code": "北京", "region_name": "北京", "source": "维基百科条目（数据源自官方统计公报）", "year": 2023}, {"currency": "CNY", "gdp_native": 3061430000000.0, "gdp_usd": null, "growth_rate": null, "increment_native": null, "parent_code": "CHN", "parent_name": "中国", "per_capita_native": null, "population": null, "region_code": "重庆", "region_name": "重庆", "source": "维基百科条目（数据源自官方统计公报）", "year": 2023}, {"currency": "CNY", "gdp_native": 2465300000000.0, "gdp_usd": 349900000000.0, "growth_rate": null, "increment_native": null, "parent_code": "江苏", "parent_name": "江苏", "per_capita_native": 190605.0, "population": null, "region_code": "苏州市", "region_name": "苏州市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2023}, {"currency": "CNY", "gdp_native": 1742100000000.0, "gdp_usd": 247200000000.0, "growth_rate": null, "increment_native": null, "parent_code": "江苏", "parent_name": "江苏", "per_capita_native": 183016.0, "population": null, "region_code": "南京市", "region_name": "南京市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2023}, {"currency": "CNY", "gdp_native": 1721180000000.0, "gdp_usd": null, "growth_rate": null, "increment_native": null, "parent_code": "CHN", "parent_name": "中国", "per_capita_native": null, "population": null, "region_code": "天津", "region_name": "天津", "source": "维基百科条目（数据源自官方统计公报）", "year": 2023}, {"currency": "CNY", "gdp_native": 1545600000000.0, "gdp_usd": 219300000000.0, "growth_rate": null, "increment_native": null, "parent_code": "江苏", "parent_name": "江苏", "per_capita_native": 206278.0, "population": null, "region_code": "无锡市", "region_name": "无锡市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2023}, {"currency": "CNY", "gdp_native": 1181300000000.0, "gdp_usd": 167600000000.0, "growth_rate": null, "increment_native": null, "parent_code": "江苏", "parent_name": "江苏", "per_capita_native": 152508.0, "population": null, "region_code": "南通市", "region_name": "南通市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2023}, {"currency": "CNY", "gdp_native": 1011600000000.0, "gdp_usd": 143600000000.0, "growth_rate": null, "increment_native": null, "parent_code": "江苏", "parent_name": "江苏", "per_capita_native": 188366.0, "population": null, "region_code": "常州市", "region_name": "常州市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2023}, {"currency": "CNY", "gdp_native": 890000000000.0, "gdp_usd": 126300000000.0, "growth_rate": null, "increment_native": null, "parent_code": "江苏", "parent_name": "江苏", "per_capita_native": 98683.0, "population": null, "region_code": "徐州市", "region_name": "徐州市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2023}, {"currency": "CNY", "gdp_native": 875290000000.0, "gdp_usd": 124213000000.00002, "growth_rate": null, "increment_native": null, "parent_code": "辽宁", "parent_name": "辽宁", "per_capita_native": 116163.0, "population": null, "region_code": "大连市", "region_name": "大连市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2023}, {"currency": "CNY", "gdp_native": 812210000000.0, "gdp_usd": 115260999999.99998, "growth_rate": null, "increment_native": null, "parent_code": "辽宁", "parent_name": "辽宁", "per_capita_native": 88519.0, "population": null, "region_code": "沈阳市", "region_name": "沈阳市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2023}, {"currency": "CNY", "gdp_native": 742300000000.0, "gdp_usd": 105300000000.0, "growth_rate": null, "increment_native": null, "parent_code": "江苏", "parent_name": "江苏", "per_capita_native": 161940.0, "population": null, "region_code": "扬州市", "region_name": "扬州市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2023}, {"currency": "CNY", "gdp_native": 740400000000.0, "gdp_usd": 105100000000.0, "growth_rate": null, "increment_native": null, "parent_code": "江苏", "parent_name": "江苏", "per_capita_native": 110681.0, "population": null, "region_code": "盐城市", "region_name": "盐城市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2023}, {"currency": "CNY", "gdp_native": 721285000000.0, "gdp_usd": 102358000000.0, "growth_rate": null, "increment_native": null, "parent_code": "江西", "parent_name": "江西", "per_capita_native": 110067.0, "population": null, "region_code": "南昌市", "region_name": "南昌市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2023}, {"currency": "CNY", "gdp_native": 700206000000.0, "gdp_usd": 99366000000.0, "growth_rate": null, "increment_native": null, "parent_code": "吉林", "parent_name": "吉林", "per_capita_native": 77084.0, "population": null, "region_code": "长春市", "region_name": "长春市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2023}, {"currency": "CNY", "gdp_native": 673200000000.0, "gdp_usd": 95500000000.0, "growth_rate": null, "increment_native": null, "parent_code": "江苏", "parent_name": "江苏", "per_capita_native": 149383.0, "population": null, "region_code": "泰州市", "region_name": "泰州市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2023}, {"currency": "CNY", "gdp_native": 526400000000.0, "gdp_usd": 74700000000.0, "growth_rate": null, "increment_native": null, "parent_code": "江苏", "parent_name": "江苏", "per_capita_native": 163273.0, "population": null, "region_code": "镇江市", "region_name": "镇江市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2023}, {"currency": "CNY", "gdp_native": 501500000000.0, "gdp_usd": 71200000000.0, "growth_rate": null, "increment_native": null, "parent_code": "江苏", "parent_name": "江苏", "per_capita_native": 110329.0, "population": null, "region_code": "淮安市", "region_name": "淮安市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2023}, {"currency": "CNY", "gdp_native": 460621000000.0, "gdp_usd": 65366999999.99999, "growth_rate": null, "increment_native": null, "parent_code": "江西", "parent_name": "江西", "per_capita_native": 51245.0, "population": null, "region_code": "赣州市", "region_name": "赣州市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2023}], "total": 35103065000000.0, "year": 2023}</script>
 <script src="../static/js/pages/region.js"></script>
 

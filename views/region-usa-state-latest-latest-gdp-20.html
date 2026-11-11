@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>区域对比 · 全球 GDP 数据采集与可视化分析平台</title>
   <link rel="stylesheet" href="../static/css/style.css">
-  
+
   <script src="../static/vendor/echarts.min.js"></script>
 </head>
 <body>
@@ -15,7 +15,7 @@
       <span class="logo">GDP</span>
       <div class="brand-text">
         <strong>全球 GDP 数据采集与可视化分析平台</strong>
-        <small>数据来源：世界银行开放数据 · 东方财富数据中心</small>
+        <small>城市经济格局 · 全球参照 · 数据口径与来源可查</small>
       </div>
     </div>
     <nav class="nav">
@@ -44,44 +44,46 @@
 
 
 <main class="container">
-  
+
 <div class="panel">
   <div class="panel-head">
     <h2>区域 GDP 对比与增长趋势</h2>
     <span class="hint">美国数据来自经济分析局（BEA）官方批量文件；中国与日本数据来自维基百科统计条目；带「人工整理」标记的记录来自榜单整理</span>
   </div>
   <form class="toolbar toolbar-grid" method="get" action="../region.html" id="region-form">
+    <input type="hidden" name="metric" value="gdp">
     <div class="field">
       <label>经济体</label>
       <select name="economy">
-        
+
         <option value="CHN" >中国</option>
-        
+
         <option value="USA" selected>美国</option>
-        
+
         <option value="JPN" >日本</option>
-        
+
       </select>
     </div>
     <div class="field">
       <label>区域层级</label>
       <select name="level">
-        
+
         <option value="county" >
           县级行政区（县）（3127 个）
         </option>
-        
+
         <option value="state" selected>
           州级行政区（51 个）
         </option>
-        
+
       </select>
     </div>
-    <div class="field">
+    <div class="field field-metric">
       <label>指标</label>
       <div class="segmented">
-        <button type="submit" name="metric" value="gdp" class="on">GDP 总量</button>
-        <button type="submit" name="metric" value="growth" class="">名义增速</button>
+        <button type="submit" data-metric="gdp" value="gdp" class="on">GDP 总量</button>
+        <button type="submit" data-metric="per_capita" value="per_capita" class="">人均 GDP</button>
+        <button type="submit" data-metric="growth" value="growth" class="">名义增速</button>
       </div>
     </div>
     <div class="field">
@@ -91,7 +93,7 @@
         <option value="year" >限定某一年</option>
       </select>
     </div>
-    
+
     <div class="field">
       <label>显示数量</label>
       <select name="limit">
@@ -107,7 +109,7 @@
       <div class="action-row">
         <button type="submit">查询</button>
         <a class="btn ghost" href="../views/region-usa-state-latest-latest-gdp-20.html">重置</a>
-        <a class="btn ghost" href="../data/dataset/region-export-USA-state.csv">导出 CSV</a>
+        <a class="btn ghost" data-region-export href="../data/dataset/region-export-USA-state.csv">导出 CSV</a>
       </div>
     </div>
   </form>
@@ -136,10 +138,10 @@
     <div class="value">51<span class="unit">个区域</span></div>
     <div class="foot">
       每个区域取各自最新可得年份
-      
+
     </div>
   </div>
-  
+
   <div class="card">
     <div class="label">合计（各年最新）</div>
     <div class="value" id="kpi-total">-</div>
@@ -157,7 +159,7 @@
     <div class="value" id="kpi-share">-</div>
     <div class="foot">占同口径全部区域合计的比重</div>
   </div>
-  
+
 </div>
 
 
@@ -167,16 +169,16 @@
     <span class="hint">各省条目的更新程度不同，因此每个区域标注了自己的数据年份</span>
   </div>
   <div class="tags">
-    
+
     <span class="tag">2024 年 · 51 个</span>
-    
+
   </div>
 </div>
 
 
 <div class="panel">
   <div class="panel-head">
-    <h2>美国 州级行政区排行</h2>
+    <h2>美国 州级行政区GDP 总量排行</h2>
     <span class="hint">各区域最新可得年份 · 鼠标悬停查看数值</span>
   </div>
   <div id="chart-region" class="chart chart-lg"></div>
@@ -187,28 +189,28 @@
     <h2>排行明细</h2>
     <div class="head-actions">
       <span class="hint">共 20 条 · 「上年（推算）」= GDP − 增量</span>
-      
+
     </div>
   </div>
-  
+
   <div class="table-wrap">
     <table class="data">
       <thead>
         <tr><th>名次</th><th>区域</th>
-            
+
             <th class="num">GDP</th><th class="num">增量</th><th class="num">名义增速</th>
             <th class="num">上年（推算）</th><th class="num">占比</th>
             <th class="num">人均 GDP</th><th class="num">数据年份</th></tr>
       </thead>
       <tbody>
-        
+
         <tr class="top1"
             data-gdp="4048108136000.0" data-inc=""
             data-rate="">
           <td><span class="rank-no">1</span></td>
           <td><b>California</b>
               </td>
-          
+
           <td class="num" data-value="4048108136000.0" data-currency="USD">-</td>
           <td class="num" data-money="" data-currency="USD">-</td>
           <td class="num" data-rate-cell="-">-</td>
@@ -217,14 +219,14 @@
           <td class="num">—</td>
           <td class="num">2024</td>
         </tr>
-        
+
         <tr class="top2"
             data-gdp="2769766225000.0" data-inc=""
             data-rate="">
           <td><span class="rank-no">2</span></td>
           <td><b>Texas</b>
               </td>
-          
+
           <td class="num" data-value="2769766225000.0" data-currency="USD">-</td>
           <td class="num" data-money="" data-currency="USD">-</td>
           <td class="num" data-rate-cell="-">-</td>
@@ -233,14 +235,14 @@
           <td class="num">—</td>
           <td class="num">2024</td>
         </tr>
-        
+
         <tr class="top3"
             data-gdp="2322138926000.0" data-inc=""
             data-rate="">
           <td><span class="rank-no">3</span></td>
           <td><b>New York</b>
               </td>
-          
+
           <td class="num" data-value="2322138926000.0" data-currency="USD">-</td>
           <td class="num" data-money="" data-currency="USD">-</td>
           <td class="num" data-rate-cell="-">-</td>
@@ -249,14 +251,14 @@
           <td class="num">—</td>
           <td class="num">2024</td>
         </tr>
-        
+
         <tr class=""
             data-gdp="1726709901000.0" data-inc=""
             data-rate="">
           <td><span class="rank-no">4</span></td>
           <td><b>Florida</b>
               </td>
-          
+
           <td class="num" data-value="1726709901000.0" data-currency="USD">-</td>
           <td class="num" data-money="" data-currency="USD">-</td>
           <td class="num" data-rate-cell="-">-</td>
@@ -265,14 +267,14 @@
           <td class="num">—</td>
           <td class="num">2024</td>
         </tr>
-        
+
         <tr class=""
             data-gdp="1148106102000.0" data-inc=""
             data-rate="">
           <td><span class="rank-no">5</span></td>
           <td><b>Illinois</b>
               </td>
-          
+
           <td class="num" data-value="1148106102000.0" data-currency="USD">-</td>
           <td class="num" data-money="" data-currency="USD">-</td>
           <td class="num" data-rate-cell="-">-</td>
@@ -281,14 +283,14 @@
           <td class="num">—</td>
           <td class="num">2024</td>
         </tr>
-        
+
         <tr class=""
             data-gdp="1007873940000.0" data-inc=""
             data-rate="">
           <td><span class="rank-no">6</span></td>
           <td><b>Pennsylvania</b>
               </td>
-          
+
           <td class="num" data-value="1007873940000.0" data-currency="USD">-</td>
           <td class="num" data-money="" data-currency="USD">-</td>
           <td class="num" data-rate-cell="-">-</td>
@@ -297,14 +299,14 @@
           <td class="num">—</td>
           <td class="num">2024</td>
         </tr>
-        
+
         <tr class=""
             data-gdp="923140558000.0" data-inc=""
             data-rate="">
           <td><span class="rank-no">7</span></td>
           <td><b>Ohio</b>
               </td>
-          
+
           <td class="num" data-value="923140558000.0" data-currency="USD">-</td>
           <td class="num" data-money="" data-currency="USD">-</td>
           <td class="num" data-rate-cell="-">-</td>
@@ -313,14 +315,14 @@
           <td class="num">—</td>
           <td class="num">2024</td>
         </tr>
-        
+
         <tr class=""
             data-gdp="881508201000.0" data-inc=""
             data-rate="">
           <td><span class="rank-no">8</span></td>
           <td><b>Georgia</b>
               </td>
-          
+
           <td class="num" data-value="881508201000.0" data-currency="USD">-</td>
           <td class="num" data-money="" data-currency="USD">-</td>
           <td class="num" data-rate-cell="-">-</td>
@@ -329,14 +331,14 @@
           <td class="num">—</td>
           <td class="num">2024</td>
         </tr>
-        
+
         <tr class=""
             data-gdp="856013561000.0" data-inc=""
             data-rate="">
           <td><span class="rank-no">9</span></td>
           <td><b>Washington</b>
               </td>
-          
+
           <td class="num" data-value="856013561000.0" data-currency="USD">-</td>
           <td class="num" data-money="" data-currency="USD">-</td>
           <td class="num" data-rate-cell="-">-</td>
@@ -345,14 +347,14 @@
           <td class="num">—</td>
           <td class="num">2024</td>
         </tr>
-        
+
         <tr class=""
             data-gdp="846000400000.0" data-inc=""
             data-rate="">
           <td><span class="rank-no">10</span></td>
           <td><b>New Jersey</b>
               </td>
-          
+
           <td class="num" data-value="846000400000.0" data-currency="USD">-</td>
           <td class="num" data-money="" data-currency="USD">-</td>
           <td class="num" data-rate-cell="-">-</td>
@@ -361,14 +363,14 @@
           <td class="num">—</td>
           <td class="num">2024</td>
         </tr>
-        
+
         <tr class=""
             data-gdp="844209019000.0" data-inc=""
             data-rate="">
           <td><span class="rank-no">11</span></td>
           <td><b>North Carolina</b>
               </td>
-          
+
           <td class="num" data-value="844209019000.0" data-currency="USD">-</td>
           <td class="num" data-money="" data-currency="USD">-</td>
           <td class="num" data-rate-cell="-">-</td>
@@ -377,14 +379,14 @@
           <td class="num">—</td>
           <td class="num">2024</td>
         </tr>
-        
+
         <tr class=""
             data-gdp="778523444000.0" data-inc=""
             data-rate="">
           <td><span class="rank-no">12</span></td>
           <td><b>Massachusetts</b>
               </td>
-          
+
           <td class="num" data-value="778523444000.0" data-currency="USD">-</td>
           <td class="num" data-money="" data-currency="USD">-</td>
           <td class="num" data-rate-cell="-">-</td>
@@ -393,14 +395,14 @@
           <td class="num">—</td>
           <td class="num">2024</td>
         </tr>
-        
+
         <tr class=""
             data-gdp="761733844000.0" data-inc=""
             data-rate="">
           <td><span class="rank-no">13</span></td>
           <td><b>Virginia</b>
               </td>
-          
+
           <td class="num" data-value="761733844000.0" data-currency="USD">-</td>
           <td class="num" data-money="" data-currency="USD">-</td>
           <td class="num" data-rate-cell="-">-</td>
@@ -409,14 +411,14 @@
           <td class="num">—</td>
           <td class="num">2024</td>
         </tr>
-        
+
         <tr class=""
             data-gdp="702466918000.0" data-inc=""
             data-rate="">
           <td><span class="rank-no">14</span></td>
           <td><b>Michigan</b>
               </td>
-          
+
           <td class="num" data-value="702466918000.0" data-currency="USD">-</td>
           <td class="num" data-money="" data-currency="USD">-</td>
           <td class="num" data-rate-cell="-">-</td>
@@ -425,14 +427,14 @@
           <td class="num">—</td>
           <td class="num">2024</td>
         </tr>
-        
+
         <tr class=""
             data-gdp="570088550000.0" data-inc=""
             data-rate="">
           <td><span class="rank-no">15</span></td>
           <td><b>Arizona</b>
               </td>
-          
+
           <td class="num" data-value="570088550000.0" data-currency="USD">-</td>
           <td class="num" data-money="" data-currency="USD">-</td>
           <td class="num" data-rate-cell="-">-</td>
@@ -441,14 +443,14 @@
           <td class="num">—</td>
           <td class="num">2024</td>
         </tr>
-        
+
         <tr class=""
             data-gdp="561201229000.0" data-inc=""
             data-rate="">
           <td><span class="rank-no">16</span></td>
           <td><b>Tennessee</b>
               </td>
-          
+
           <td class="num" data-value="561201229000.0" data-currency="USD">-</td>
           <td class="num" data-money="" data-currency="USD">-</td>
           <td class="num" data-rate-cell="-">-</td>
@@ -457,14 +459,14 @@
           <td class="num">—</td>
           <td class="num">2024</td>
         </tr>
-        
+
         <tr class=""
             data-gdp="557632963000.0" data-inc=""
             data-rate="">
           <td><span class="rank-no">17</span></td>
           <td><b>Colorado</b>
               </td>
-          
+
           <td class="num" data-value="557632963000.0" data-currency="USD">-</td>
           <td class="num" data-money="" data-currency="USD">-</td>
           <td class="num" data-rate-cell="-">-</td>
@@ -473,14 +475,14 @@
           <td class="num">—</td>
           <td class="num">2024</td>
         </tr>
-        
+
         <tr class=""
             data-gdp="546028367000.0" data-inc=""
             data-rate="">
           <td><span class="rank-no">18</span></td>
           <td><b>Maryland</b>
               </td>
-          
+
           <td class="num" data-value="546028367000.0" data-currency="USD">-</td>
           <td class="num" data-money="" data-currency="USD">-</td>
           <td class="num" data-rate-cell="-">-</td>
@@ -489,14 +491,14 @@
           <td class="num">—</td>
           <td class="num">2024</td>
         </tr>
-        
+
         <tr class=""
             data-gdp="519516461000.0" data-inc=""
             data-rate="">
           <td><span class="rank-no">19</span></td>
           <td><b>Indiana</b>
               </td>
-          
+
           <td class="num" data-value="519516461000.0" data-currency="USD">-</td>
           <td class="num" data-money="" data-currency="USD">-</td>
           <td class="num" data-rate-cell="-">-</td>
@@ -505,14 +507,14 @@
           <td class="num">—</td>
           <td class="num">2024</td>
         </tr>
-        
+
         <tr class=""
             data-gdp="507687780000.0" data-inc=""
             data-rate="">
           <td><span class="rank-no">20</span></td>
           <td><b>Minnesota</b>
               </td>
-          
+
           <td class="num" data-value="507687780000.0" data-currency="USD">-</td>
           <td class="num" data-money="" data-currency="USD">-</td>
           <td class="num" data-rate-cell="-">-</td>
@@ -521,11 +523,11 @@
           <td class="num">—</td>
           <td class="num">2024</td>
         </tr>
-        
+
       </tbody>
     </table>
   </div>
-  
+
 </div>
 
 
@@ -559,13 +561,13 @@
 <footer class="footer">
   <div class="container footer-inner">
     <span>全球 GDP 数据采集与可视化分析平台 · Python 课程大作业</span>
-    <span>数据来源：世界银行开放数据（World Bank Open Data）、东方财富数据中心 · 仅供学习研究使用</span>
+    <span>世界银行 · 东方财富 · BEA · 维基百科 · 人工整理 · 仅供学习研究使用</span>
   </div>
 </footer>
 
 
 <script src="../static/js/charts.js"></script>
-  <script src="../static/js/static-api.js?v=f87c76d3"></script>
+  <script src="../static/js/static-api.js?v=5d8a63cd"></script>
 <script type="application/json" id="page-data">{"children": [], "currency": "USD", "growth": {"areas": 0, "average": null, "max": null, "min": null}, "metric": "gdp", "mode": "latest", "rank": [{"currency": "USD", "economy": "USA", "gdp_native": 4048108136000.0, "gdp_usd": 4048108136000.0, "growth_rate": null, "increment_native": null, "level": "state", "parent_code": "USA", "parent_name": "美国", "per_capita_native": null, "population": null, "region_code": "06000", "region_name": "California", "source": "美国经济分析局（BEA）", "year": 2024}, {"currency": "USD", "economy": "USA", "gdp_native": 2769766225000.0, "gdp_usd": 2769766225000.0, "growth_rate": null, "increment_native": null, "level": "state", "parent_code": "USA", "parent_name": "美国", "per_capita_native": null, "population": null, "region_code": "48000", "region_name": "Texas", "source": "美国经济分析局（BEA）", "year": 2024}, {"currency": "USD", "economy": "USA", "gdp_native": 2322138926000.0, "gdp_usd": 2322138926000.0, "growth_rate": null, "increment_native": null, "level": "state", "parent_code": "USA", "parent_name": "美国", "per_capita_native": null, "population": null, "region_code": "36000", "region_name": "New York", "source": "美国经济分析局（BEA）", "year": 2024}, {"currency": "USD", "economy": "USA", "gdp_native": 1726709901000.0, "gdp_usd": 1726709901000.0, "growth_rate": null, "increment_native": null, "level": "state", "parent_code": "USA", "parent_name": "美国", "per_capita_native": null, "population": null, "region_code": "12000", "region_name": "Florida", "source": "美国经济分析局（BEA）", "year": 2024}, {"currency": "USD", "economy": "USA", "gdp_native": 1148106102000.0, "gdp_usd": 1148106102000.0, "growth_rate": null, "increment_native": null, "level": "state", "parent_code": "USA", "parent_name": "美国", "per_capita_native": null, "population": null, "region_code": "17000", "region_name": "Illinois", "source": "美国经济分析局（BEA）", "year": 2024}, {"currency": "USD", "economy": "USA", "gdp_native": 1007873940000.0, "gdp_usd": 1007873940000.0, "growth_rate": null, "increment_native": null, "level": "state", "parent_code": "USA", "parent_name": "美国", "per_capita_native": null, "population": null, "region_code": "42000", "region_name": "Pennsylvania", "source": "美国经济分析局（BEA）", "year": 2024}, {"currency": "USD", "economy": "USA", "gdp_native": 923140558000.0, "gdp_usd": 923140558000.0, "growth_rate": null, "increment_native": null, "level": "state", "parent_code": "USA", "parent_name": "美国", "per_capita_native": null, "population": null, "region_code": "39000", "region_name": "Ohio", "source": "美国经济分析局（BEA）", "year": 2024}, {"currency": "USD", "economy": "USA", "gdp_native": 881508201000.0, "gdp_usd": 881508201000.0, "growth_rate": null, "increment_native": null, "level": "state", "parent_code": "USA", "parent_name": "美国", "per_capita_native": null, "population": null, "region_code": "13000", "region_name": "Georgia", "source": "美国经济分析局（BEA）", "year": 2024}, {"currency": "USD", "economy": "USA", "gdp_native": 856013561000.0, "gdp_usd": 856013561000.0, "growth_rate": null, "increment_native": null, "level": "state", "parent_code": "USA", "parent_name": "美国", "per_capita_native": null, "population": null, "region_code": "53000", "region_name": "Washington", "source": "美国经济分析局（BEA）", "year": 2024}, {"currency": "USD", "economy": "USA", "gdp_native": 846000400000.0, "gdp_usd": 846000400000.0, "growth_rate": null, "increment_native": null, "level": "state", "parent_code": "USA", "parent_name": "美国", "per_capita_native": null, "population": null, "region_code": "34000", "region_name": "New Jersey", "source": "美国经济分析局（BEA）", "year": 2024}, {"currency": "USD", "economy": "USA", "gdp_native": 844209019000.0, "gdp_usd": 844209019000.0, "growth_rate": null, "increment_native": null, "level": "state", "parent_code": "USA", "parent_name": "美国", "per_capita_native": null, "population": null, "region_code": "37000", "region_name": "North Carolina", "source": "美国经济分析局（BEA）", "year": 2024}, {"currency": "USD", "economy": "USA", "gdp_native": 778523444000.0, "gdp_usd": 778523444000.0, "growth_rate": null, "increment_native": null, "level": "state", "parent_code": "USA", "parent_name": "美国", "per_capita_native": null, "population": null, "region_code": "25000", "region_name": "Massachusetts", "source": "美国经济分析局（BEA）", "year": 2024}, {"currency": "USD", "economy": "USA", "gdp_native": 761733844000.0, "gdp_usd": 761733844000.0, "growth_rate": null, "increment_native": null, "level": "state", "parent_code": "USA", "parent_name": "美国", "per_capita_native": null, "population": null, "region_code": "51000", "region_name": "Virginia", "source": "美国经济分析局（BEA）", "year": 2024}, {"currency": "USD", "economy": "USA", "gdp_native": 702466918000.0, "gdp_usd": 702466918000.0, "growth_rate": null, "increment_native": null, "level": "state", "parent_code": "USA", "parent_name": "美国", "per_capita_native": null, "population": null, "region_code": "26000", "region_name": "Michigan", "source": "美国经济分析局（BEA）", "year": 2024}, {"currency": "USD", "economy": "USA", "gdp_native": 570088550000.0, "gdp_usd": 570088550000.0, "growth_rate": null, "increment_native": null, "level": "state", "parent_code": "USA", "parent_name": "美国", "per_capita_native": null, "population": null, "region_code": "04000", "region_name": "Arizona", "source": "美国经济分析局（BEA）", "year": 2024}, {"currency": "USD", "economy": "USA", "gdp_native": 561201229000.0, "gdp_usd": 561201229000.0, "growth_rate": null, "increment_native": null, "level": "state", "parent_code": "USA", "parent_name": "美国", "per_capita_native": null, "population": null, "region_code": "47000", "region_name": "Tennessee", "source": "美国经济分析局（BEA）", "year": 2024}, {"currency": "USD", "economy": "USA", "gdp_native": 557632963000.0, "gdp_usd": 557632963000.0, "growth_rate": null, "increment_native": null, "level": "state", "parent_code": "USA", "parent_name": "美国", "per_capita_native": null, "population": null, "region_code": "08000", "region_name": "Colorado", "source": "美国经济分析局（BEA）", "year": 2024}, {"currency": "USD", "economy": "USA", "gdp_native": 546028367000.0, "gdp_usd": 546028367000.0, "growth_rate": null, "increment_native": null, "level": "state", "parent_code": "USA", "parent_name": "美国", "per_capita_native": null, "population": null, "region_code": "24000", "region_name": "Maryland", "source": "美国经济分析局（BEA）", "year": 2024}, {"currency": "USD", "economy": "USA", "gdp_native": 519516461000.0, "gdp_usd": 519516461000.0, "growth_rate": null, "increment_native": null, "level": "state", "parent_code": "USA", "parent_name": "美国", "per_capita_native": null, "population": null, "region_code": "18000", "region_name": "Indiana", "source": "美国经济分析局（BEA）", "year": 2024}, {"currency": "USD", "economy": "USA", "gdp_native": 507687780000.0, "gdp_usd": 507687780000.0, "growth_rate": null, "increment_native": null, "level": "state", "parent_code": "USA", "parent_name": "美国", "per_capita_native": null, "population": null, "region_code": "27000", "region_name": "Minnesota", "source": "美国经济分析局（BEA）", "year": 2024}], "total": 29137790997000.0, "year": 2024}</script>
 <script src="../static/js/pages/region.js"></script>
 

@@ -1,0 +1,7 @@
+# 测试、离线绘图与文档工具（只浏览网页时无需安装）
+-r requirements.txt
+pytest>=8.0
+matplotlib>=3.8
+Pillow>=10.0
+python-docx>=1.1
+PyMuPDF>=1.24

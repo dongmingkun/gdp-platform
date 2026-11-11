@@ -181,6 +181,7 @@ dl.meta dd { margin: 0; }
   align-items: end;
 }
 .toolbar-grid .field { min-width: 0; }
+.toolbar-grid .field-metric { grid-column: span 2; }
 .toolbar-grid select, .toolbar-grid input[type="text"] { width: 100%; min-width: 0; }
 .field-actions { grid-column: span 2; }
 .action-row { display: flex; gap: 8px; flex-wrap: wrap; }
@@ -254,6 +255,7 @@ dl.meta dd { margin: 0; }
 
 /* 长表格滚动时给个顶部锚点，点“回到顶部”能直接跳回去 */
 @media (max-width: 760px) {
+  .toolbar-grid .field-metric { grid-column: 1 / -1; }
   .segmented { width: 100%; }
   .segmented button { flex: 1 1 0; justify-content: center; }
 }

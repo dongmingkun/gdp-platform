@@ -137,7 +137,8 @@
     var format = options.format || (options.percent
       ? function (v) { return fmtPercent(v, 2); } : fmtUSD);
     var data = items.slice().reverse();       // 倒序后最长的柱子显示在最上方
-    var showBarLabels = data.length <= 20;    // 柱子太密就不标数值了，否则会糊成一片
+    var zoomed = data.length > 25;
+    var showBarLabels = data.length <= 20 || zoomed;
     chart.setOption(baseOption({
       tooltip: {
         trigger: "item",
@@ -154,6 +155,12 @@
                                            : (options.axisFormat || fmtAxisUSD)(v); } } },
       yAxis: { type: "category", data: data.map(function (i) { return i.name; }),
                axisLine: { lineStyle: { color: "#DDE5E4" } }, axisTick: { show: false } },
+      dataZoom: zoomed ? [
+        { type: "slider", yAxisIndex: 0, right: 0, width: 16, startValue: data.length - 20,
+          endValue: data.length - 1, filterMode: "filter" },
+        { type: "inside", yAxisIndex: 0, startValue: data.length - 20,
+          endValue: data.length - 1, filterMode: "filter" }
+      ] : [],
       series: [{
         type: "bar", barWidth: "58%",
         data: data.map(function (item, index) {
@@ -182,6 +189,24 @@
     var chart = initChart(id);
     if (!chart) return null;
     if (!series || !series.length) { showEmpty(id); return null; }
+    // 各国的起止年和缺失年份不同，必须用年份匹配，不能按数组下标拼在一起。
+    var categories = options.categories;
+    if (!categories) {
+      var seen = {};
+      series.forEach(function (item) {
+        item.data.forEach(function (pair) { seen[pair[0]] = pair[0]; });
+      });
+      categories = Object.keys(seen).map(function (key) { return seen[key]; })
+        .sort(function (a, b) { return Number(a) - Number(b); });
+      if (categories.length && categories.every(function (year) {
+        return typeof year === "number" && year >= 1000 && year <= 9999 && Number.isInteger(year);
+      })) {
+        var first = categories[0], last = categories[categories.length - 1];
+        categories = [];
+        for (var year = first; year <= last; year++) categories.push(year);
+      }
+    }
+    if (!categories.length) { showEmpty(id); return null; }
     chart.setOption(baseOption({
       tooltip: {
         trigger: "axis",
@@ -192,7 +217,7 @@
       },
       legend: { top: 0, type: "scroll", textStyle: { fontSize: 12 } },
       xAxis: { type: "category", boundaryGap: false,
-               data: options.categories || (series[0].data || []).map(function (d) { return d[0]; }),
+               data: categories,
                axisLine: { lineStyle: { color: "#DDE5E4" } } },
       yAxis: Object.assign({
         type: "value", splitLine: { lineStyle: { color: "#EDF2F1" } },
@@ -203,10 +228,15 @@
         } }
       }, options.yAxis || {}),
       series: series.map(function (item, index) {
+        var byYear = {};
+        item.data.forEach(function (pair) { byYear[pair[0]] = pair[1]; });
         return {
           name: item.name, type: options.area ? "line" : "line",
           smooth: true, showSymbol: false, symbolSize: 6,
-          data: item.data.map(function (d) { return d[1]; }),
+          data: categories.map(function (year) {
+            return Object.prototype.hasOwnProperty.call(byYear, year) ? byYear[year] : null;
+          }),
+          connectNulls: false,
           lineStyle: { width: 2.4, color: item.color || PALETTE[index % PALETTE.length] },
           itemStyle: { color: item.color || PALETTE[index % PALETTE.length] },
           areaStyle: options.area && index === 0 ? { opacity: .12 } : null

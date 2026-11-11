@@ -34,7 +34,7 @@
     county: "县级行政区（县）", prefecture: "都道府县"
   };
   var ECONOMY_NAMES = { CHN: "中国", USA: "美国", JPN: "日本" };
-  var REGION_METRICS = { gdp: "gdp_native", increment: "increment_native", growth: "growth_rate" };
+  var REGION_METRICS = { gdp: "gdp_native", per_capita: "per_capita_native", increment: "increment_native", growth: "growth_rate" };
 
   var cache = {};
   function load(name) {
@@ -104,7 +104,7 @@
   function yoyGrowth(pairs) {
     var result = [], previous = null;
     pairs.forEach(function (pair) {
-      if (previous && previous[1]) {
+      if (previous && pair[0] === previous[0] + 1 && previous[1] && pair[1] !== null) {
         result.push([pair[0], (pair[1] - previous[1]) / previous[1] * 100.0]);
       }
       previous = pair;
@@ -275,14 +275,14 @@
       var usa = seriesOf("USA", "gdp", latest, latest);
       var chinaValue = china.length ? china[0][1] : 0.0;
       var usaValue = usa.length ? usa[0][1] : 0.0;
-      var chinaHistory = seriesOf("CHN", "gdp", null, null);
-      var chinaPcHistory = seriesOf("CHN", "per_capita", null, null);
-      var rankSeries = (store.rankseries.gdp || {}).CHN || [];
+      var chinaHistory = seriesOf("CHN", "gdp", null, latest);
+      var chinaPcHistory = seriesOf("CHN", "per_capita", null, latest);
+      var rankSeries = ((store.rankseries.gdp || {}).CHN || []).filter(function (pair) { return pair[0] <= latest; });
       return {
         empty: false,
         latest_year: latest,
         year_range: meta.year_range,
-        country_count: meta.counts.country,
+        country_count: (byYear.gdp || []).length,
         record_count: meta.counts.annual,
         world_total: total,
         top_country: top,
@@ -296,6 +296,7 @@
         china_first_value: chinaHistory.length ? chinaHistory[0][1] : null,
         china_multiple: (chinaHistory.length && chinaHistory[0][1]) ? (chinaValue / chinaHistory[0][1]) : null,
         china_per_capita_first: chinaPcHistory.length ? chinaPcHistory[0][1] : null,
+        china_per_capita_first_year: chinaPcHistory.length ? chinaPcHistory[0][0] : null,
         china_per_capita_multiple: (chinaPc.length && chinaPcHistory.length && chinaPcHistory[0][1])
           ? (chinaPc[0][1] / chinaPcHistory[0][1]) : null,
         usa_value: usaValue,
@@ -485,7 +486,7 @@
       var year = params.year ? Number(params.year) : (years.length ? years[0] : null);
       if (years.length && years.indexOf(year) < 0) { year = years[0]; }
       var mode = params.mode === "latest" ? "latest" : "year";
-      var metric = (params.metric === "growth" || params.metric === "increment") ? params.metric : "gdp";
+      var metric = (params.metric === "growth" || params.metric === "per_capita") ? params.metric : "gdp";
       var limit = clamp(params.limit, 20, 5, 400);
       var keyword = params.keyword || null;
 
@@ -498,18 +499,19 @@
             var key = row.region_code;
             if (!latestByCode[key] || row.year > latestByCode[key].year) { latestByCode[key] = row; }
           });
-          pool = [];
-          Object.keys(latestByCode).forEach(function (key) {
-            if (latestByCode[key][column] !== null && latestByCode[key][column] !== undefined) {
-              pool.push(latestByCode[key]);
-            }
-          });
+          pool = Object.keys(latestByCode).map(function (key) { return latestByCode[key]; });
           if (keyword) { pool = pool.filter(function (row) { return matchesKeyword(row, keyword); }); }
+          // 合计与覆盖数始终以 GDP 有效样本为分母，不随所选指标的缺值改变。
+          pool = pool.filter(function (row) { return row.gdp_native !== null && row.gdp_native !== undefined; });
           total = 0; areas = pool.length;
           pool.forEach(function (row) { total += row.gdp_native || 0; });
+          pool = pool.filter(function (row) {
+            return row[column] !== null && row[column] !== undefined && (metric !== "per_capita" || row[column] > 0);
+          });
         } else {
           pool = rows.filter(function (row) {
-            return row.year === year && row[column] !== null && row[column] !== undefined;
+            return row.year === year && row[column] !== null && row[column] !== undefined &&
+                   (metric !== "per_capita" || row[column] > 0);
           });
           if (keyword) { pool = pool.filter(function (row) { return matchesKeyword(row, keyword); }); }
           // 注意：在线版的合计口径不带关键词筛选，这里保持一致
@@ -954,17 +956,12 @@
     }
 
     function matchView(params) {
-      var best = null;
-      views.forEach(function (view) {
-        if (view.economy !== params.economy || view.level !== params.level) { return; }
-        var score = 1;
-        score += view.mode === params.mode ? 3 : -1;
-        if (normalizeYear(view.year) === normalizeYear(params.year)) { score += 2; }
-        if (view.metric === params.metric) { score += 2; }
-        if (String(view.limit) === String(params.limit)) { score += 2; }
-        if (!best || score > best.score) { best = { score: score, view: view }; }
-      });
-      return best ? best.view : null;
+      return views.find(function (view) {
+        return view.economy === params.economy && view.level === params.level &&
+          view.metric === params.metric && view.mode === params.mode &&
+          (view.mode === "latest" || normalizeYear(view.year) === normalizeYear(params.year)) &&
+          String(view.limit) === String(params.limit);
+      }) || null;
     }
 
     function hint(message) {
@@ -993,10 +990,21 @@
         economy: economy,
         level: level,
         mode: form.querySelector('select[name="mode"]').value,
-        metric: (form.querySelector(".segmented button.on") || {}).value || "gdp",
+        metric: form.querySelector('input[name="metric"]').value || "gdp",
         limit: form.querySelector('select[name="limit"]').value,
         year: (form.querySelector('select[name="year"]') || {}).value || ""
       };
+      var choices = views.filter(function (view) {
+        return view.economy === economy && view.level === level && view.metric === params.metric;
+      });
+      // 切换经济体后，旧经济体的层级/年份控件可能不适用；未指定的年份使用可用的最新年。
+      if (choices.length && !choices.some(function (view) { return view.mode === params.mode; })) {
+        params.mode = choices[0].mode;
+      }
+      if (params.mode === "year" && !params.year) {
+        params.year = Math.max.apply(null, choices.filter(function (view) { return view.mode === "year"; })
+          .map(function (view) { return view.year; }));
+      }
       var view = matchView(params);
       if (!view) {
         hint("静态演示站点只预生成了常用的视图组合（见上方快捷视图）：" +
@@ -1012,6 +1020,16 @@
     form.addEventListener("submit", function (event) {
       event.preventDefault();
       route();
+    });
+    // 控件仅允许选择当前快照已导出的统计口径和年份。
+    var currentEconomy = form.querySelector('select[name="economy"]').value;
+    var currentLevel = form.querySelector('select[name="level"]').value;
+    var available = views.filter(function (view) { return view.economy === currentEconomy && view.level === currentLevel; });
+    form.querySelectorAll('select[name="mode"] option').forEach(function (option) {
+      option.disabled = !available.some(function (view) { return view.mode === option.value; });
+    });
+    form.querySelectorAll('select[name="year"] option').forEach(function (option) {
+      option.disabled = !available.some(function (view) { return view.mode === "year" && String(view.year) === option.value; });
     });
 
     // 关键词：静态站点没有后端筛选，改成筛当前表格里已列出的行
@@ -1030,7 +1048,7 @@
           row.style.display = hit ? "" : "none";
           if (hit) { shown += 1; }
         });
-        var hint = table.closest(".panel").querySelector(".panel-head .hint");
+        var hint = table && table.closest(".panel").querySelector(".panel-head .hint");
         if (hint) {
           hint.textContent = keyword
             ? "静态版：当前表格中匹配“" + keywordBox.value.trim() + "”的有 " + shown + " 行（完整筛选请用本地版）"
@@ -1056,11 +1074,12 @@
     }
 
     // 导出按钮指向静态数据文件
-    form.querySelectorAll('a[href*="region/export.csv"]').forEach(function (link) {
+    form.querySelectorAll('a[data-region-export]').forEach(function (link) {
       var economy = form.querySelector('select[name="economy"]').value;
       var level = form.querySelector('select[name="level"]').value;
       link.setAttribute("href", DATA_DIR + "dataset/region-export-" + economy + "-" + level + ".csv");
       link.setAttribute("title", "静态站点提供该层级的完整 CSV（在线版可按当前筛选导出）");
+      link.textContent = "下载完整层级 CSV";
     });
   }
 

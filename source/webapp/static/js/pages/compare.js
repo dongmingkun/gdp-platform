@@ -12,7 +12,7 @@
   GDP.getJSON("/api/compare" + (query ? "?" + query : ""))
     .then(function (data) {
       if (!data.items.length) { GDP.showEmpty("chart-compare", "请至少勾选一个国家"); return; }
-      var percent = false, usd = data.metric === "gdp";
+      var usd = true;
 
       GDP.drawLines("chart-compare", data.items.map(function (item) {
         return { name: item.name, data: item.data };

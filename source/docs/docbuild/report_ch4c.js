@@ -1,5 +1,6 @@
 "use strict";
 /** 第 4 章后半：4.4 关键功能与特色说明（每处附关键代码）。 */
+const E = require("./evidence");
 
 module.exports = [
   { t: "h2", text: "4.4 关键功能与特色说明" },
@@ -71,7 +72,7 @@ ORDER BY year` },
 
   { t: "h3", text: "（5）基于异步接口实现原地下钻" },
   { t: "p", text: "区域页原本在选省份后会整页重载，滚动位置被拉回顶部，刚选的省份结果反而看不见。改为前端拦截表单提交、用异步接口取回下辖城市后只重画图表与表格：页面不跳转、地址栏不变，连着看几个省也不用等。" },
-  { t: "code", caption: "代码 4-5　原地刷新下钻结果（webapp/templates/region.html，节选）", text:
+  { t: "code", caption: "代码 4-5　原地刷新下钻结果（webapp/static/js/pages/region.js，节选）", text:
 `drillSelect.addEventListener("change", function () {
   loadChildren(drillSelect.value);
 });
@@ -85,7 +86,7 @@ GDP.getJSON("/api/region/children?parent=" + encodeURIComponent(code)
    .then(function (data) { renderChildren(data.items); });` },
 
   { t: "h3", text: "（6）基于前端数据层把应用导出为静态站点" },
-  { t: "p", text: "GitHub Pages 只能托管静态文件、跑不了 Python。为此写了一条导出路线：把数据库导成 JSON 数据包，再由前端数据层 `static-api.js` 在浏览器里把各接口算出来，页面上的筛选、下钻、分页因此仍可用。为防止“两处口径分叉”，另写了等价性验证脚本：同一批 34 个查询分别用 Python 后端与前端数据层各算一遍，逐字段比对（浮点按相对误差 1e-9），结果完全一致。" },
+  { t: "p", text: `GitHub Pages 只能托管静态文件。导出脚本将数据库转换成 JSON 数据包，static-api.js 在浏览器计算接口结果。为检查两套程序的口径，验证脚本对 ${E.static_queries} 组查询逐字段比较结构和数值（浮点相对容差 1e-9）。静态区域页使用预生成的常用视图，关键词仅筛选当前表格，功能限制需要如实说明。` },
   { t: "code", caption: "代码 4-6　导出时把链接改成相对路径（deploy/export_static.py，节选）", text:
 `# GitHub Pages 的站点在 /仓库名/ 子路径下，绝对路径会指向根域名
 html = html.replace('href="/static/', 'href="static/')
@@ -93,5 +94,5 @@ for route, target in ROUTE_FILES.items():
     html = html.replace('href="%s?' % route,
                         'href="%s?' % target)
 # 再在 charts.js 之后挂上 static-api.js，由它接管页面发出的 /api/... 请求` },
-  { t: "tip", title: "验证结果", text: "静态站点根目录只保留 9 个页面，区域页的预生成视图集中放在 views/ 目录（24 份），另有数据包、CSV 与前端资源；发布到 GitHub Pages 后页面与全部资源均返回 200，浏览器实测图表正常、下钻与分页可用、控制台零报错。" },
+  { t: "tip", title: "本地验证结果", text: `静态站根目录有 9 个主页面，views/ 中有 ${E.static_views} 份常用区域视图。本次在本地 HTTP 服务中验证了 Flask 与静态版的 9 个页面及人均/增速切换流程，未发生脚本报错。新增版本尚未发布到线上网址。` },
 ];

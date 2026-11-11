@@ -234,6 +234,8 @@ class GdpDAO(object):
         用 SQL 的 ORDER BY + LIMIT 直接取前 N 名（year 上有索引），
         不需要把一年的数据全读进内存。
         """
+        if year is None:
+            return []
         column = self._METRIC_COLUMN.get(metric, self._METRIC_COLUMN["gdp"])
         sql = ("SELECT a.country_code AS code, c.name_cn, c.name_en, c.region,"
                " %s AS value FROM gdp_annual a JOIN country c ON c.code = a.country_code"
@@ -249,8 +251,15 @@ class GdpDAO(object):
 
     def rank_of(self, country_code, year, metric="gdp", real_only=True):
         """某个国家某一年的名次：统计有多少国家排在它前面，再加一。"""
+        if year is None:
+            return None
         column = self._METRIC_COLUMN.get(metric, self._METRIC_COLUMN["gdp"])
         own = column.replace("a.", "")
+        value = self.db.query_one(
+            "SELECT %s FROM gdp_annual WHERE country_code=? AND year=?" % own,
+            (country_code, int(year)))
+        if value is None or value[0] is None:
+            return None
         sql = ("SELECT COUNT(*) FROM gdp_annual a JOIN country c ON c.code=a.country_code"
                " WHERE a.year=? AND %s IS NOT NULL"
                " AND %s > (SELECT %s FROM gdp_annual WHERE country_code=? AND year=?)"
@@ -285,6 +294,8 @@ class GdpDAO(object):
 
     def world_total(self, year):
         """全球合计（只累加真实国家，避免把“世界”汇总项重复计入）。"""
+        if year is None:
+            return 0.0
         row = self.db.query_one(
             "SELECT SUM(a.gdp_usd) AS total FROM gdp_annual a"
             " JOIN country c ON c.code=a.country_code"
@@ -437,24 +448,31 @@ class GdpDAO(object):
 
     def region_total(self, economy, level, year):
         """某层级某一年的合计（同一层级的区域相加，即“各省合计”这类口径）。"""
+        if year is None:
+            return {"total": 0.0, "areas": 0}
         row = self.db.query_one(
             "SELECT SUM(gdp_native) AS total, COUNT(*) AS areas FROM region_gdp"
             " WHERE economy=? AND level=? AND year=?", (economy, level, int(year)))
         return {"total": float(row["total"]) if row and row["total"] else 0.0,
                 "areas": int(row["areas"]) if row else 0}
 
-    # 区域排行可用的指标：总量、增量、名义增速
-    REGION_METRICS = {"gdp": "gdp_native", "increment": "increment_native", "growth": "growth_rate"}
+    # 字段名只从白名单取，不能把用户的 metric 直接拼入 SQL。
+    REGION_METRICS = {"gdp": "gdp_native", "per_capita": "per_capita_native",
+                      "increment": "increment_native", "growth": "growth_rate"}
 
     def region_rank(self, economy, level, year, limit=20, parent_code=None, keyword=None,
                     metric="gdp"):
         """某经济体某层级某年的区域排行，可按指标排序、按关键字筛选。"""
+        if year is None:
+            return []
         column = self.REGION_METRICS.get(metric, "gdp_native")
         sql = ("SELECT region_code, region_name, parent_code, parent_name, year,"
                " gdp_native, increment_native, growth_rate, population, currency, gdp_usd,"
                " per_capita_native, source FROM region_gdp"
                " WHERE economy=? AND level=? AND year=? AND %s IS NOT NULL" % column)
         params = [economy, level, int(year)]
+        if metric == "per_capita":
+            sql += " AND per_capita_native > 0"
         if parent_code:
             sql += " AND parent_code=?"
             params.append(parent_code)
@@ -506,6 +524,8 @@ class GdpDAO(object):
                " ON m.region_code=r.region_code AND m.level=r.level AND m.economy=r.economy"
                " AND m.latest=r.year WHERE r.%s IS NOT NULL" % column)
         params = [economy, level]
+        if metric == "per_capita":
+            sql += " AND r.per_capita_native > 0"
         if keyword:
             sql += " AND (r.region_name LIKE ? OR r.parent_name LIKE ?)"
             params.extend(["%" + keyword + "%", "%" + keyword + "%"])
@@ -517,6 +537,11 @@ class GdpDAO(object):
 
     def region_growth_summary(self, economy, level, year=None):
         """增速概览：有增速数据的区域数、平均名义增速、最高与最低。"""
+        if year is None:
+            values = [r["growth_rate"] for r in self.region_latest_rank(
+                economy, level, metric="growth")]
+            return {"areas": len(values), "average": sum(values) / len(values) if values else None,
+                    "max": max(values) if values else None, "min": min(values) if values else None}
         where = "economy=? AND level=? AND growth_rate IS NOT NULL"
         params = [economy, level]
         if year:

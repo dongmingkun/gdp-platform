@@ -19,6 +19,9 @@
   var GROWTH = page.growth;
 
   function moneyText(value) { return GDP.fmtMoney(value, CURRENCY); }
+  function perCapitaText(value) {
+    return GDP.fmtNum(value, 0) + " " + (CURRENCY === "USD" ? "美元" : (CURRENCY === "JPY" ? "日元" : "元"));
+  }
   function axisMoney(value) { return GDP.fmtAxisMoney(value, CURRENCY); }
   function rateText(value) { return (value > 0 ? "+" : "") + Number(value).toFixed(2) + "%"; }
 
@@ -65,6 +68,11 @@
         axisFormat: function (v) { return v.toFixed(0) + "%"; },
         colorBySign: true
       });
+    } else if (METRIC === "per_capita") {
+      GDP.drawRankBar("chart-region", items.map(function (item) {
+        return { name: item.region_name + (MODE === "latest" ? "（" + item.year + "）" : ""),
+                 value: item.per_capita_native };
+      }), { format: perCapitaText, axisFormat: function (v) { return GDP.fmtNum(v, 0); } });
     } else {
       GDP.drawRankBar("chart-region", items.map(function (item) {
         return { name: item.region_name + (MODE === "latest" ? "（" + item.year + "）" : ""),
@@ -90,6 +98,12 @@
         (worst.growth_rate >= 0 ? "growth-up" : "growth-down") + "'>" + rateText(worst.growth_rate) +
         "</b>（" + worst.year + " 年）";
     }
+  } else if (RANK.length && METRIC === "per_capita") {
+    var highest = RANK[0], lowest = RANK[RANK.length - 1];
+    document.getElementById("kpi-top").textContent = highest.region_name;
+    document.getElementById("kpi-top-foot").textContent = perCapitaText(highest.per_capita_native) + "（" + highest.year + " 年）";
+    document.getElementById("kpi-bottom").textContent = lowest.region_name;
+    document.getElementById("kpi-bottom-foot").textContent = perCapitaText(lowest.per_capita_native) + "（" + lowest.year + " 年）";
   } else if (RANK.length) {
     // 注意：变量名不能叫 top —— window.top 是只读的窗口属性，
     // 用 var top = ... 赋值会被静默忽略，取值时拿到的是窗口对象（踩过这个坑）
@@ -122,7 +136,8 @@
         "<td class='num'>" + (row.increment_native === null || row.increment_native === undefined
             ? "—" : GDP.fmtMoney(row.increment_native, row.currency)) + "</td>" +
         "<td class='num'>" + rateCell + "</td>" +
-        "<td class='num'>" + (row.per_capita_native ? GDP.fmtNum(row.per_capita_native, 0) + " 元" : "—") + "</td>" +
+        "<td class='num'>" + (row.per_capita_native ? GDP.fmtNum(row.per_capita_native, 0) + " " +
+          (row.currency === "USD" ? "美元" : (row.currency === "JPY" ? "日元" : "元")) : "—") + "</td>" +
         "<td class='num'>" + row.year + "</td></tr>";
     }).join("");
     if (items.length) {
@@ -136,7 +151,8 @@
 
   function loadChildren(code) {
     var title = document.getElementById("drill-title");
-    if (title) title.textContent = code;
+    var selected = drillSelect && drillSelect.options[drillSelect.selectedIndex];
+    if (title) title.textContent = selected ? selected.textContent : code;
     GDP.showLoading("chart-children");
     GDP.getJSON("/api/region/children?parent=" + encodeURIComponent(code) + "&limit=100"
                 + (YEAR ? "&year=" + YEAR : ""))
@@ -205,6 +221,14 @@
     if (regionForm) { regionForm.submit(); }
   };
   if (regionForm) {
+    regionForm.querySelectorAll("button[data-metric]").forEach(function (button) {
+      button.addEventListener("click", function () {
+        regionForm.querySelector('input[name="metric"]').value = button.dataset.metric;
+        regionForm.querySelectorAll("button[data-metric]").forEach(function (other) {
+          other.classList.toggle("on", other === button);
+        });
+      });
+    });
     regionForm.addEventListener("change", function (event) {
       if (event.target.tagName === "SELECT") { window.submitForm(); }
     });

@@ -14,17 +14,17 @@ GitHub Pages **只能托管静态文件**（HTML / CSS / JS / 图片），不能
 - **GitHub Pages 版** → 用导出脚本生成一份**纯静态站点**：数据库导出成 JSON 数据包，
   页面里的接口请求由前端 `static-api.js` 在浏览器里算出来。
 
-我没有偷工减料：静态站上**筛选、切换指标、下钻、分页、图表、导出 CSV 全部可用**，
-数值也与在线版一致——这一点是逐条比对过的（34 个查询，结果完全相同）：
+静态版支持已导出口径下的指标切换、下钻、分页、图表与数据文件下载。
+已对 37 组查询逐字段比较数值与结构，结果一致；区域关键词仅筛当前表格，CSV 下载为完整层级文件。
 
 ```bash
 python deploy/export_static.py        # 生成 dist/（9 个页面 + views/ 下的区域视图 + 数据包）
-python deploy/verify_static.py        # 前端数据层 vs Python 后端：34 个查询逐条比对
+python deploy/verify_static.py        # 前端数据层 vs Python 后端：37 个查询逐条比对
 ```
 
 差别只有三条，都写在站点说明里：
 **① 只读快照**（不能采集，更新数据要重新导出上传）；
-**② 区域页预生成了常用视图**（快捷视图、各年份、各显示数量），控件会跳到最接近的那一份；
+**② 区域页严格匹配预生成视图**：支持的口径覆盖三个指标和全部显示数量；未导出的年份/口径禁用或提示，不用其它年份替代；
 **③ 美国县级数据只含每个县最新一年**（7.4 万行太占体积，省级/城市/州级数据都是完整的）。
 
 ---
@@ -33,7 +33,7 @@ python deploy/verify_static.py        # 前端数据层 vs Python 后端：34 �
 
 - 仓库已建好并已推送：**https://github.com/dongmingkun/gdp-platform**（`dist` 里的站点文件与源码全部在 `main` 分支上；区域页的预生成视图在 `views/` 目录）；
 - 本地 `dist/` 已经是一个 git 仓库（`origin` 指向上面这个地址），**以后更新只需三条命令**；
-- 还差最后一步：在仓库 **Settings → Pages** 里把 Source 设为 `Deploy from a branch`、Branch 选 `main` + `/(root)`。
+- GitHub Pages 已有成功部署记录；后续推送 `main` 分支后，等待 `pages build and deployment` 工作流成功即可验证线上更新。
 
 ### 以后更新数据（本地采集 → 重新导出 → 推送）
 

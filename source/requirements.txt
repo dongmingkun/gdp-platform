@@ -1,5 +1,6 @@
-# 项目第三方依赖（其余功能全部使用 Python 标准库实现）
+# 网页服务与全部采集器的运行依赖。lxml 不会随 requests 自动安装。
 #
 # 安装：python -m pip install -r requirements.txt
 flask>=3.0          # Web 后端框架（自带 Jinja2 模板引擎）
 requests>=2.31      # 爬虫 HTTP 请求库
+lxml>=5.0          # 解析区域 GDP 的 HTML 表格

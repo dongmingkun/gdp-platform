@@ -32,7 +32,7 @@ ROOT = Path(__file__).resolve().parent.parent
 DIRECTORIES = ["spider", "database", "analysis", "webapp", "gui", "tests", "deploy"]
 
 #: 根目录下的单文件
-ROOT_FILES = ["config.py", "run.py", "wsgi.py", "requirements.txt", "requirements-server.txt",
+ROOT_FILES = ["config.py", "run.py", "wsgi.py", "requirements.txt", "requirements-dev.txt", "requirements-server.txt",
               "start.bat", "collect.bat", "README.md"]
 
 #: 数据：手工整理的数据文件与数据库本体（数据库是作业要求交付的数据文件）
@@ -40,6 +40,12 @@ DATA_PATHS = ["data/manual", "data/gdp.db"]
 
 #: 文档：说明文档与文档生成脚本（不含产物与本机依赖）
 DOC_PATHS = [
+    "docs/期末优化说明.md",
+    "docs/validation.json",
+    "docs/browser-validation.json",
+    "docs/collect_evidence.py",
+    "docs/render_report.ps1",
+    "docs/docbuild/evidence.js",
     "docs/加分项-额外学习清单.md",
     "docs/部署说明.md",
     "docs/发布到 GitHub Pages 操作指南.md",
@@ -73,9 +79,10 @@ NOTE = """# 源码说明（source/）
 ## 快速开始
 
 ```bash
-python -m pip install -r requirements.txt    # 只依赖 flask 与 requests
+python -m pip install -r requirements.txt    # flask、requests、lxml
 python run.py                                # 启动网页服务（自动打开浏览器）
-python -m pytest tests -q                    # 85 个单元测试
+python -m pip install -r requirements-dev.txt
+python -m pytest tests -q                    # 运行离线回归测试
 ```
 
 数据库已随源码附带（`data/gdp.db`，17 MB）。需要更新数据时：
@@ -95,7 +102,7 @@ python deploy/export_static.py # 重新导出静态站点（会保留本目录�
 | `analysis/` | 分析层：`indicators.py`（纯函数）、`exporter.py`、`charts.py` |
 | `webapp/` | 应用与展示层：`app.py`（9 个页面 + 18 个接口）、`templates/`、`static/` |
 | `gui/` | Tkinter 桌面采集控制台 |
-| `tests/` | pytest 用例（85 个，全部离线运行） |
+| `tests/` | pytest 用例，覆盖解析、统计、接口、前端图表与静态等价性 |
 | `deploy/` | 部署与发布：Dockerfile、Render/Render 蓝图、Nginx、systemd、静态站点导出与等价性验证 |
 | `data/manual/` | 人工整理的数据文件（格式说明见该目录 README） |
 | `docs/` | 说明文档与文档生成脚本（不含生成出来的 docx/pdf 与截图） |

@@ -11,6 +11,7 @@
 运行方式：python docs/make_report_figures.py
 """
 
+import json
 import sys
 from pathlib import Path
 
@@ -62,7 +63,7 @@ def draw_structure():
 
     layers = [
         ("展示层", ["Web 端 9 个页面", "ECharts 图表", "桌面采集控制台", "静态站点导出"]),
-        ("应用层", ["Flask 路由", "18 个 JSON 接口", "后台采集任务", "CSV 导出"]),
+        ("应用层", ["Flask 路由", "18 个数据接口", "后台采集任务", "CSV 导出"]),
         ("分析层", ["增长率 / 单季折算", "产业占比", "差距倍数 / 名次", "增速概览"]),
         ("存储层", ["SQLite 五张表", "批量 UPSERT", "索引与聚合查询", "采集日志"]),
         ("采集层", ["世界银行 API", "东方财富接口", "BEA 批量文件", "维基表格 / 人工 CSV"]),
@@ -93,7 +94,12 @@ def draw_structure():
     # 右侧支撑模块：8.45 – 9.85
     ax.text(9.1, 8.05, "支撑模块", ha="center", va="center", fontsize=12.5,
             fontweight="bold", color=INK)
-    supports = [("配置文件", "config.py"), ("单元测试", "pytest 80 个用例"),
+    evidence_path = ROOT / "docs" / "validation.json"
+    test_label = "pytest 离线回归"
+    if evidence_path.exists():
+        count = json.loads(evidence_path.read_text(encoding="utf-8"))["tests"]["total"]
+        test_label = "pytest %d 个用例" % count
+    supports = [("配置文件", "config.py"), ("单元测试", test_label),
                 ("数据文件导出", "9 个 CSV / JSON"), ("说明书自动生成", "docx-js 管线"),
                 ("部署", "Docker / Nginx / Pages")]
     top, height, gap = 7.55, 1.05, 0.28

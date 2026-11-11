@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>区域对比 · 全球 GDP 数据采集与可视化分析平台</title>
   <link rel="stylesheet" href="../static/css/style.css">
-  
+
   <script src="../static/vendor/echarts.min.js"></script>
 </head>
 <body>
@@ -15,7 +15,7 @@
       <span class="logo">GDP</span>
       <div class="brand-text">
         <strong>全球 GDP 数据采集与可视化分析平台</strong>
-        <small>数据来源：世界银行开放数据 · 东方财富数据中心</small>
+        <small>城市经济格局 · 全球参照 · 数据口径与来源可查</small>
       </div>
     </div>
     <nav class="nav">
@@ -44,44 +44,46 @@
 
 
 <main class="container">
-  
+
 <div class="panel">
   <div class="panel-head">
     <h2>区域 GDP 对比与增长趋势</h2>
     <span class="hint">美国数据来自经济分析局（BEA）官方批量文件；中国与日本数据来自维基百科统计条目；带「人工整理」标记的记录来自榜单整理</span>
   </div>
   <form class="toolbar toolbar-grid" method="get" action="../region.html" id="region-form">
+    <input type="hidden" name="metric" value="gdp">
     <div class="field">
       <label>经济体</label>
       <select name="economy">
-        
+
         <option value="CHN" selected>中国</option>
-        
+
         <option value="USA" >美国</option>
-        
+
         <option value="JPN" >日本</option>
-        
+
       </select>
     </div>
     <div class="field">
       <label>区域层级</label>
       <select name="level">
-        
+
         <option value="city" selected>
           地级行政区（城市）（361 个）
         </option>
-        
+
         <option value="province" >
           省级行政区（33 个）
         </option>
-        
+
       </select>
     </div>
-    <div class="field">
+    <div class="field field-metric">
       <label>指标</label>
       <div class="segmented">
-        <button type="submit" name="metric" value="gdp" class="on">GDP 总量</button>
-        <button type="submit" name="metric" value="growth" class="">名义增速</button>
+        <button type="submit" data-metric="gdp" value="gdp" class="on">GDP 总量</button>
+        <button type="submit" data-metric="per_capita" value="per_capita" class="">人均 GDP</button>
+        <button type="submit" data-metric="growth" value="growth" class="">名义增速</button>
       </div>
     </div>
     <div class="field">
@@ -91,14 +93,14 @@
         <option value="year" selected>限定某一年</option>
       </select>
     </div>
-    
+
     <div class="field">
       <label>年份</label>
       <select name="year">
         <option value="2025" >2025 年</option><option value="2024" selected>2024 年</option><option value="2023" >2023 年</option><option value="2022" >2022 年</option><option value="2021" >2021 年</option><option value="2020" >2020 年</option><option value="2019" >2019 年</option><option value="2018" >2018 年</option><option value="2017" >2017 年</option><option value="2015" >2015 年</option>
       </select>
     </div>
-    
+
     <div class="field">
       <label>显示数量</label>
       <select name="limit">
@@ -114,7 +116,7 @@
       <div class="action-row">
         <button type="submit">查询</button>
         <a class="btn ghost" href="../views/region-chn-city-latest-latest-gdp-20.html">重置</a>
-        <a class="btn ghost" href="../data/dataset/region-export-CHN-city.csv">导出 CSV</a>
+        <a class="btn ghost" data-region-export href="../data/dataset/region-export-CHN-city.csv">导出 CSV</a>
       </div>
     </div>
   </form>
@@ -143,10 +145,10 @@
     <div class="value">75<span class="unit">个区域</span></div>
     <div class="foot">
       数据年份 2024 年
-      
+
     </div>
   </div>
-  
+
   <div class="card">
     <div class="label">合计（2024 年）</div>
     <div class="value" id="kpi-total">-</div>
@@ -164,14 +166,14 @@
     <div class="value" id="kpi-share">-</div>
     <div class="foot">占同口径全部区域合计的比重</div>
   </div>
-  
+
 </div>
 
 
 
 <div class="panel">
   <div class="panel-head">
-    <h2>中国 地级行政区（城市）排行</h2>
+    <h2>中国 地级行政区（城市）GDP 总量排行</h2>
     <span class="hint">2024 年 · 鼠标悬停查看数值</span>
   </div>
   <div id="chart-region" class="chart chart-lg"></div>
@@ -182,10 +184,10 @@
     <h2>排行明细</h2>
     <div class="head-actions">
       <span class="hint">共 20 条 · 「上年（推算）」= GDP − 增量</span>
-      
+
     </div>
   </div>
-  
+
   <div class="table-wrap">
     <table class="data">
       <thead>
@@ -196,7 +198,7 @@
             <th class="num">人均 GDP</th><th class="num">数据年份</th></tr>
       </thead>
       <tbody>
-        
+
         <tr class="top1"
             data-gdp="3680187000000.0005" data-inc=""
             data-rate="">
@@ -212,7 +214,7 @@
           <td class="num">205,714 元</td>
           <td class="num">2024</td>
         </tr>
-        
+
         <tr class="top2"
             data-gdp="3103250000000.0" data-inc=""
             data-rate="">
@@ -228,7 +230,7 @@
           <td class="num">164,171 元</td>
           <td class="num">2024</td>
         </tr>
-        
+
         <tr class="top3"
             data-gdp="1526880000000.0" data-inc=""
             data-rate="">
@@ -244,7 +246,7 @@
           <td class="num">145,279 元</td>
           <td class="num">2024</td>
         </tr>
-        
+
         <tr class=""
             data-gdp="1453207000000.0" data-inc=""
             data-rate="">
@@ -260,7 +262,7 @@
           <td class="num">111,382 元</td>
           <td class="num">2024</td>
         </tr>
-        
+
         <tr class=""
             data-gdp="1423676000000.0" data-inc=""
             data-rate="">
@@ -276,7 +278,7 @@
           <td class="num">167,787 元</td>
           <td class="num">2024</td>
         </tr>
-        
+
         <tr class=""
             data-gdp="1336190000000.0" data-inc=""
             data-rate="">
@@ -292,7 +294,7 @@
           <td class="num">138,363 元</td>
           <td class="num">2024</td>
         </tr>
-        
+
         <tr class=""
             data-gdp="1309482000000.0" data-inc=""
             data-rate="">
@@ -308,7 +310,7 @@
           <td class="num">147,158 元</td>
           <td class="num">2024</td>
         </tr>
-        
+
         <tr class=""
             data-gdp="1228215000000.0" data-inc=""
             data-rate="">
@@ -324,7 +326,7 @@
           <td class="num">116,661 元</td>
           <td class="num">2024</td>
         </tr>
-        
+
         <tr class=""
             data-gdp="858901000000.0" data-inc=""
             data-rate="">
@@ -340,7 +342,7 @@
           <td class="num">160,888 元</td>
           <td class="num">2024</td>
         </tr>
-        
+
         <tr class=""
             data-gdp="613639000000.0" data-inc=""
             data-rate="">
@@ -356,7 +358,7 @@
           <td class="num">100,677 元</td>
           <td class="num">2024</td>
         </tr>
-        
+
         <tr class=""
             data-gdp="606371000000.0" data-inc=""
             data-rate="">
@@ -372,7 +374,7 @@
           <td class="num">119,612 元</td>
           <td class="num">2024</td>
         </tr>
-        
+
         <tr class=""
             data-gdp="601630000000.0" data-inc=""
             data-rate="">
@@ -388,7 +390,7 @@
           <td class="num">61,266 元</td>
           <td class="num">2024</td>
         </tr>
-        
+
         <tr class=""
             data-gdp="581860000000.0" data-inc=""
             data-rate="">
@@ -404,7 +406,7 @@
           <td class="num">82,184 元</td>
           <td class="num">2024</td>
         </tr>
-        
+
         <tr class=""
             data-gdp="512770000000.0" data-inc=""
             data-rate="">
@@ -420,7 +422,7 @@
           <td class="num">102,760 元</td>
           <td class="num">2024</td>
         </tr>
-        
+
         <tr class=""
             data-gdp="487908000000.0" data-inc=""
             data-rate="">
@@ -436,7 +438,7 @@
           <td class="num">51,492 元</td>
           <td class="num">2024</td>
         </tr>
-        
+
         <tr class=""
             data-gdp="453270000000.0" data-inc=""
             data-rate="">
@@ -452,7 +454,7 @@
           <td class="num">87,335 元</td>
           <td class="num">2024</td>
         </tr>
-        
+
         <tr class=""
             data-gdp="449170000000.0" data-inc=""
             data-rate="">
@@ -468,7 +470,7 @@
           <td class="num">69,103 元</td>
           <td class="num">2024</td>
         </tr>
-        
+
         <tr class=""
             data-gdp="447906000000.00006" data-inc=""
             data-rate="">
@@ -484,7 +486,7 @@
           <td class="num">178,712 元</td>
           <td class="num">2024</td>
         </tr>
-        
+
         <tr class=""
             data-gdp="421018000000.0" data-inc=""
             data-rate="">
@@ -500,7 +502,7 @@
           <td class="num">87,303 元</td>
           <td class="num">2024</td>
         </tr>
-        
+
         <tr class=""
             data-gdp="414325000000.0" data-inc=""
             data-rate="">
@@ -516,11 +518,11 @@
           <td class="num">92,558 元</td>
           <td class="num">2024</td>
         </tr>
-        
+
       </tbody>
     </table>
   </div>
-  
+
 </div>
 
 
@@ -537,98 +539,98 @@
     <input type="hidden" name="year" value="2024">
     <div class="field">
       <label>选择省份</label>
-      
+
       <select name="parent" id="drill-parent">
-        
+
         <option value="上海" >上海</option>
-        
+
         <option value="云南" >云南</option>
-        
+
         <option value="内蒙古" >内蒙古</option>
-        
+
         <option value="北京" >北京</option>
-        
+
         <option value="吉林" >吉林</option>
-        
+
         <option value="四川" >四川</option>
-        
+
         <option value="天津" >天津</option>
-        
+
         <option value="宁夏" >宁夏</option>
-        
+
         <option value="安徽" >安徽</option>
-        
+
         <option value="山东" >山东</option>
-        
+
         <option value="山西" >山西</option>
-        
+
         <option value="广东" selected>广东</option>
-        
+
         <option value="广西" >广西</option>
-        
+
         <option value="新疆" >新疆</option>
-        
+
         <option value="江苏" >江苏</option>
-        
+
         <option value="江西" >江西</option>
-        
+
         <option value="河北" >河北</option>
-        
+
         <option value="河南" >河南</option>
-        
+
         <option value="浙江" >浙江</option>
-        
+
         <option value="海南" >海南</option>
-        
+
         <option value="湖北" >湖北</option>
-        
+
         <option value="湖南" >湖南</option>
-        
+
         <option value="澳门" >澳门</option>
-        
+
         <option value="甘肃" >甘肃</option>
-        
+
         <option value="福建" >福建</option>
-        
+
         <option value="西藏" >西藏</option>
-        
+
         <option value="贵州" >贵州</option>
-        
+
         <option value="辽宁" >辽宁</option>
-        
+
         <option value="重庆" >重庆</option>
-        
+
         <option value="陕西" >陕西</option>
-        
+
         <option value="青海" >青海</option>
-        
+
         <option value="香港" >香港</option>
-        
+
         <option value="黑龙江" >黑龙江</option>
-        
+
       </select>
     </div>
     <button type="submit" id="drill-button">查看</button>
     <div class="field">
       <label>常用省份</label>
       <div class="chip-row">
-        
+
         <button type="button" class="chip" data-parent="上海">上海</button>
-        
+
         <button type="button" class="chip" data-parent="云南">云南</button>
-        
+
         <button type="button" class="chip" data-parent="内蒙古">内蒙古</button>
-        
+
         <button type="button" class="chip" data-parent="北京">北京</button>
-        
+
         <button type="button" class="chip" data-parent="吉林">吉林</button>
-        
+
         <button type="button" class="chip" data-parent="四川">四川</button>
-        
+
         <button type="button" class="chip" data-parent="天津">天津</button>
-        
+
         <button type="button" class="chip" data-parent="宁夏">宁夏</button>
-        
+
       </div>
     </div>
   </form>
@@ -638,7 +640,7 @@
       <thead><tr><th>名次</th><th>区域</th><th class="num">GDP</th><th class="num">增量</th>
                  <th class="num">名义增速</th><th class="num">人均 GDP</th><th class="num">数据年份</th></tr></thead>
       <tbody id="children-body">
-        
+
         <tr data-gdp="3680187000000.0005" data-inc=""
             data-rate="">
           <td><span class="rank-no">1</span></td>
@@ -649,7 +651,7 @@
           <td class="num">205,714 元</td>
           <td class="num">2024</td>
         </tr>
-        
+
         <tr data-gdp="3103250000000.0" data-inc=""
             data-rate="">
           <td><span class="rank-no">2</span></td>
@@ -660,7 +662,7 @@
           <td class="num">164,171 元</td>
           <td class="num">2024</td>
         </tr>
-        
+
         <tr data-gdp="1336190000000.0" data-inc=""
             data-rate="">
           <td><span class="rank-no">3</span></td>
@@ -671,7 +673,7 @@
           <td class="num">138,363 元</td>
           <td class="num">2024</td>
         </tr>
-        
+
         <tr data-gdp="1228215000000.0" data-inc=""
             data-rate="">
           <td><span class="rank-no">4</span></td>
@@ -682,7 +684,7 @@
           <td class="num">116,661 元</td>
           <td class="num">2024</td>
         </tr>
-        
+
         <tr data-gdp="613639000000.0" data-inc=""
             data-rate="">
           <td><span class="rank-no">5</span></td>
@@ -693,7 +695,7 @@
           <td class="num">100,677 元</td>
           <td class="num">2024</td>
         </tr>
-        
+
         <tr data-gdp="447906000000.00006" data-inc=""
             data-rate="">
           <td><span class="rank-no">6</span></td>
@@ -704,7 +706,7 @@
           <td class="num">178,712 元</td>
           <td class="num">2024</td>
         </tr>
-        
+
         <tr data-gdp="421018000000.0" data-inc=""
             data-rate="">
           <td><span class="rank-no">7</span></td>
@@ -715,7 +717,7 @@
           <td class="num">87,303 元</td>
           <td class="num">2024</td>
         </tr>
-        
+
         <tr data-gdp="414325000000.0" data-inc=""
             data-rate="">
           <td><span class="rank-no">8</span></td>
@@ -726,7 +728,7 @@
           <td class="num">92,558 元</td>
           <td class="num">2024</td>
         </tr>
-        
+
         <tr data-gdp="407204000000.0" data-inc=""
             data-rate="">
           <td><span class="rank-no">9</span></td>
@@ -737,7 +739,7 @@
           <td class="num">65,020 元</td>
           <td class="num">2024</td>
         </tr>
-        
+
         <tr data-gdp="383993000000.0" data-inc=""
             data-rate="">
           <td><span class="rank-no">10</span></td>
@@ -748,7 +750,7 @@
           <td class="num">54,087 元</td>
           <td class="num">2024</td>
         </tr>
-        
+
         <tr data-gdp="316797000000.0" data-inc=""
             data-rate="">
           <td><span class="rank-no">11</span></td>
@@ -759,7 +761,7 @@
           <td class="num">56,911 元</td>
           <td class="num">2024</td>
         </tr>
-        
+
         <tr data-gdp="291785000000.0" data-inc=""
             data-rate="">
           <td><span class="rank-no">12</span></td>
@@ -770,7 +772,7 @@
           <td class="num">70,603 元</td>
           <td class="num">2024</td>
         </tr>
-        
+
         <tr data-gdp="252969999999.99997" data-inc=""
             data-rate="">
           <td><span class="rank-no">13</span></td>
@@ -781,7 +783,7 @@
           <td class="num">44,632 元</td>
           <td class="num">2024</td>
         </tr>
-        
+
         <tr data-gdp="225307000000.00003" data-inc=""
             data-rate="">
           <td><span class="rank-no">14</span></td>
@@ -792,7 +794,7 @@
           <td class="num">56,498 元</td>
           <td class="num">2024</td>
         </tr>
-        
+
         <tr data-gdp="164756000000.0" data-inc=""
             data-rate="">
           <td><span class="rank-no">15</span></td>
@@ -803,7 +805,7 @@
           <td class="num">57,682 元</td>
           <td class="num">2024</td>
         </tr>
-        
+
         <tr data-gdp="162958000000.0" data-inc=""
             data-rate="">
           <td><span class="rank-no">16</span></td>
@@ -814,7 +816,7 @@
           <td class="num">62,064 元</td>
           <td class="num">2024</td>
         </tr>
-        
+
         <tr data-gdp="150818000000.0" data-inc=""
             data-rate="">
           <td><span class="rank-no">17</span></td>
@@ -825,7 +827,7 @@
           <td class="num">39,221 元</td>
           <td class="num">2024</td>
         </tr>
-        
+
         <tr data-gdp="150089000000.0" data-inc=""
             data-rate="">
           <td><span class="rank-no">18</span></td>
@@ -836,7 +838,7 @@
           <td class="num">55,667 元</td>
           <td class="num">2024</td>
         </tr>
-        
+
         <tr data-gdp="140772000000.0" data-inc=""
             data-rate="">
           <td><span class="rank-no">19</span></td>
@@ -847,7 +849,7 @@
           <td class="num">49,609 元</td>
           <td class="num">2024</td>
         </tr>
-        
+
         <tr data-gdp="140283000000.0" data-inc=""
             data-rate="">
           <td><span class="rank-no">20</span></td>
@@ -858,7 +860,7 @@
           <td class="num">54,441 元</td>
           <td class="num">2024</td>
         </tr>
-        
+
       </tbody>
     </table>
   </div>
@@ -894,13 +896,13 @@
 <footer class="footer">
   <div class="container footer-inner">
     <span>全球 GDP 数据采集与可视化分析平台 · Python 课程大作业</span>
-    <span>数据来源：世界银行开放数据（World Bank Open Data）、东方财富数据中心 · 仅供学习研究使用</span>
+    <span>世界银行 · 东方财富 · BEA · 维基百科 · 人工整理 · 仅供学习研究使用</span>
   </div>
 </footer>
 
 
 <script src="../static/js/charts.js"></script>
-  <script src="../static/js/static-api.js?v=f87c76d3"></script>
+  <script src="../static/js/static-api.js?v=5d8a63cd"></script>
 <script type="application/json" id="page-data">{"children": [{"currency": "CNY", "economy": "CHN", "gdp_native": 3680187000000.0005, "gdp_usd": 516757000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "广东", "per_capita_native": 205714.0, "population": null, "region_code": "深圳市", "region_name": "深圳市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2024}, {"currency": "CNY", "economy": "CHN", "gdp_native": 3103250000000.0, "gdp_usd": 435746000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "广东", "per_capita_native": 164171.0, "population": null, "region_code": "广州市", "region_name": "广州市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2024}, {"currency": "CNY", "economy": "CHN", "gdp_native": 1336190000000.0, "gdp_usd": 187622000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "广东", "per_capita_native": 138363.0, "population": null, "region_code": "佛山市", "region_name": "佛山市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2024}, {"currency": "CNY", "economy": "CHN", "gdp_native": 1228215000000.0, "gdp_usd": 172461000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "广东", "per_capita_native": 116661.0, "population": null, "region_code": "东莞市", "region_name": "东莞市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2024}, {"currency": "CNY", "economy": "CHN", "gdp_native": 613639000000.0, "gdp_usd": 86165000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "广东", "per_capita_native": 100677.0, "population": null, "region_code": "惠州市", "region_name": "惠州市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2024}, {"currency": "CNY", "economy": "CHN", "gdp_native": 447906000000.00006, "gdp_usd": 62892999999.99999, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "广东", "per_capita_native": 178712.0, "population": null, "region_code": "珠海市", "region_name": "珠海市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2024}, {"currency": "CNY", "economy": "CHN", "gdp_native": 421018000000.0, "gdp_usd": 59117999999.99999, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "广东", "per_capita_native": 87303.0, "population": null, "region_code": "江门市", "region_name": "江门市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2024}, {"currency": "CNY", "economy": "CHN", "gdp_native": 414325000000.0, "gdp_usd": 58178000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "广东", "per_capita_native": 92558.0, "population": null, "region_code": "中山市", "region_name": "中山市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2024}, {"currency": "CNY", "economy": "CHN", "gdp_native": 407204000000.0, "gdp_usd": 57178000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "广东", "per_capita_native": 65020.0, "population": null, "region_code": "茂名市", "region_name": "茂名市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2024}, {"currency": "CNY", "economy": "CHN", "gdp_native": 383993000000.0, "gdp_usd": 53919000000.00001, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "广东", "per_capita_native": 54087.0, "population": null, "region_code": "湛江市", "region_name": "湛江市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2024}, {"currency": "CNY", "economy": "CHN", "gdp_native": 316797000000.0, "gdp_usd": 44483000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "广东", "per_capita_native": 56911.0, "population": null, "region_code": "汕头市", "region_name": "汕头市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2024}, {"currency": "CNY", "economy": "CHN", "gdp_native": 291785000000.0, "gdp_usd": 40971000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "广东", "per_capita_native": 70603.0, "population": null, "region_code": "肇庆市", "region_name": "肇庆市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2024}, {"currency": "CNY", "economy": "CHN", "gdp_native": 252969999999.99997, "gdp_usd": 35521000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "广东", "per_capita_native": 44632.0, "population": null, "region_code": "揭阳市", "region_name": "揭阳市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2024}, {"currency": "CNY", "economy": "CHN", "gdp_native": 225307000000.00003, "gdp_usd": 31637000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "广东", "per_capita_native": 56498.0, "population": null, "region_code": "清远市", "region_name": "清远市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2024}, {"currency": "CNY", "economy": "CHN", "gdp_native": 164756000000.0, "gdp_usd": 23134000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "广东", "per_capita_native": 57682.0, "population": null, "region_code": "韶关市", "region_name": "韶关市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2024}, {"currency": "CNY", "economy": "CHN", "gdp_native": 162958000000.0, "gdp_usd": 22882000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "广东", "per_capita_native": 62064.0, "population": null, "region_code": "阳江市", "region_name": "阳江市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2024}, {"currency": "CNY", "economy": "CHN", "gdp_native": 150818000000.0, "gdp_usd": 21177000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "广东", "per_capita_native": 39221.0, "population": null, "region_code": "梅州市", "region_name": "梅州市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2024}, {"currency": "CNY", "economy": "CHN", "gdp_native": 150089000000.0, "gdp_usd": 21075000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "广东", "per_capita_native": 55667.0, "population": null, "region_code": "汕尾市", "region_name": "汕尾市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2024}, {"currency": "CNY", "economy": "CHN", "gdp_native": 140772000000.0, "gdp_usd": 19767000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "广东", "per_capita_native": 49609.0, "population": null, "region_code": "河源市", "region_name": "河源市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2024}, {"currency": "CNY", "economy": "CHN", "gdp_native": 140283000000.0, "gdp_usd": 19698000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "广东", "per_capita_native": 54441.0, "population": null, "region_code": "潮州市", "region_name": "潮州市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2024}], "currency": "CNY", "growth": {"areas": 0, "average": null, "max": null, "min": null}, "metric": "gdp", "mode": "year", "rank": [{"currency": "CNY", "gdp_native": 3680187000000.0005, "gdp_usd": 516757000000.0, "growth_rate": null, "increment_native": null, "parent_code": "广东", "parent_name": "广东", "per_capita_native": 205714.0, "population": null, "region_code": "深圳市", "region_name": "深圳市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2024}, {"currency": "CNY", "gdp_native": 3103250000000.0, "gdp_usd": 435746000000.0, "growth_rate": null, "increment_native": null, "parent_code": "广东", "parent_name": "广东", "per_capita_native": 164171.0, "population": null, "region_code": "广州市", "region_name": "广州市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2024}, {"currency": "CNY", "gdp_native": 1526880000000.0, "gdp_usd": null, "growth_rate": null, "increment_native": null, "parent_code": "湖南", "parent_name": "湖南", "per_capita_native": 145279.0, "population": null, "region_code": "长沙市", "region_name": "长沙市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2024}, {"currency": "CNY", "gdp_native": 1453207000000.0, "gdp_usd": 204053000000.0, "growth_rate": null, "increment_native": null, "parent_code": "河南", "parent_name": "河南", "per_capita_native": 111382.0, "population": null, "region_code": "郑州市", "region_name": "郑州市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2024}, {"currency": "CNY", "gdp_native": 1423676000000.0, "gdp_usd": 199907000000.0, "growth_rate": null, "increment_native": null, "parent_code": "福建", "parent_name": "福建", "per_capita_native": 167787.0, "population": null, "region_code": "福州市", "region_name": "福州市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2024}, {"currency": "CNY", "gdp_native": 1336190000000.0, "gdp_usd": 187622000000.0, "growth_rate": null, "increment_native": null, "parent_code": "广东", "parent_name": "广东", "per_capita_native": 138363.0, "population": null, "region_code": "佛山市", "region_name": "佛山市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2024}, {"currency": "CNY", "gdp_native": 1309482000000.0, "gdp_usd": 183872000000.0, "growth_rate": null, "increment_native": null, "parent_code": "福建", "parent_name": "福建", "per_capita_native": 147158.0, "population": null, "region_code": "泉州市", "region_name": "泉州市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2024}, {"currency": "CNY", "gdp_native": 1228215000000.0, "gdp_usd": 172461000000.0, "growth_rate": null, "increment_native": null, "parent_code": "广东", "parent_name": "广东", "per_capita_native": 116661.0, "population": null, "region_code": "东莞市", "region_name": "东莞市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2024}, {"currency": "CNY", "gdp_native": 858901000000.0, "gdp_usd": 120603000000.0, "growth_rate": null, "increment_native": null, "parent_code": "福建", "parent_name": "福建", "per_capita_native": 160888.0, "population": null, "region_code": "厦门市", "region_name": "厦门市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2024}, {"currency": "CNY", "gdp_native": 613639000000.0, "gdp_usd": 86165000000.0, "growth_rate": null, "increment_native": null, "parent_code": "广东", "parent_name": "广东", "per_capita_native": 100677.0, "population": null, "region_code": "惠州市", "region_name": "惠州市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2024}, {"currency": "CNY", "gdp_native": 606371000000.0, "gdp_usd": 85144000000.0, "growth_rate": null, "increment_native": null, "parent_code": "福建", "parent_name": "福建", "per_capita_native": 119612.0, "population": null, "region_code": "漳州市", "region_name": "漳州市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2024}, {"currency": "CNY", "gdp_native": 601630000000.0, "gdp_usd": 84478000000.0, "growth_rate": null, "increment_native": null, "parent_code": "黑龙江", "parent_name": "黑龙江", "per_capita_native": 61266.0, "population": null, "region_code": "哈尔滨市", "region_name": "哈尔滨市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2024}, {"currency": "CNY", "gdp_native": 581860000000.0, "gdp_usd": 81702000000.0, "growth_rate": null, "increment_native": null, "parent_code": "河南", "parent_name": "河南", "per_capita_native": 82184.0, "population": null, "region_code": "洛阳市", "region_name": "洛阳市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2024}, {"currency": "CNY", "gdp_native": 512770000000.0, "gdp_usd": null, "growth_rate": null, "increment_native": null, "parent_code": "湖南", "parent_name": "湖南", "per_capita_native": 102760.0, "population": null, "region_code": "岳阳市", "region_name": "岳阳市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2024}, {"currency": "CNY", "gdp_native": 487908000000.0, "gdp_usd": 68510000000.0, "growth_rate": null, "increment_native": null, "parent_code": "河南", "parent_name": "河南", "per_capita_native": 51492.0, "population": null, "region_code": "南阳市", "region_name": "南阳市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2024}, {"currency": "CNY", "gdp_native": 453270000000.0, "gdp_usd": null, "growth_rate": null, "increment_native": null, "parent_code": "湖南", "parent_name": "湖南", "per_capita_native": 87335.0, "population": null, "region_code": "常德市", "region_name": "常德市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2024}, {"currency": "CNY", "gdp_native": 449170000000.0, "gdp_usd": null, "growth_rate": null, "increment_native": null, "parent_code": "湖南", "parent_name": "湖南", "per_capita_native": 69103.0, "population": null, "region_code": "衡阳市", "region_name": "衡阳市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2024}, {"currency": "CNY", "gdp_native": 447906000000.00006, "gdp_usd": 62892999999.99999, "growth_rate": null, "increment_native": null, "parent_code": "广东", "parent_name": "广东", "per_capita_native": 178712.0, "population": null, "region_code": "珠海市", "region_name": "珠海市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2024}, {"currency": "CNY", "gdp_native": 421018000000.0, "gdp_usd": 59117999999.99999, "growth_rate": null, "increment_native": null, "parent_code": "广东", "parent_name": "广东", "per_capita_native": 87303.0, "population": null, "region_code": "江门市", "region_name": "江门市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2024}, {"currency": "CNY", "gdp_native": 414325000000.0, "gdp_usd": 58178000000.0, "growth_rate": null, "increment_native": null, "parent_code": "广东", "parent_name": "广东", "per_capita_native": 92558.0, "population": null, "region_code": "中山市", "region_name": "中山市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2024}], "total": 33275190000000.0, "year": 2024}</script>
 <script src="../static/js/pages/region.js"></script>
 

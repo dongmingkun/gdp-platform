@@ -6,4 +6,5 @@
 # 为什么是 waitress：纯 Python 实现，Windows 与 Linux 都能装能跑（gunicorn 不能在 Windows 上跑），
 # 自带多线程，对这个规模的项目（单机 SQLite + 少量并发）完全够用。
 # 如果部署到 Linux 且想用 gunicorn，直接 pip install gunicorn，不必装 waitress。
+-r requirements.txt
 waitress>=3.0

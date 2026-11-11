@@ -52,23 +52,20 @@ PAGES = [
 # 预先渲染的区域视图：(经济体, 层级, 口径, 年份, 指标, 显示数量, 说明)
 # 区域页的表格与指标卡由服务端渲染，静态站上没有后端可查，所以把常用组合各生成一份
 # HTML；页面上的筛选控件由 static-api.js 接管，会自动跳到匹配的那一份。
+REGION_SCOPES = [
+    ("CHN", "city", "latest", None), ("CHN", "province", "latest", None),
+    ("USA", "state", "latest", None), ("USA", "county", "latest", None),
+    ("JPN", "prefecture", "latest", None),
+] + [("CHN", "city", "year", y) for y in (2025, 2024, 2023, 2022, 2021, 2020, 2019, 2018, 2017, 2015)] + [
+    ("CHN", "province", "year", y) for y in (2025, 2023)]
+# 每个已支持的口径都生成所有指标和数量；不以另一个年份或数量代替用户的选择。
 REGION_VIEWS = [
-    ("CHN", "city", "year", 2025, "gdp", 400, "中国城市 2025（全部）"),
-    ("CHN", "city", "latest", None, "gdp", 20, "中国城市·各年最新"),
-    ("CHN", "city", "year", 2025, "growth", 400, "2025 增速排行"),
-    ("CHN", "city", "year", 2025, "gdp", 10, "中国城市 2025（前 10）"),
-    ("CHN", "city", "year", 2025, "gdp", 20, "中国城市 2025（前 20）"),
-    ("CHN", "city", "year", 2025, "gdp", 50, "中国城市 2025（前 50）"),
-    ("CHN", "city", "year", 2025, "gdp", 100, "中国城市 2025（前 100）"),
-    ("CHN", "city", "year", 2025, "gdp", 200, "中国城市 2025（前 200）"),
-    ("CHN", "province", "year", 2025, "gdp", 20, "中国省级 2025"),
-    ("CHN", "province", "year", 2023, "gdp", 20, "中国省级 2023"),
-    ("USA", "state", "latest", None, "gdp", 20, "美国各州"),
-    ("USA", "county", "latest", None, "gdp", 20, "美国各县"),
-    ("USA", "county", "latest", None, "gdp", 50, "美国各县（前 50）"),
-    ("JPN", "prefecture", "latest", None, "gdp", 20, "日本都道府县"),
-] + [("CHN", "city", "year", year, "gdp", 20, "中国城市 %d 年" % year)
-     for year in range(2024, 2014, -1)]        # 年份下拉框用：2015—2024
+    (economy, level, mode, year, metric, limit,
+     "%s %s %s %s 前%d" % (economy, level, year or "最新", metric, limit))
+    for economy, level, mode, year in REGION_SCOPES
+    for metric in ("gdp", "per_capita", "growth")
+    for limit in (10, 20, 30, 50, 100, 200, 400)
+]
 
 # 区域数据集导出（静态 CSV）：(经济体, 层级)
 REGION_CSV = [("CHN", "province"), ("CHN", "city"), ("USA", "state"),
@@ -254,25 +251,26 @@ ROUTE_FILES = {"/": "index.html", "/region": "region.html", "/rank": "rank.html"
 
 
 def match_view(params):
-    """按查询参数挑最接近的预生成视图（评分规则与 static-api.js 一致）。"""
+    """严格匹配预生成视图；没有对应的年月、指标、数量时返回 None。"""
     economy = params.get("economy", "CHN")
     level = params.get("level", "")
-    best_score, best_file = -999, None
-    for view_economy, view_level, mode, year, metric, limit, _ in REGION_VIEWS:
-        if view_economy != economy or (level and view_level != level):
-            continue
-        score = 1
-        score += 3 if mode == params.get("mode") else -1
-        if (str(year) if year else "latest") == (params.get("year") or "latest"):
-            score += 2
-        if metric == params.get("metric", "gdp"):
-            score += 2
-        if str(limit) == params.get("limit"):
-            score += 2
-        if score > best_score:
-            best_score = score
-            best_file = view_file(view_economy, view_level, mode, year, metric, limit)
-    return best_file
+    level = level or {"CHN": "city", "USA": "county", "JPN": "prefecture"}.get(economy, "")
+    choices = [v for v in REGION_VIEWS if v[0] == economy and v[1] == level
+               and v[4] == params.get("metric", "gdp")]
+    if not choices:
+        return None
+    mode = params.get("mode") or ("latest" if level in ("city", "county") else "year")
+    if not params.get("mode") and not any(v[2] == mode for v in choices):
+        mode = choices[0][2]
+    if not any(v[2] == mode for v in choices):
+        return None
+    year = params.get("year")
+    if mode == "year" and not year:
+        year = str(max(v[3] for v in choices if v[2] == "year"))
+    for e, l, m, y, metric, limit, _ in choices:
+        if m == mode and (mode == "latest" or str(y) == str(year)) and str(limit) == str(params.get("limit", 20)):
+            return view_file(e, l, m, y, metric, limit)
+    return None
 
 
 def shim_version():
@@ -328,7 +326,7 @@ def rewrite(html, page_file, region_export=None):
     shim = ('js/charts.js"></script>' + chr(10) + '  '
             '<script src="%sstatic/js/static-api.js?v=%s"></script>' % (prefix, shim_version()))
     html = html.replace(marker, shim)
-    return html
+    return "\n".join(line.rstrip() for line in html.splitlines()) + "\n"
 
 
 def build_pages(app, out_dir, log):
@@ -347,7 +345,13 @@ def build_pages(app, out_dir, log):
         if year:
             query += "&year=%d" % year
         query += "&metric=%s&limit=%d" % (metric, limit)
-        html = client.get("/region?" + query).get_data(as_text=True)
+        response = client.get("/region?" + query)
+        if response.status_code != 200:
+            raise RuntimeError("区域页面导出失败：%s" % query)
+        html = response.get_data(as_text=True)
+        payload = json.loads(re.search(r'id="page-data">(.*?)</script>', html, re.S).group(1))
+        if payload["mode"] != mode or payload["metric"] != metric or (mode == "year" and payload["year"] != year):
+            raise RuntimeError("拒绝导出与请求口径不一致的页面：%s" % query)
         target = view_file(economy, level, mode, year, metric, limit)
         (out_dir / target).parent.mkdir(parents=True, exist_ok=True)
         (out_dir / target).write_text(
@@ -402,7 +406,7 @@ def build_notes(out_dir, meta, log):
         "- 数据文件：`data/dataset/*.csv`（可直接用 Excel 打开）\n\n"
         "## 与在线版的差别\n\n"
         "- **只读快照**：不能采集/补录数据（需要更新时在本地跑 `python -m spider.pipeline` 后重新导出）\n"
-        "- 区域页预生成了常用视图（快捷视图、各年份、各显示数量），筛选控件会跳到最接近的那一份\n"
+        "- 区域页按已支持的口径生成全部指标与显示数量，严格匹配选择；未导出的年份/口径禁用或提示\n"
         "- 区域页的“筛选区域”在静态版里只筛当前表格已列出的行\n"
         "- 县级数据只包含每个县的最新一年（数据量考虑）\n\n"
         "## 重新导出\n\n"

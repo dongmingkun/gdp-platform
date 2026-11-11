@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>区域对比 · 全球 GDP 数据采集与可视化分析平台</title>
   <link rel="stylesheet" href="../static/css/style.css">
-  
+
   <script src="../static/vendor/echarts.min.js"></script>
 </head>
 <body>
@@ -15,7 +15,7 @@
       <span class="logo">GDP</span>
       <div class="brand-text">
         <strong>全球 GDP 数据采集与可视化分析平台</strong>
-        <small>数据来源：世界银行开放数据 · 东方财富数据中心</small>
+        <small>城市经济格局 · 全球参照 · 数据口径与来源可查</small>
       </div>
     </div>
     <nav class="nav">
@@ -44,44 +44,46 @@
 
 
 <main class="container">
-  
+
 <div class="panel">
   <div class="panel-head">
     <h2>区域 GDP 对比与增长趋势</h2>
     <span class="hint">美国数据来自经济分析局（BEA）官方批量文件；中国与日本数据来自维基百科统计条目；带「人工整理」标记的记录来自榜单整理</span>
   </div>
   <form class="toolbar toolbar-grid" method="get" action="../region.html" id="region-form">
+    <input type="hidden" name="metric" value="gdp">
     <div class="field">
       <label>经济体</label>
       <select name="economy">
-        
+
         <option value="CHN" selected>中国</option>
-        
+
         <option value="USA" >美国</option>
-        
+
         <option value="JPN" >日本</option>
-        
+
       </select>
     </div>
     <div class="field">
       <label>区域层级</label>
       <select name="level">
-        
+
         <option value="city" >
           地级行政区（城市）（361 个）
         </option>
-        
+
         <option value="province" selected>
           省级行政区（33 个）
         </option>
-        
+
       </select>
     </div>
-    <div class="field">
+    <div class="field field-metric">
       <label>指标</label>
       <div class="segmented">
-        <button type="submit" name="metric" value="gdp" class="on">GDP 总量</button>
-        <button type="submit" name="metric" value="growth" class="">名义增速</button>
+        <button type="submit" data-metric="gdp" value="gdp" class="on">GDP 总量</button>
+        <button type="submit" data-metric="per_capita" value="per_capita" class="">人均 GDP</button>
+        <button type="submit" data-metric="growth" value="growth" class="">名义增速</button>
       </div>
     </div>
     <div class="field">
@@ -91,14 +93,14 @@
         <option value="year" selected>限定某一年</option>
       </select>
     </div>
-    
+
     <div class="field">
       <label>年份</label>
       <select name="year">
         <option value="2025" >2025 年</option><option value="2023" selected>2023 年</option>
       </select>
     </div>
-    
+
     <div class="field">
       <label>显示数量</label>
       <select name="limit">
@@ -114,7 +116,7 @@
       <div class="action-row">
         <button type="submit">查询</button>
         <a class="btn ghost" href="../views/region-chn-province-year-2025-gdp-20.html">重置</a>
-        <a class="btn ghost" href="../data/dataset/region-export-CHN-province.csv">导出 CSV</a>
+        <a class="btn ghost" data-region-export href="../data/dataset/region-export-CHN-province.csv">导出 CSV</a>
       </div>
     </div>
   </form>
@@ -143,10 +145,10 @@
     <div class="value">31<span class="unit">个区域</span></div>
     <div class="foot">
       数据年份 2023 年
-      
+
     </div>
   </div>
-  
+
   <div class="card">
     <div class="label">合计（2023 年）</div>
     <div class="value" id="kpi-total">-</div>
@@ -164,14 +166,14 @@
     <div class="value" id="kpi-share">-</div>
     <div class="foot">占同口径全部区域合计的比重</div>
   </div>
-  
+
 </div>
 
 
 
 <div class="panel">
   <div class="panel-head">
-    <h2>中国 省级行政区排行</h2>
+    <h2>中国 省级行政区GDP 总量排行</h2>
     <span class="hint">2023 年 · 鼠标悬停查看数值</span>
   </div>
   <div id="chart-region" class="chart chart-lg"></div>
@@ -182,28 +184,28 @@
     <h2>排行明细</h2>
     <div class="head-actions">
       <span class="hint">共 20 条 · 「上年（推算）」= GDP − 增量</span>
-      
+
     </div>
   </div>
-  
+
   <div class="table-wrap">
     <table class="data">
       <thead>
         <tr><th>名次</th><th>区域</th>
-            
+
             <th class="num">GDP</th><th class="num">增量</th><th class="num">名义增速</th>
             <th class="num">上年（推算）</th><th class="num">占比</th>
             <th class="num">人均 GDP</th><th class="num">数据年份</th></tr>
       </thead>
       <tbody>
-        
+
         <tr class="top1"
             data-gdp="13790540000000.0" data-inc=""
             data-rate="">
           <td><span class="rank-no">1</span></td>
           <td><b>广东</b>
               </td>
-          
+
           <td class="num" data-value="13790540000000.0" data-currency="CNY">-</td>
           <td class="num" data-money="" data-currency="CNY">-</td>
           <td class="num" data-rate-cell="-">-</td>
@@ -212,14 +214,14 @@
           <td class="num">—</td>
           <td class="num">2023</td>
         </tr>
-        
+
         <tr class="top2"
             data-gdp="13092430000000.0" data-inc=""
             data-rate="">
           <td><span class="rank-no">2</span></td>
           <td><b>江苏</b>
               </td>
-          
+
           <td class="num" data-value="13092430000000.0" data-currency="CNY">-</td>
           <td class="num" data-money="" data-currency="CNY">-</td>
           <td class="num" data-rate-cell="-">-</td>
@@ -228,14 +230,14 @@
           <td class="num">—</td>
           <td class="num">2023</td>
         </tr>
-        
+
         <tr class="top3"
             data-gdp="9420640000000.0" data-inc=""
             data-rate="">
           <td><span class="rank-no">3</span></td>
           <td><b>山东</b>
               </td>
-          
+
           <td class="num" data-value="9420640000000.0" data-currency="CNY">-</td>
           <td class="num" data-money="" data-currency="CNY">-</td>
           <td class="num" data-rate-cell="-">-</td>
@@ -244,14 +246,14 @@
           <td class="num">—</td>
           <td class="num">2023</td>
         </tr>
-        
+
         <tr class=""
             data-gdp="8561960000000.0" data-inc=""
             data-rate="">
           <td><span class="rank-no">4</span></td>
           <td><b>浙江</b>
               </td>
-          
+
           <td class="num" data-value="8561960000000.0" data-currency="CNY">-</td>
           <td class="num" data-money="" data-currency="CNY">-</td>
           <td class="num" data-rate-cell="-">-</td>
@@ -260,14 +262,14 @@
           <td class="num">—</td>
           <td class="num">2023</td>
         </tr>
-        
+
         <tr class=""
             data-gdp="6135340000000.0" data-inc=""
             data-rate="">
           <td><span class="rank-no">5</span></td>
           <td><b>四川</b>
               </td>
-          
+
           <td class="num" data-value="6135340000000.0" data-currency="CNY">-</td>
           <td class="num" data-money="" data-currency="CNY">-</td>
           <td class="num" data-rate-cell="-">-</td>
@@ -276,14 +278,14 @@
           <td class="num">—</td>
           <td class="num">2023</td>
         </tr>
-        
+
         <tr class=""
             data-gdp="6062770000000.0" data-inc=""
             data-rate="">
           <td><span class="rank-no">6</span></td>
           <td><b>河南</b>
               </td>
-          
+
           <td class="num" data-value="6062770000000.0" data-currency="CNY">-</td>
           <td class="num" data-money="" data-currency="CNY">-</td>
           <td class="num" data-rate-cell="-">-</td>
@@ -292,14 +294,14 @@
           <td class="num">—</td>
           <td class="num">2023</td>
         </tr>
-        
+
         <tr class=""
             data-gdp="5679430000000.0" data-inc=""
             data-rate="">
           <td><span class="rank-no">7</span></td>
           <td><b>湖北</b>
               </td>
-          
+
           <td class="num" data-value="5679430000000.0" data-currency="CNY">-</td>
           <td class="num" data-money="" data-currency="CNY">-</td>
           <td class="num" data-rate-cell="-">-</td>
@@ -308,14 +310,14 @@
           <td class="num">—</td>
           <td class="num">2023</td>
         </tr>
-        
+
         <tr class=""
             data-gdp="5480170000000.0" data-inc=""
             data-rate="">
           <td><span class="rank-no">8</span></td>
           <td><b>福建</b>
               </td>
-          
+
           <td class="num" data-value="5480170000000.0" data-currency="CNY">-</td>
           <td class="num" data-money="" data-currency="CNY">-</td>
           <td class="num" data-rate-cell="-">-</td>
@@ -324,14 +326,14 @@
           <td class="num">—</td>
           <td class="num">2023</td>
         </tr>
-        
+
         <tr class=""
             data-gdp="5140450000000.0" data-inc=""
             data-rate="">
           <td><span class="rank-no">9</span></td>
           <td><b>上海</b>
               </td>
-          
+
           <td class="num" data-value="5140450000000.0" data-currency="CNY">-</td>
           <td class="num" data-money="" data-currency="CNY">-</td>
           <td class="num" data-rate-cell="-">-</td>
@@ -340,14 +342,14 @@
           <td class="num">—</td>
           <td class="num">2023</td>
         </tr>
-        
+
         <tr class=""
             data-gdp="5066750000000.0" data-inc=""
             data-rate="">
           <td><span class="rank-no">10</span></td>
           <td><b>湖南</b>
               </td>
-          
+
           <td class="num" data-value="5066750000000.0" data-currency="CNY">-</td>
           <td class="num" data-money="" data-currency="CNY">-</td>
           <td class="num" data-rate-cell="-">-</td>
@@ -356,14 +358,14 @@
           <td class="num">—</td>
           <td class="num">2023</td>
         </tr>
-        
+
         <tr class=""
             data-gdp="4822750000000.0" data-inc=""
             data-rate="">
           <td><span class="rank-no">11</span></td>
           <td><b>安徽</b>
               </td>
-          
+
           <td class="num" data-value="4822750000000.0" data-currency="CNY">-</td>
           <td class="num" data-money="" data-currency="CNY">-</td>
           <td class="num" data-rate-cell="-">-</td>
@@ -372,14 +374,14 @@
           <td class="num">—</td>
           <td class="num">2023</td>
         </tr>
-        
+
         <tr class=""
             data-gdp="4735370000000.0" data-inc=""
             data-rate="">
           <td><span class="rank-no">12</span></td>
           <td><b>北京</b>
               </td>
-          
+
           <td class="num" data-value="4735370000000.0" data-currency="CNY">-</td>
           <td class="num" data-money="" data-currency="CNY">-</td>
           <td class="num" data-rate-cell="-">-</td>
@@ -388,14 +390,14 @@
           <td class="num">—</td>
           <td class="num">2023</td>
         </tr>
-        
+
         <tr class=""
             data-gdp="4566000000000.0" data-inc=""
             data-rate="">
           <td><span class="rank-no">13</span></td>
           <td><b>河北</b>
               </td>
-          
+
           <td class="num" data-value="4566000000000.0" data-currency="CNY">-</td>
           <td class="num" data-money="" data-currency="CNY">-</td>
           <td class="num" data-rate-cell="-">-</td>
@@ -404,14 +406,14 @@
           <td class="num">—</td>
           <td class="num">2023</td>
         </tr>
-        
+
         <tr class=""
             data-gdp="3397650000000.0" data-inc=""
             data-rate="">
           <td><span class="rank-no">14</span></td>
           <td><b>陕西</b>
               </td>
-          
+
           <td class="num" data-value="3397650000000.0" data-currency="CNY">-</td>
           <td class="num" data-money="" data-currency="CNY">-</td>
           <td class="num" data-rate-cell="-">-</td>
@@ -420,14 +422,14 @@
           <td class="num">—</td>
           <td class="num">2023</td>
         </tr>
-        
+
         <tr class=""
             data-gdp="3267710000000.0" data-inc=""
             data-rate="">
           <td><span class="rank-no">15</span></td>
           <td><b>江西</b>
               </td>
-          
+
           <td class="num" data-value="3267710000000.0" data-currency="CNY">-</td>
           <td class="num" data-money="" data-currency="CNY">-</td>
           <td class="num" data-rate-cell="-">-</td>
@@ -436,14 +438,14 @@
           <td class="num">—</td>
           <td class="num">2023</td>
         </tr>
-        
+
         <tr class=""
             data-gdp="3138980000000.0" data-inc=""
             data-rate="">
           <td><span class="rank-no">16</span></td>
           <td><b>辽宁</b>
               </td>
-          
+
           <td class="num" data-value="3138980000000.0" data-currency="CNY">-</td>
           <td class="num" data-money="" data-currency="CNY">-</td>
           <td class="num" data-rate-cell="-">-</td>
@@ -452,14 +454,14 @@
           <td class="num">—</td>
           <td class="num">2023</td>
         </tr>
-        
+
         <tr class=""
             data-gdp="3061430000000.0" data-inc=""
             data-rate="">
           <td><span class="rank-no">17</span></td>
           <td><b>重庆</b>
               </td>
-          
+
           <td class="num" data-value="3061430000000.0" data-currency="CNY">-</td>
           <td class="num" data-money="" data-currency="CNY">-</td>
           <td class="num" data-rate-cell="-">-</td>
@@ -468,14 +470,14 @@
           <td class="num">—</td>
           <td class="num">2023</td>
         </tr>
-        
+
         <tr class=""
             data-gdp="3059580000000.0" data-inc=""
             data-rate="">
           <td><span class="rank-no">18</span></td>
           <td><b>云南</b>
               </td>
-          
+
           <td class="num" data-value="3059580000000.0" data-currency="CNY">-</td>
           <td class="num" data-money="" data-currency="CNY">-</td>
           <td class="num" data-rate-cell="-">-</td>
@@ -484,14 +486,14 @@
           <td class="num">—</td>
           <td class="num">2023</td>
         </tr>
-        
+
         <tr class=""
             data-gdp="2750170000000.0" data-inc=""
             data-rate="">
           <td><span class="rank-no">19</span></td>
           <td><b>广西</b>
               </td>
-          
+
           <td class="num" data-value="2750170000000.0" data-currency="CNY">-</td>
           <td class="num" data-money="" data-currency="CNY">-</td>
           <td class="num" data-rate-cell="-">-</td>
@@ -500,14 +502,14 @@
           <td class="num">—</td>
           <td class="num">2023</td>
         </tr>
-        
+
         <tr class=""
             data-gdp="2605080000000.0" data-inc=""
             data-rate="">
           <td><span class="rank-no">20</span></td>
           <td><b>山西</b>
               </td>
-          
+
           <td class="num" data-value="2605080000000.0" data-currency="CNY">-</td>
           <td class="num" data-money="" data-currency="CNY">-</td>
           <td class="num" data-rate-cell="-">-</td>
@@ -516,11 +518,11 @@
           <td class="num">—</td>
           <td class="num">2023</td>
         </tr>
-        
+
       </tbody>
     </table>
   </div>
-  
+
 </div>
 
 
@@ -554,13 +556,13 @@
 <footer class="footer">
   <div class="container footer-inner">
     <span>全球 GDP 数据采集与可视化分析平台 · Python 课程大作业</span>
-    <span>数据来源：世界银行开放数据（World Bank Open Data）、东方财富数据中心 · 仅供学习研究使用</span>
+    <span>世界银行 · 东方财富 · BEA · 维基百科 · 人工整理 · 仅供学习研究使用</span>
   </div>
 </footer>
 
 
 <script src="../static/js/charts.js"></script>
-  <script src="../static/js/static-api.js?v=f87c76d3"></script>
+  <script src="../static/js/static-api.js?v=5d8a63cd"></script>
 <script type="application/json" id="page-data">{"children": [], "currency": "CNY", "growth": {"areas": 0, "average": null, "max": null, "min": null}, "metric": "gdp", "mode": "year", "rank": [{"currency": "CNY", "gdp_native": 13790540000000.0, "gdp_usd": null, "growth_rate": null, "increment_native": null, "parent_code": "CHN", "parent_name": "中国", "per_capita_native": null, "population": null, "region_code": "广东", "region_name": "广东", "source": "维基百科条目（数据源自官方统计公报）", "year": 2023}, {"currency": "CNY", "gdp_native": 13092430000000.0, "gdp_usd": null, "growth_rate": null, "increment_native": null, "parent_code": "CHN", "parent_name": "中国", "per_capita_native": null, "population": null, "region_code": "江苏", "region_name": "江苏", "source": "维基百科条目（数据源自官方统计公报）", "year": 2023}, {"currency": "CNY", "gdp_native": 9420640000000.0, "gdp_usd": null, "growth_rate": null, "increment_native": null, "parent_code": "CHN", "parent_name": "中国", "per_capita_native": null, "population": null, "region_code": "山东", "region_name": "山东", "source": "维基百科条目（数据源自官方统计公报）", "year": 2023}, {"currency": "CNY", "gdp_native": 8561960000000.0, "gdp_usd": null, "growth_rate": null, "increment_native": null, "parent_code": "CHN", "parent_name": "中国", "per_capita_native": null, "population": null, "region_code": "浙江", "region_name": "浙江", "source": "维基百科条目（数据源自官方统计公报）", "year": 2023}, {"currency": "CNY", "gdp_native": 6135340000000.0, "gdp_usd": null, "growth_rate": null, "increment_native": null, "parent_code": "CHN", "parent_name": "中国", "per_capita_native": null, "population": null, "region_code": "四川", "region_name": "四川", "source": "维基百科条目（数据源自官方统计公报）", "year": 2023}, {"currency": "CNY", "gdp_native": 6062770000000.0, "gdp_usd": null, "growth_rate": null, "increment_native": null, "parent_code": "CHN", "parent_name": "中国", "per_capita_native": null, "population": null, "region_code": "河南", "region_name": "河南", "source": "维基百科条目（数据源自官方统计公报）", "year": 2023}, {"currency": "CNY", "gdp_native": 5679430000000.0, "gdp_usd": null, "growth_rate": null, "increment_native": null, "parent_code": "CHN", "parent_name": "中国", "per_capita_native": null, "population": null, "region_code": "湖北", "region_name": "湖北", "source": "维基百科条目（数据源自官方统计公报）", "year": 2023}, {"currency": "CNY", "gdp_native": 5480170000000.0, "gdp_usd": null, "growth_rate": null, "increment_native": null, "parent_code": "CHN", "parent_name": "中国", "per_capita_native": null, "population": null, "region_code": "福建", "region_name": "福建", "source": "维基百科条目（数据源自官方统计公报）", "year": 2023}, {"currency": "CNY", "gdp_native": 5140450000000.0, "gdp_usd": null, "growth_rate": null, "increment_native": null, "parent_code": "CHN", "parent_name": "中国", "per_capita_native": null, "population": null, "region_code": "上海", "region_name": "上海", "source": "维基百科条目（数据源自官方统计公报）", "year": 2023}, {"currency": "CNY", "gdp_native": 5066750000000.0, "gdp_usd": null, "growth_rate": null, "increment_native": null, "parent_code": "CHN", "parent_name": "中国", "per_capita_native": null, "population": null, "region_code": "湖南", "region_name": "湖南", "source": "维基百科条目（数据源自官方统计公报）", "year": 2023}, {"currency": "CNY", "gdp_native": 4822750000000.0, "gdp_usd": null, "growth_rate": null, "increment_native": null, "parent_code": "CHN", "parent_name": "中国", "per_capita_native": null, "population": null, "region_code": "安徽", "region_name": "安徽", "source": "维基百科条目（数据源自官方统计公报）", "year": 2023}, {"currency": "CNY", "gdp_native": 4735370000000.0, "gdp_usd": null, "growth_rate": null, "increment_native": null, "parent_code": "CHN", "parent_name": "中国", "per_capita_native": null, "population": null, "region_code": "北京", "region_name": "北京", "source": "维基百科条目（数据源自官方统计公报）", "year": 2023}, {"currency": "CNY", "gdp_native": 4566000000000.0, "gdp_usd": null, "growth_rate": null, "increment_native": null, "parent_code": "CHN", "parent_name": "中国", "per_capita_native": null, "population": null, "region_code": "河北", "region_name": "河北", "source": "维基百科条目（数据源自官方统计公报）", "year": 2023}, {"currency": "CNY", "gdp_native": 3397650000000.0, "gdp_usd": null, "growth_rate": null, "increment_native": null, "parent_code": "CHN", "parent_name": "中国", "per_capita_native": null, "population": null, "region_code": "陕西", "region_name": "陕西", "source": "维基百科条目（数据源自官方统计公报）", "year": 2023}, {"currency": "CNY", "gdp_native": 3267710000000.0, "gdp_usd": null, "growth_rate": null, "increment_native": null, "parent_code": "CHN", "parent_name": "中国", "per_capita_native": null, "population": null, "region_code": "江西", "region_name": "江西", "source": "维基百科条目（数据源自官方统计公报）", "year": 2023}, {"currency": "CNY", "gdp_native": 3138980000000.0, "gdp_usd": null, "growth_rate": null, "increment_native": null, "parent_code": "CHN", "parent_name": "中国", "per_capita_native": null, "population": null, "region_code": "辽宁", "region_name": "辽宁", "source": "维基百科条目（数据源自官方统计公报）", "year": 2023}, {"currency": "CNY", "gdp_native": 3061430000000.0, "gdp_usd": null, "growth_rate": null, "increment_native": null, "parent_code": "CHN", "parent_name": "中国", "per_capita_native": null, "population": null, "region_code": "重庆", "region_name": "重庆", "source": "维基百科条目（数据源自官方统计公报）", "year": 2023}, {"currency": "CNY", "gdp_native": 3059580000000.0, "gdp_usd": null, "growth_rate": null, "increment_native": null, "parent_code": "CHN", "parent_name": "中国", "per_capita_native": null, "population": null, "region_code": "云南", "region_name": "云南", "source": "维基百科条目（数据源自官方统计公报）", "year": 2023}, {"currency": "CNY", "gdp_native": 2750170000000.0, "gdp_usd": null, "growth_rate": null, "increment_native": null, "parent_code": "CHN", "parent_name": "中国", "per_capita_native": null, "population": null, "region_code": "广西", "region_name": "广西", "source": "维基百科条目（数据源自官方统计公报）", "year": 2023}, {"currency": "CNY", "gdp_native": 2605080000000.0, "gdp_usd": null, "growth_rate": null, "increment_native": null, "parent_code": "CHN", "parent_name": "中国", "per_capita_native": null, "population": null, "region_code": "山西", "region_name": "山西", "source": "维基百科条目（数据源自官方统计公报）", "year": 2023}], "total": 128380150000000.0, "year": 2023}</script>
 <script src="../static/js/pages/region.js"></script>
 

@@ -8,6 +8,8 @@
 """
 
 import shutil
+import json
+import re
 import subprocess
 import sys
 from pathlib import Path
@@ -19,7 +21,7 @@ DIST = ROOT / "dist"
 
 
 def test_static_export_matches_backend():
-    """前端数据层与 Python 后端对同一批查询的结果完全一致（34 个查询逐字段比对）。"""
+    """前端数据层与 Python 后端对同一批查询的结果完全一致（逐字段比对）。"""
     if not (DIST / "data" / "meta.json").exists():
         pytest.skip("尚未生成 dist/：先运行 python deploy/export_static.py")
     if shutil.which("node") is None:
@@ -52,3 +54,11 @@ def test_static_site_is_self_contained():
     assert "在线演示站点" in html                          # 顶部有说明条
     assert 'src="/static/' not in html                    # 链接都改成了相对路径
     assert "js/static-api.js" in html                     # 挂上了静态数据层
+    meta = json.loads((DIST / "data" / "meta.json").read_text(encoding="utf-8"))
+    for view in meta["views"]:
+        content = (DIST / view["file"]).read_text(encoding="utf-8")
+        payload = json.loads(re.search(r'id="page-data">(.*?)</script>', content, re.S).group(1))
+        assert payload["mode"] == view["mode"], view["file"]
+        assert payload["metric"] == view["metric"], view["file"]
+        if view["mode"] == "year":
+            assert payload["year"] == view["year"], view["file"]

@@ -1,0 +1,224 @@
+{
+  "generated_at": "2026-11-12T00:50:43+08:00",
+  "environment": {
+    "python": "3.14.6",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "sqlite": "3.50.4",
+    "packages": {
+      "flask": "3.1.3",
+      "requests": "2.34.2",
+      "lxml": "6.1.3",
+      "pytest": "9.1.1",
+      "python-docx": "1.2.0",
+      "matplotlib": "3.11.1",
+      "Pillow": "12.3.0"
+    }
+  },
+  "tests": {
+    "total": 106,
+    "passed": 106,
+    "skipped": 0,
+    "by_file": {
+      "test_dao.py": 25,
+      "test_indicators.py": 11,
+      "test_region.py": 10,
+      "test_regressions.py": 21,
+      "test_spider.py": 14,
+      "test_static.py": 2,
+      "test_web.py": 23
+    },
+    "output": "106 passed in 5.10s"
+  },
+  "static_queries": 37,
+  "static_views": 357,
+  "counts": {
+    "country": 217,
+    "annual": 8985,
+    "quarter": 82,
+    "region": 76730,
+    "region_area": 3619,
+    "region_us": 75926
+  },
+  "regions": [
+    {
+      "economy": "CHN",
+      "level": "city",
+      "records": 694,
+      "areas": 361,
+      "first_year": 2015,
+      "latest_year": 2025
+    },
+    {
+      "economy": "CHN",
+      "level": "province",
+      "records": 63,
+      "areas": 33,
+      "first_year": 2023,
+      "latest_year": 2025
+    },
+    {
+      "economy": "JPN",
+      "level": "prefecture",
+      "records": 47,
+      "areas": 47,
+      "first_year": 2019,
+      "latest_year": 2019
+    },
+    {
+      "economy": "USA",
+      "level": "county",
+      "records": 74702,
+      "areas": 3127,
+      "first_year": 2001,
+      "latest_year": 2024
+    },
+    {
+      "economy": "USA",
+      "level": "state",
+      "records": 1224,
+      "areas": 51,
+      "first_year": 2001,
+      "latest_year": 2024
+    }
+  ],
+  "city_focus": {
+    "empty": false,
+    "year": 2025,
+    "areas": 336,
+    "trillion_count": 29,
+    "trillion_top": [
+      "上海",
+      "北京",
+      "深圳市",
+      "重庆",
+      "广州市",
+      "苏州市"
+    ],
+    "per_capita_top": [
+      "鄂尔多斯市",
+      273313.0
+    ],
+    "per_capita_bottom": [
+      "玉树州",
+      22651.0
+    ],
+    "per_capita_ratio": 12.066266390004856,
+    "blocks": {
+      "东部": {
+        "areas": 84,
+        "gdp": 599731.5,
+        "share": 48.97658042847725
+      },
+      "中部": {
+        "areas": 82,
+        "gdp": 295153.8999999999,
+        "share": 24.10350085351316
+      },
+      "西部": {
+        "areas": 130,
+        "gdp": 264532.89999999997,
+        "share": 21.602862035474757
+      },
+      "东北": {
+        "areas": 36,
+        "gdp": 65108.79999999999,
+        "share": 5.317056682534833
+      }
+    },
+    "per_capita_areas": 336,
+    "per_capita_bands": {
+      "below_50000": 59,
+      "50000_to_100000": 180,
+      "at_least_100000": 97
+    },
+    "growth_areas": 34,
+    "growth_average": 4.287058823529412,
+    "growth_fast": [
+      [
+        "绍兴市",
+        6.73
+      ],
+      [
+        "福州市",
+        6.15
+      ],
+      [
+        "石家庄市",
+        5.46
+      ]
+    ],
+    "growth_slow": [
+      [
+        "佛山市",
+        -1.53
+      ],
+      [
+        "沈阳市",
+        0.81
+      ],
+      [
+        "天津",
+        2.86
+      ]
+    ],
+    "top_cities": [
+      [
+        "上海",
+        56708.7
+      ],
+      [
+        "北京",
+        52073.0
+      ],
+      [
+        "深圳市",
+        38731.8
+      ],
+      [
+        "重庆",
+        33758.0
+      ],
+      [
+        "广州市",
+        32039.5
+      ]
+    ]
+  },
+  "summary": {
+    "empty": false,
+    "latest_year": 2025,
+    "year_range": [
+      1990,
+      2025
+    ],
+    "country_count": 186,
+    "record_count": 8985,
+    "world_total": 116445241893486.75,
+    "top_country": {
+      "code": "USA",
+      "name_cn": "美国",
+      "name_en": "United States",
+      "region": "北美地区",
+      "value": 30769700000000.0
+    },
+    "china_value": 19498039388042.6,
+    "china_share": 16.74438480352644,
+    "china_rank": 2,
+    "china_rank_start": [
+      1990,
+      11
+    ],
+    "china_per_capita": 13861.970224368,
+    "china_per_capita_rank": 72,
+    "china_first_year": 1990,
+    "china_first_value": 361560229445.507,
+    "china_multiple": 53.92750031701502,
+    "china_per_capita_first": 318.50335359039,
+    "china_per_capita_first_year": 1990,
+    "china_per_capita_multiple": 43.522211204705656,
+    "usa_value": 30769700000000.0,
+    "china_vs_usa": 63.367661654298225,
+    "crawl_total": 82,
+    "last_update": "2026-10-17 13:16:20"
+  }
+}

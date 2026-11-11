@@ -5,17 +5,17 @@
 <div class="panel hero">
   <div class="panel-head">
     <h2>本项目聚焦的现实问题</h2>
-    <span class="hint">数据：各地统计局 2025 年城市 GDP（经榜单整理入库）</span>
+    <span class="hint">城市数据：人工整理的 2025 年榜单；来源与缺项见数据说明</span>
   </div>
   <p class="hero-question">
-    中国 {{ focus.areas }} 个地级市的经济格局，到底有多不均衡？<br>
+    中国{{ focus.areas if not focus.empty else '' }}个地级行政区的经济格局，到底有多不均衡？<br>
     <span class="hero-sub">总量差在哪、谁在增长、人均处在什么水平——用真实数据回答，而不是凭印象。</span>
   </p>
   <div class="quick-row" style="border-top:0; margin-top:6px; padding-top:0">
     <span class="quick-label">直接去看</span>
     <a class="chip" href="{{ url_for('page_region', economy='CHN', level='city', mode='year', year=2025, limit=400) }}">城市总量排行（全部 {{ focus.areas }} 城）</a>
     <a class="chip" href="{{ url_for('page_region', economy='CHN', level='city', mode='year', year=2025, metric='growth', limit=400) }}">谁在增长（增速榜）</a>
-    <a class="chip" href="{{ url_for('page_region', economy='CHN', level='city', mode='year', year=2025, limit=100) }}">人均水平梯队</a>
+    <a class="chip" href="{{ url_for('page_region', economy='CHN', level='city', mode='year', year=2025, metric='per_capita', limit=400) }}">人均 GDP 排行</a>
     <a class="chip" href="{{ url_for('page_region', economy='USA', level='state', mode='latest') }}">与美国各州对照</a>
     <a class="chip" href="{{ url_for('page_region', economy='JPN', level='prefecture', mode='latest') }}">与日本都道府县对照</a>
   </div>
@@ -26,22 +26,22 @@
   <div class="card">
     <div class="label">纳入分析的城市</div>
     <div class="value">{{ focus.areas }}<span class="unit">个</span></div>
-    <div class="foot">2025 年数据，含 4 个直辖市</div>
+    <div class="foot">{{ focus.year }} 年，限当前数据集中有记录的区域</div>
   </div>
   <div class="card accent">
     <div class="label">GDP 破万亿的城市</div>
     <div class="value">{{ focus.trillion_count }}<span class="unit">个</span></div>
-    <div class="foot">{{ focus.trillion_top|join('、') }} 等</div>
+    <div class="foot">{{ focus.trillion_top|join('、') if focus.trillion_top else '当前样本暂无万亿城市' }}</div>
   </div>
   <div class="card accent">
     <div class="label">人均 GDP 最高与最低之比</div>
-    <div class="value">{{ '%.1f'|format(focus.per_capita_ratio) }}<span class="unit">倍</span></div>
-    <div class="foot">{{ focus.per_capita_top[0] }} {{ focus.per_capita_top[1]|num }} 元 ｜ {{ focus.per_capita_bottom[0] }} {{ focus.per_capita_bottom[1]|num }} 元</div>
+    <div class="value">{{ '%.1f'|format(focus.per_capita_ratio) if focus.per_capita_ratio is not none else '—' }}<span class="unit">倍</span></div>
+    <div class="foot">{% if focus.per_capita_top %}{{ focus.per_capita_top[0] }} {{ focus.per_capita_top[1]|num }} 元 ｜ {{ focus.per_capita_bottom[0] }} {{ focus.per_capita_bottom[1]|num }} 元{% else %}暂无人均数据{% endif %}</div>
   </div>
   <div class="card">
     <div class="label">东部城市占城市 GDP 合计</div>
     <div class="value">{{ '%.1f'|format(focus.blocks['东部'].share) }}<span class="unit">%</span></div>
-    <div class="foot">东部 {{ focus.blocks['东部'].areas }} 个城市；东北 {{ focus.blocks['东北'].areas }} 城仅占 {{ '%.1f'|format(focus.blocks['东北'].share) }}%</div>
+    <div class="foot">按可归入四大板块的样本合计计算；非全国 GDP 占比</div>
   </div>
 </div>
 
@@ -53,22 +53,28 @@
   <div class="conclusion-grid">
     <div class="conclusion">
       <h3>① 体量高度集中</h3>
-      <p>{{ focus.trillion_count }} 个城市 GDP 破万亿，{{ focus.top_cities[0][0] }}以 {{ '%.0f'|format(focus.top_cities[0][1]) }} 亿元居首，
-        是第 5 名{{ focus.top_cities[4][0] }}（{{ '%.0f'|format(focus.top_cities[4][1]) }} 亿元）的 {{ '%.1f'|format(focus.top_cities[0][1] / focus.top_cities[4][1]) }} 倍。</p>
+      <p>{{ focus.trillion_count }} 个城市 GDP 破万亿，{{ focus.top_cities[0][0] }}以 {{ '%.0f'|format(focus.top_cities[0][1]) }} 亿元居首{% if focus.top_cities|length >= 5 and focus.top_cities[4][1] %}，
+        是第 5 名{{ focus.top_cities[4][0] }}（{{ '%.0f'|format(focus.top_cities[4][1]) }} 亿元）的 {{ '%.1f'|format(focus.top_cities[0][1] / focus.top_cities[4][1]) }} 倍{% endif %}。</p>
       <a class="btn ghost small" href="{{ url_for('page_region', economy='CHN', level='city', mode='year', year=2025, limit=50) }}">看总量排行</a>
     </div>
     <div class="conclusion">
       <h3>② 增长明显分化</h3>
-      <p>有增速数据的 {{ focus.growth_areas }} 个城市平均名义增速 {{ '%.2f'|format(focus.growth_average) }}%；
-        最快的{{ focus.growth_fast[0][0] }}达 +{{ '%.2f'|format(focus.growth_fast[0][1]) }}%，
-        最慢的{{ focus.growth_slow[-1][0] }}为 {{ '%.2f'|format(focus.growth_slow[-1][1]) }}%。</p>
+      {% if focus.growth_areas %}
+      <p>有增速数据的 {{ focus.growth_areas }} / {{ focus.areas }} 个城市，名义增速简单平均为 {{ '%.2f'|format(focus.growth_average) }}%；
+        其中最高的{{ focus.growth_fast[0][0] }}为 {{ '%+.2f'|format(focus.growth_fast[0][1]) }}%，
+        最低的{{ focus.growth_slow[0][0] }}为 {{ '%.2f'|format(focus.growth_slow[0][1]) }}%。样本覆盖不全，不能代表全部城市。</p>
+      {% else %}<p>暂无增速数据。补齐同口径的增量或增速后可查看增长差异。</p>{% endif %}
       <a class="btn ghost small" href="{{ url_for('page_region', economy='CHN', level='city', mode='year', year=2025, metric='growth', limit=400) }}">看增速排行</a>
     </div>
     <div class="conclusion">
-      <h3>③ 人均水平仍在爬坡</h3>
-      <p>{{ focus.areas }} 个城市中，人均超过 1.4 万美元（高收入门槛）的有 {{ focus.tiers['高收入'] }} 个（{{ '%.0f'|format(focus.tiers['高收入'] / focus.areas * 100) }}%），
-        多数（{{ focus.tiers['中高收入'] }} 个）处于中高收入区间；最高的{{ focus.per_capita_top[0] }}与最低的{{ focus.per_capita_bottom[0] }}相差 {{ '%.1f'|format(focus.per_capita_ratio) }} 倍。</p>
-      <a class="btn ghost small" href="{{ url_for('page_region', economy='CHN', level='city', mode='year', year=2025, limit=400) }}">看人均明细</a>
+      <h3>③ 人均 GDP 差异</h3>
+      {% if focus.per_capita_areas %}
+      <p>有有效人均数据的 {{ focus.per_capita_areas }} 个城市中，低于 5 万元的有 {{ focus.per_capita_bands.below_50000 }} 个，
+        5 万至不足 10 万元的有 {{ focus.per_capita_bands['50000_to_100000'] }} 个，至少 10 万元的有 {{ focus.per_capita_bands.at_least_100000 }} 个。
+        {% if focus.per_capita_ratio is not none %}最高与最低之比为 {{ '%.1f'|format(focus.per_capita_ratio) }} 倍。{% endif %}
+        人均 GDP 衡量人均产出，不等同于居民收入。</p>
+      {% else %}<p>暂无人均数据，不能据 GDP 总量推断人均水平。</p>{% endif %}
+      <a class="btn ghost small" href="{{ url_for('page_region', economy='CHN', level='city', mode='year', year=2025, metric='per_capita', limit=400) }}">看人均排行</a>
     </div>
     <div class="conclusion">
       <h3>④ 区域分化清晰</h3>
@@ -91,6 +97,7 @@
 </div>
 {% endif %}
 
+{% if not summary.empty %}
 <div class="panel">
   <div class="panel-head">
     <h2>参照尺度：中国在世界经济中的位置</h2>
@@ -104,18 +111,18 @@
     </div>
     <div class="card">
       <div class="label">中国 GDP（{{ summary.latest_year }}）</div>
-      <div class="value">{{ '%.2f'|format(summary.china_value / 1e12) }}<span class="unit">万亿美元</span></div>
-      <div class="foot">全球第 <b>{{ summary.china_rank }}</b> 位 · 占全球 {{ '%.2f'|format(summary.china_share) }}%</div>
+      <div class="value">{{ '%.2f'|format(summary.china_value / 1e12) if summary.china_rank is not none else '—' }}<span class="unit">万亿美元</span></div>
+      <div class="foot">{% if summary.china_rank is not none %}全球第 <b>{{ summary.china_rank }}</b> 位 · 占样本合计 {{ '%.2f'|format(summary.china_share) }}%{% else %}该年暂无中国数据{% endif %}</div>
     </div>
     <div class="card">
       <div class="label">相当于美国的</div>
-      <div class="value">{{ '%.1f'|format(summary.china_vs_usa) }}<span class="unit">%</span></div>
-      <div class="foot">中国人均 {{ summary.china_per_capita|num }} 美元，全球第 {{ summary.china_per_capita_rank }} 位</div>
+      <div class="value">{{ '%.1f'|format(summary.china_vs_usa) if summary.china_rank is not none and summary.usa_value else '—' }}<span class="unit">%</span></div>
+      <div class="foot">中国人均 {{ summary.china_per_capita|num }} 美元，样本排名 {{ summary.china_per_capita_rank if summary.china_per_capita_rank is not none else '—' }}</div>
     </div>
     <div class="card">
-      <div class="label">中国人均 GDP 增长</div>
-      <div class="value">{{ '%.0f'|format(summary.china_multiple) }}<span class="unit">倍</span></div>
-      <div class="foot">从 {{ summary.china_first_year }} 年的 {{ summary.china_per_capita_first|num }} 美元到 {{ summary.latest_year }} 年的 {{ summary.china_per_capita|num }} 美元</div>
+      <div class="label">中国人均 GDP 为基年的</div>
+      <div class="value" id="china-pc-multiple">{{ '%.1f'|format(summary.china_per_capita_multiple) if summary.china_per_capita_multiple is not none else '—' }}<span class="unit">倍</span></div>
+      <div class="foot">{% if summary.china_per_capita_multiple is not none %}从 {{ summary.china_per_capita_first_year }} 年的 {{ summary.china_per_capita_first|num }} 美元到 {{ summary.latest_year }} 年的 {{ summary.china_per_capita|num }} 美元{% else %}缺少可比的人均历史数据{% endif %}</div>
     </div>
   </div>
   <div class="grid-2">
@@ -124,14 +131,17 @@
       <div id="chart-rank" class="chart chart-sm"></div>
     </div>
     <div class="note">
-      从 {{ summary.china_first_year }} 年的全球第 {{ summary.china_rank_start[1] }} 位，到 {{ summary.latest_year }} 年的第 {{ summary.china_rank }} 位，
-      中国 GDP 总量增长了约 {{ '%.0f'|format(summary.china_multiple) }} 倍。但把尺度放到城市层面，差距就显出来了：
-      人均最高的{{ focus.per_capita_top[0] if not focus.empty else '—' }}已接近中等发达国家水平，
-      而最低的城市人均仅 {{ focus.per_capita_bottom[1]|num if not focus.empty else '—' }} 元——这正是「发展不平衡不充分」在数据上的具体形状，
-      也是区域协调发展、共同富裕要解决的问题。
+      {% if summary.china_multiple is not none and summary.china_rank is not none %}
+      从 {{ summary.china_first_year }} 年到 {{ summary.latest_year }} 年，中国 GDP 总量变为基年的约 {{ '%.1f'|format(summary.china_multiple) }} 倍。
+      {% endif %}
+      全球数据采用现价美元，受价格和汇率变化影响，不能解释为实际经济增长。
+      城市人均 GDP 使用人民币口径，不能直接据此划定国际收入等级。
     </div>
   </div>
 </div>
+{% else %}
+<div class="panel"><div class="empty">暂无年度数据。请到“数据集”页采集数据，或使用随项目提供的数据库。</div></div>
+{% endif %}
 
 <div class="panel">
   <div class="panel-head">
@@ -140,13 +150,13 @@
   </div>
   <dl class="meta">
     <dt>城市层面（主线）</dt>
-    <dd>2025 年 336 个地级行政区 GDP、常住人口、人均 GDP，源自各地统计局（经榜单整理入库，页面带「人工整理」标记）</dd>
+    <dd>2025 年城市 GDP、常住人口、人均 GDP 由公开榜单人工整理；来源文件见 data/manual，未逐条核验原始统计公报，展示带「人工整理」标记。</dd>
     <dt>全球层面（参照）</dt>
-    <dd>世界银行开放数据：各国 GDP 总量与人均，{{ summary.year_range[0] }}–{{ summary.year_range[1] }} 年</dd>
+    <dd>世界银行开放数据：各国 GDP 总量与人均{% if not summary.empty %}，{{ summary.year_range[0] }}–{{ summary.year_range[1] }} 年{% endif %}</dd>
     <dt>对照层面</dt>
     <dd>美国经济分析局（BEA）州与县数据、日本都道府县数据，用于横向对照与尺度校准</dd>
     <dt>最近一次采集</dt>
-    <dd>{{ summary.last_update or "尚未采集" }}</dd>
+    <dd>{{ summary.last_update|default("尚未采集", true) }}</dd>
   </dl>
 </div>
 {% endblock %}

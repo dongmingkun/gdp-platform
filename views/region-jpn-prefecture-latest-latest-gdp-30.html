@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>区域对比 · 全球 GDP 数据采集与可视化分析平台</title>
+  <link rel="stylesheet" href="../static/css/style.css">
+
+  <script src="../static/vendor/echarts.min.js"></script>
+</head>
+<body>
+<header class="topbar">
+  <div class="container topbar-inner">
+    <div class="brand">
+      <span class="logo">GDP</span>
+      <div class="brand-text">
+        <strong>全球 GDP 数据采集与可视化分析平台</strong>
+        <small>城市经济格局 · 全球参照 · 数据口径与来源可查</small>
+      </div>
+    </div>
+    <nav class="nav">
+      <a href="../index.html" class="">总览</a>
+      <a href="../region.html" class="active">城市格局</a>
+      <a href="../rank.html" class="">全球排行</a>
+      <a href="../trend.html" class="">趋势分析</a>
+      <a href="../compare.html" class="">国家对比</a>
+      <a href="../share.html" class="">份额变化</a>
+      <a href="../china.html" class="">中国季度</a>
+      <a href="../dataset.html" class="">数据集</a>
+      <a href="../about.html" class="">关于</a>
+    </nav>
+  </div>
+</header>
+
+
+
+<div class="demo-bar">
+  <div class="container">
+    <strong>在线演示站点</strong>
+    数据为 <b>2026-10-17 13:16:20</b> 的只读快照，采集与数据补录功能已关闭；
+    全部功能与源码见项目本地版本（Python 课程大作业）。
+  </div>
+</div>
+
+
+<main class="container">
+
+<div class="panel">
+  <div class="panel-head">
+    <h2>区域 GDP 对比与增长趋势</h2>
+    <span class="hint">美国数据来自经济分析局（BEA）官方批量文件；中国与日本数据来自维基百科统计条目；带「人工整理」标记的记录来自榜单整理</span>
+  </div>
+  <form class="toolbar toolbar-grid" method="get" action="../region.html" id="region-form">
+    <input type="hidden" name="metric" value="gdp">
+    <div class="field">
+      <label>经济体</label>
+      <select name="economy">
+
+        <option value="CHN" >中国</option>
+
+        <option value="USA" >美国</option>
+
+        <option value="JPN" selected>日本</option>
+
+      </select>
+    </div>
+    <div class="field">
+      <label>区域层级</label>
+      <select name="level">
+
+        <option value="prefecture" selected>
+          都道府县（47 个）
+        </option>
+
+      </select>
+    </div>
+    <div class="field field-metric">
+      <label>指标</label>
+      <div class="segmented">
+        <button type="submit" data-metric="gdp" value="gdp" class="on">GDP 总量</button>
+        <button type="submit" data-metric="per_capita" value="per_capita" class="">人均 GDP</button>
+        <button type="submit" data-metric="growth" value="growth" class="">名义增速</button>
+      </div>
+    </div>
+    <div class="field">
+      <label>统计口径</label>
+      <select name="mode">
+        <option value="latest" selected>各区域最新可得</option>
+        <option value="year" >限定某一年</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label>显示数量</label>
+      <select name="limit">
+        <option value="10" >前 10 名</option><option value="20" >前 20 名</option><option value="30" selected>前 30 名</option><option value="50" >前 50 名</option><option value="100" >前 100 名</option><option value="200" >前 200 名</option><option value="400" >前 400 名</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>筛选区域</label>
+      <input type="text" name="keyword" value="" placeholder="城市或省份名">
+    </div>
+    <div class="field field-actions">
+      <label>&nbsp;</label>
+      <div class="action-row">
+        <button type="submit">查询</button>
+        <a class="btn ghost" href="../views/region-jpn-prefecture-latest-latest-gdp-20.html">重置</a>
+        <a class="btn ghost" data-region-export href="../data/dataset/region-export-JPN-prefecture.csv">导出 CSV</a>
+      </div>
+    </div>
+  </form>
+  <div class="quick-row">
+    <span class="quick-label">快捷视图</span>
+    <a class="chip "
+       href="../views/region-chn-city-year-2025-gdp-400.html">中国城市 2025（全部 336）</a>
+    <a class="chip "
+       href="../views/region-chn-city-latest-latest-gdp-20.html">中国城市·各年最新</a>
+    <a class="chip "
+       href="../views/region-chn-province-year-2025-gdp-20.html">中国省级 2025</a>
+    <a class="chip "
+       href="../views/region-usa-state-latest-latest-gdp-20.html">美国各州</a>
+    <a class="chip "
+       href="../views/region-usa-county-latest-latest-gdp-20.html">美国各县</a>
+    <a class="chip on"
+       href="../views/region-jpn-prefecture-latest-latest-gdp-20.html">日本都道府县</a>
+    <a class="chip "
+       href="../views/region-chn-city-year-2025-growth-400.html">2025 增速排行</a>
+  </div>
+</div>
+
+<div class="cards">
+  <div class="card">
+    <div class="label">日本 · 都道府县</div>
+    <div class="value">47<span class="unit">个区域</span></div>
+    <div class="foot">
+      每个区域取各自最新可得年份
+
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="label">合计（各年最新）</div>
+    <div class="value" id="kpi-total">-</div>
+    <div class="foot">
+      各区域最新年份不同，合计为近似值
+    </div>
+  </div>
+  <div class="card accent">
+    <div class="label">体量最大的区域</div>
+    <div class="value" style="font-size:20px" id="kpi-top">-</div>
+    <div class="foot" id="kpi-top-foot">—</div>
+  </div>
+  <div class="card accent">
+    <div class="label">当前列表合计占比</div>
+    <div class="value" id="kpi-share">-</div>
+    <div class="foot">占同口径全部区域合计的比重</div>
+  </div>
+
+</div>
+
+
+<div class="panel panel-tight">
+  <div class="panel-head">
+    <h2>数据年份分布</h2>
+    <span class="hint">各省条目的更新程度不同，因此每个区域标注了自己的数据年份</span>
+  </div>
+  <div class="tags">
+
+    <span class="tag">2019 年 · 47 个</span>
+
+  </div>
+</div>
+
+
+<div class="panel">
+  <div class="panel-head">
+    <h2>日本 都道府县GDP 总量排行</h2>
+    <span class="hint">各区域最新可得年份 · 鼠标悬停查看数值</span>
+  </div>
+  <div id="chart-region" class="chart chart-lg"></div>
+</div>
+
+<div class="panel">
+  <div class="panel-head">
+    <h2>排行明细</h2>
+    <div class="head-actions">
+      <span class="hint">共 30 条 · 「上年（推算）」= GDP − 增量</span>
+      <a class="btn ghost small" href="#top">回到顶部</a>
+    </div>
+  </div>
+
+  <div class="table-wrap">
+    <table class="data">
+      <thead>
+        <tr><th>名次</th><th>区域</th>
+
+            <th class="num">GDP</th><th class="num">增量</th><th class="num">名义增速</th>
+            <th class="num">上年（推算）</th><th class="num">占比</th>
+            <th class="num">人均 GDP</th><th class="num">数据年份</th></tr>
+      </thead>
+      <tbody>
+
+        <tr class="top1"
+            data-gdp="115682412000000.0" data-inc=""
+            data-rate="">
+          <td><span class="rank-no">1</span></td>
+          <td><b>东京都</b>
+              </td>
+
+          <td class="num" data-value="115682412000000.0" data-currency="JPY">-</td>
+          <td class="num" data-money="" data-currency="JPY">-</td>
+          <td class="num" data-rate-cell="-">-</td>
+          <td class="num" data-prev="-">-</td>
+          <td class="num">19.92%</td>
+          <td class="num">8,259 日元</td>
+          <td class="num">2019</td>
+        </tr>
+
+        <tr class="top2"
+            data-gdp="41188364000000.0" data-inc=""
+            data-rate="">
+          <td><span class="rank-no">2</span></td>
+          <td><b>大阪府</b>
+              </td>
+
+          <td class="num" data-value="41188364000000.0" data-currency="JPY">-</td>
+          <td class="num" data-money="" data-currency="JPY">-</td>
+          <td class="num" data-rate-cell="-">-</td>
+          <td class="num" data-prev="-">-</td>
+          <td class="num">7.09%</td>
+          <td class="num">4,658 日元</td>
+          <td class="num">2019</td>
+        </tr>
+
+        <tr class="top3"
+            data-gdp="40910717000000.0" data-inc=""
+            data-rate="">
+          <td><span class="rank-no">3</span></td>
+          <td><b>爱知县</b>
+              </td>
+
+          <td class="num" data-value="40910717000000.0" data-currency="JPY">-</td>
+          <td class="num" data-money="" data-currency="JPY">-</td>
+          <td class="num" data-rate-cell="-">-</td>
+          <td class="num" data-prev="-">-</td>
+          <td class="num">7.04%</td>
+          <td class="num">5,414 日元</td>
+          <td class="num">2019</td>
+        </tr>
+
+        <tr class=""
+            data-gdp="35205391000000.0" data-inc=""
+            data-rate="">
+          <td><span class="rank-no">4</span></td>
+          <td><b>神奈川县</b>
+              </td>
+
+          <td class="num" data-value="35205391000000.0" data-currency="JPY">-</td>
+          <td class="num" data-money="" data-currency="JPY">-</td>
+          <td class="num" data-rate-cell="-">-</td>
+          <td class="num" data-prev="-">-</td>
+          <td class="num">6.06%</td>
+          <td class="num">3,817 日元</td>
+          <td class="num">2019</td>
+        </tr>
+
+        <tr class=""
+            data-gdp="23642796000000.0" data-inc=""
+            data-rate="">
+          <td><span class="rank-no">5</span></td>
+          <td><b>埼玉县</b>
+              </td>
+
+          <td class="num" data-value="23642796000000.0" data-currency="JPY">-</td>
+          <td class="num" data-money="" data-currency="JPY">-</td>
+          <td class="num" data-rate-cell="-">-</td>
+          <td class="num" data-prev="-">-</td>
+          <td class="num">4.07%</td>
+          <td class="num">3,220 日元</td>
+          <td class="num">2019</td>
+        </tr>
+
+        <tr class=""
+            data-gdp="22195171000000.0" data-inc=""
+            data-rate="">
+          <td><span class="rank-no">6</span></td>
+          <td><b>兵库县</b>
+              </td>
+
+          <td class="num" data-value="22195171000000.0" data-currency="JPY">-</td>
+          <td class="num" data-money="" data-currency="JPY">-</td>
+          <td class="num" data-rate-cell="-">-</td>
+          <td class="num" data-prev="-">-</td>
+          <td class="num">3.82%</td>
+          <td class="num">4,045 日元</td>
+          <td class="num">2019</td>
+        </tr>
+
+        <tr class=""
+            data-gdp="21279583000000.0" data-inc=""
+            data-rate="">
+          <td><span class="rank-no">7</span></td>
+          <td><b>千叶县</b>
+              </td>
+
+          <td class="num" data-value="21279583000000.0" data-currency="JPY">-</td>
+          <td class="num" data-money="" data-currency="JPY">-</td>
+          <td class="num" data-rate-cell="-">-</td>
+          <td class="num" data-prev="-">-</td>
+          <td class="num">3.66%</td>
+          <td class="num">3,387 日元</td>
+          <td class="num">2019</td>
+        </tr>
+
+        <tr class=""
+            data-gdp="20464601000000.0" data-inc=""
+            data-rate="">
+          <td><span class="rank-no">8</span></td>
+          <td><b>北海道</b>
+              </td>
+
+          <td class="num" data-value="20464601000000.0" data-currency="JPY">-</td>
+          <td class="num" data-money="" data-currency="JPY">-</td>
+          <td class="num" data-rate-cell="-">-</td>
+          <td class="num" data-prev="-">-</td>
+          <td class="num">3.52%</td>
+          <td class="num">3,891 日元</td>
+          <td class="num">2019</td>
+        </tr>
+
+        <tr class=""
+            data-gdp="19942412000000.0" data-inc=""
+            data-rate="">
+          <td><span class="rank-no">9</span></td>
+          <td><b>福冈县</b>
+              </td>
+
+          <td class="num" data-value="19942412000000.0" data-currency="JPY">-</td>
+          <td class="num" data-money="" data-currency="JPY">-</td>
+          <td class="num" data-rate-cell="-">-</td>
+          <td class="num" data-prev="-">-</td>
+          <td class="num">3.43%</td>
+          <td class="num">3,884 日元</td>
+          <td class="num">2019</td>
+        </tr>
+
+        <tr class=""
+            data-gdp="17866284000000.0" data-inc=""
+            data-rate="">
+          <td><span class="rank-no">10</span></td>
+          <td><b>静冈县</b>
+              </td>
+
+          <td class="num" data-value="17866284000000.0" data-currency="JPY">-</td>
+          <td class="num" data-money="" data-currency="JPY">-</td>
+          <td class="num" data-rate-cell="-">-</td>
+          <td class="num" data-prev="-">-</td>
+          <td class="num">3.08%</td>
+          <td class="num">4,891 日元</td>
+          <td class="num">2019</td>
+        </tr>
+
+        <tr class=""
+            data-gdp="14092237000000.0" data-inc=""
+            data-rate="">
+          <td><span class="rank-no">11</span></td>
+          <td><b>茨城县</b>
+              </td>
+
+          <td class="num" data-value="14092237000000.0" data-currency="JPY">-</td>
+          <td class="num" data-money="" data-currency="JPY">-</td>
+          <td class="num" data-rate-cell="-">-</td>
+          <td class="num" data-prev="-">-</td>
+          <td class="num">2.43%</td>
+          <td class="num">4,895 日元</td>
+          <td class="num">2019</td>
+        </tr>
+
+        <tr class=""
+            data-gdp="11969086000000.0" data-inc=""
+            data-rate="">
+          <td><span class="rank-no">12</span></td>
+          <td><b>广岛县</b>
+              </td>
+
+          <td class="num" data-value="11969086000000.0" data-currency="JPY">-</td>
+          <td class="num" data-money="" data-currency="JPY">-</td>
+          <td class="num" data-rate-cell="-">-</td>
+          <td class="num" data-prev="-">-</td>
+          <td class="num">2.06%</td>
+          <td class="num">4,256 日元</td>
+          <td class="num">2019</td>
+        </tr>
+
+        <tr class=""
+            data-gdp="10766100000000.0" data-inc=""
+            data-rate="">
+          <td><span class="rank-no">13</span></td>
+          <td><b>京都府</b>
+              </td>
+
+          <td class="num" data-value="10766100000000.0" data-currency="JPY">-</td>
+          <td class="num" data-money="" data-currency="JPY">-</td>
+          <td class="num" data-rate-cell="-">-</td>
+          <td class="num" data-prev="-">-</td>
+          <td class="num">1.85%</td>
+          <td class="num">4,154 日元</td>
+          <td class="num">2019</td>
+        </tr>
+
+        <tr class=""
+            data-gdp="9829354000000.0" data-inc=""
+            data-rate="">
+          <td><span class="rank-no">14</span></td>
+          <td><b>宫城县</b>
+              </td>
+
+          <td class="num" data-value="9829354000000.0" data-currency="JPY">-</td>
+          <td class="num" data-money="" data-currency="JPY">-</td>
+          <td class="num" data-rate-cell="-">-</td>
+          <td class="num" data-prev="-">-</td>
+          <td class="num">1.69%</td>
+          <td class="num">4,252 日元</td>
+          <td class="num">2019</td>
+        </tr>
+
+        <tr class=""
+            data-gdp="9308340000000.0" data-inc=""
+            data-rate="">
+          <td><span class="rank-no">15</span></td>
+          <td><b>群马县</b>
+              </td>
+
+          <td class="num" data-value="9308340000000.0" data-currency="JPY">-</td>
+          <td class="num" data-money="" data-currency="JPY">-</td>
+          <td class="num" data-rate-cell="-">-</td>
+          <td class="num" data-prev="-">-</td>
+          <td class="num">1.60%</td>
+          <td class="num">4,776 日元</td>
+          <td class="num">2019</td>
+        </tr>
+
+        <tr class=""
+            data-gdp="9261942000000.0" data-inc=""
+            data-rate="">
+          <td><span class="rank-no">16</span></td>
+          <td><b>栃木县</b>
+              </td>
+
+          <td class="num" data-value="9261942000000.0" data-currency="JPY">-</td>
+          <td class="num" data-money="" data-currency="JPY">-</td>
+          <td class="num" data-rate-cell="-">-</td>
+          <td class="num" data-prev="-">-</td>
+          <td class="num">1.59%</td>
+          <td class="num">4,766 日元</td>
+          <td class="num">2019</td>
+        </tr>
+
+        <tr class=""
+            data-gdp="9185179000000.0" data-inc=""
+            data-rate="">
+          <td><span class="rank-no">17</span></td>
+          <td><b>新潟县</b>
+              </td>
+
+          <td class="num" data-value="9185179000000.0" data-currency="JPY">-</td>
+          <td class="num" data-money="" data-currency="JPY">-</td>
+          <td class="num" data-rate-cell="-">-</td>
+          <td class="num" data-prev="-">-</td>
+          <td class="num">1.58%</td>
+          <td class="num">4,130 日元</td>
+          <td class="num">2019</td>
+        </tr>
+
+        <tr class=""
+            data-gdp="8454339000000.0" data-inc=""
+            data-rate="">
+          <td><span class="rank-no">18</span></td>
+          <td><b>长野县</b>
+              </td>
+
+          <td class="num" data-value="8454339000000.0" data-currency="JPY">-</td>
+          <td class="num" data-money="" data-currency="JPY">-</td>
+          <td class="num" data-rate-cell="-">-</td>
+          <td class="num" data-prev="-">-</td>
+          <td class="num">1.46%</td>
+          <td class="num">4,102 日元</td>
+          <td class="num">2019</td>
+        </tr>
+
+        <tr class=""
+            data-gdp="8086393000000.0" data-inc=""
+            data-rate="">
+          <td><span class="rank-no">19</span></td>
+          <td><b>三重县</b>
+              </td>
+
+          <td class="num" data-value="8086393000000.0" data-currency="JPY">-</td>
+          <td class="num" data-money="" data-currency="JPY">-</td>
+          <td class="num" data-rate-cell="-">-</td>
+          <td class="num" data-prev="-">-</td>
+          <td class="num">1.39%</td>
+          <td class="num">4,536 日元</td>
+          <td class="num">2019</td>
+        </tr>
+
+        <tr class=""
+            data-gdp="7987042000000.0" data-inc=""
+            data-rate="">
+          <td><span class="rank-no">20</span></td>
+          <td><b>福岛县</b>
+              </td>
+
+          <td class="num" data-value="7987042000000.0" data-currency="JPY">-</td>
+          <td class="num" data-money="" data-currency="JPY">-</td>
+          <td class="num" data-rate-cell="-">-</td>
+          <td class="num" data-prev="-">-</td>
+          <td class="num">1.38%</td>
+          <td class="num">4,313 日元</td>
+          <td class="num">2019</td>
+        </tr>
+
+        <tr class=""
+            data-gdp="7936830000000.0" data-inc=""
+            data-rate="">
+          <td><span class="rank-no">21</span></td>
+          <td><b>岐阜县</b>
+              </td>
+
+          <td class="num" data-value="7936830000000.0" data-currency="JPY">-</td>
+          <td class="num" data-money="" data-currency="JPY">-</td>
+          <td class="num" data-rate-cell="-">-</td>
+          <td class="num" data-prev="-">-</td>
+          <td class="num">1.37%</td>
+          <td class="num">3,983 日元</td>
+          <td class="num">2019</td>
+        </tr>
+
+        <tr class=""
+            data-gdp="7842490000000.0" data-inc=""
+            data-rate="">
+          <td><span class="rank-no">22</span></td>
+          <td><b>冈山县</b>
+              </td>
+
+          <td class="num" data-value="7842490000000.0" data-currency="JPY">-</td>
+          <td class="num" data-money="" data-currency="JPY">-</td>
+          <td class="num" data-rate-cell="-">-</td>
+          <td class="num" data-prev="-">-</td>
+          <td class="num">1.35%</td>
+          <td class="num">4,134 日元</td>
+          <td class="num">2019</td>
+        </tr>
+
+        <tr class=""
+            data-gdp="6922569000000.0" data-inc=""
+            data-rate="">
+          <td><span class="rank-no">23</span></td>
+          <td><b>滋贺县</b>
+              </td>
+
+          <td class="num" data-value="6922569000000.0" data-currency="JPY">-</td>
+          <td class="num" data-money="" data-currency="JPY">-</td>
+          <td class="num" data-rate-cell="-">-</td>
+          <td class="num" data-prev="-">-</td>
+          <td class="num">1.19%</td>
+          <td class="num">4,889 日元</td>
+          <td class="num">2019</td>
+        </tr>
+
+        <tr class=""
+            data-gdp="6363425000000.0" data-inc=""
+            data-rate="">
+          <td><span class="rank-no">24</span></td>
+          <td><b>熊本县</b>
+              </td>
+
+          <td class="num" data-value="6363425000000.0" data-currency="JPY">-</td>
+          <td class="num" data-money="" data-currency="JPY">-</td>
+          <td class="num" data-rate-cell="-">-</td>
+          <td class="num" data-prev="-">-</td>
+          <td class="num">1.10%</td>
+          <td class="num">3,637 日元</td>
+          <td class="num">2019</td>
+        </tr>
+
+        <tr class=""
+            data-gdp="6350497000000.0" data-inc=""
+            data-rate="">
+          <td><span class="rank-no">25</span></td>
+          <td><b>山口县</b>
+              </td>
+
+          <td class="num" data-value="6350497000000.0" data-currency="JPY">-</td>
+          <td class="num" data-money="" data-currency="JPY">-</td>
+          <td class="num" data-rate-cell="-">-</td>
+          <td class="num" data-prev="-">-</td>
+          <td class="num">1.09%</td>
+          <td class="num">4,681 日元</td>
+          <td class="num">2019</td>
+        </tr>
+
+        <tr class=""
+            data-gdp="5772861000000.0" data-inc=""
+            data-rate="">
+          <td><span class="rank-no">26</span></td>
+          <td><b>鹿儿岛县</b>
+              </td>
+
+          <td class="num" data-value="5772861000000.0" data-currency="JPY">-</td>
+          <td class="num" data-money="" data-currency="JPY">-</td>
+          <td class="num" data-rate-cell="-">-</td>
+          <td class="num" data-prev="-">-</td>
+          <td class="num">0.99%</td>
+          <td class="num">3,604 日元</td>
+          <td class="num">2019</td>
+        </tr>
+
+        <tr class=""
+            data-gdp="5148271000000.0" data-inc=""
+            data-rate="">
+          <td><span class="rank-no">27</span></td>
+          <td><b>爱媛县</b>
+              </td>
+
+          <td class="num" data-value="5148271000000.0" data-currency="JPY">-</td>
+          <td class="num" data-money="" data-currency="JPY">-</td>
+          <td class="num" data-rate-cell="-">-</td>
+          <td class="num" data-prev="-">-</td>
+          <td class="num">0.89%</td>
+          <td class="num">3,824 日元</td>
+          <td class="num">2019</td>
+        </tr>
+
+        <tr class=""
+            data-gdp="4910232000000.0" data-inc=""
+            data-rate="">
+          <td><span class="rank-no">28</span></td>
+          <td><b>富山县</b>
+              </td>
+
+          <td class="num" data-value="4910232000000.0" data-currency="JPY">-</td>
+          <td class="num" data-money="" data-currency="JPY">-</td>
+          <td class="num" data-rate-cell="-">-</td>
+          <td class="num" data-prev="-">-</td>
+          <td class="num">0.85%</td>
+          <td class="num">4,706 日元</td>
+          <td class="num">2019</td>
+        </tr>
+
+        <tr class=""
+            data-gdp="4847594000000.0" data-inc=""
+            data-rate="">
+          <td><span class="rank-no">29</span></td>
+          <td><b>岩手县</b>
+              </td>
+
+          <td class="num" data-value="4847594000000.0" data-currency="JPY">-</td>
+          <td class="num" data-money="" data-currency="JPY">-</td>
+          <td class="num" data-rate-cell="-">-</td>
+          <td class="num" data-prev="-">-</td>
+          <td class="num">0.83%</td>
+          <td class="num">3,955 日元</td>
+          <td class="num">2019</td>
+        </tr>
+
+        <tr class=""
+            data-gdp="4789758000000.0" data-inc=""
+            data-rate="">
+          <td><span class="rank-no">30</span></td>
+          <td><b>长崎县</b>
+              </td>
+
+          <td class="num" data-value="4789758000000.0" data-currency="JPY">-</td>
+          <td class="num" data-money="" data-currency="JPY">-</td>
+          <td class="num" data-rate-cell="-">-</td>
+          <td class="num" data-prev="-">-</td>
+          <td class="num">0.82%</td>
+          <td class="num">3,609 日元</td>
+          <td class="num">2019</td>
+        </tr>
+
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+
+
+<div class="panel">
+  <div class="panel-head">
+    <h2>中国省级与美国州级对照（按美元）</h2>
+    <span class="hint">两侧各取最新一年的前六名，数值取自数据源本身</span>
+  </div>
+  <div id="chart-compare" class="chart chart-lg"></div>
+</div>
+
+<div class="panel">
+  <div class="panel-head"><h2>关于区域数据</h2></div>
+  <dl class="meta">
+    <dt>增速与增量</dt>
+    <dd>名义增速 = 当年 GDP 相对上一年的名义增长（含价格因素），与实际增速口径不同；「上年（推算）」由当年 GDP 减去增量得到，把两年的变化摆在一起看。增速数据目前覆盖 2025 年前 34 个城市（来源：另一份榜单明细，与总量表逐位核对一致）。</dd>
+    <dt>年份说明</dt>
+    <dd>中国地级行政区共有 336 个城市为 2025 年数据（含 4 个直辖市，数据源自各地统计局，经榜单整理入库），每个城市同时记录了常住人口与人均 GDP；少数县级单位（如海南、湖北的省直管县）仍为较早年份，逐行标注了数据年份。美国州与县为 2001—2024 年逐年，中国省级为 2025 年（另有 2023 年），日本都道府县为 2019 年。</dd>
+    <dt>直辖市</dt>
+    <dd>北京、天津、上海、重庆在行政级别上属于省级，但在城市排行里也应出现，因此同时计入省级与城市两个层级。</dd>
+    <dt>层级差异</dt>
+    <dd>少数省份的表格把省直管县级市一并列出（如海南、湖北），因此其“城市”数量会多于地级行政区数量。</dd>
+    <dt>货币不同</dt>
+    <dd>人民币、日元、美元不混在一起比较；跨经济体比较使用数据源给出的美元折算值，站内不自造汇率。</dd>
+  </dl>
+</div>
+
+</main>
+
+<footer class="footer">
+  <div class="container footer-inner">
+    <span>全球 GDP 数据采集与可视化分析平台 · Python 课程大作业</span>
+    <span>世界银行 · 东方财富 · BEA · 维基百科 · 人工整理 · 仅供学习研究使用</span>
+  </div>
+</footer>
+
+
+<script src="../static/js/charts.js"></script>
+  <script src="../static/js/static-api.js?v=5d8a63cd"></script>
+<script type="application/json" id="page-data">{"children": [], "currency": "JPY", "growth": {"areas": 0, "average": null, "max": null, "min": null}, "metric": "gdp", "mode": "latest", "rank": [{"currency": "JPY", "economy": "JPN", "gdp_native": 115682412000000.0, "gdp_usd": null, "growth_rate": null, "increment_native": null, "level": "prefecture", "parent_code": "JPN", "parent_name": "日本", "per_capita_native": 8259.0, "population": null, "region_code": "东京都", "region_name": "东京都", "source": "维基百科条目（数据源自官方统计公报）", "year": 2019}, {"currency": "JPY", "economy": "JPN", "gdp_native": 41188364000000.0, "gdp_usd": null, "growth_rate": null, "increment_native": null, "level": "prefecture", "parent_code": "JPN", "parent_name": "日本", "per_capita_native": 4658.0, "population": null, "region_code": "大阪府", "region_name": "大阪府", "source": "维基百科条目（数据源自官方统计公报）", "year": 2019}, {"currency": "JPY", "economy": "JPN", "gdp_native": 40910717000000.0, "gdp_usd": null, "growth_rate": null, "increment_native": null, "level": "prefecture", "parent_code": "JPN", "parent_name": "日本", "per_capita_native": 5414.0, "population": null, "region_code": "爱知县", "region_name": "爱知县", "source": "维基百科条目（数据源自官方统计公报）", "year": 2019}, {"currency": "JPY", "economy": "JPN", "gdp_native": 35205391000000.0, "gdp_usd": null, "growth_rate": null, "increment_native": null, "level": "prefecture", "parent_code": "JPN", "parent_name": "日本", "per_capita_native": 3817.0, "population": null, "region_code": "神奈川县", "region_name": "神奈川县", "source": "维基百科条目（数据源自官方统计公报）", "year": 2019}, {"currency": "JPY", "economy": "JPN", "gdp_native": 23642796000000.0, "gdp_usd": null, "growth_rate": null, "increment_native": null, "level": "prefecture", "parent_code": "JPN", "parent_name": "日本", "per_capita_native": 3220.0, "population": null, "region_code": "埼玉县", "region_name": "埼玉县", "source": "维基百科条目（数据源自官方统计公报）", "year": 2019}, {"currency": "JPY", "economy": "JPN", "gdp_native": 22195171000000.0, "gdp_usd": null, "growth_rate": null, "increment_native": null, "level": "prefecture", "parent_code": "JPN", "parent_name": "日本", "per_capita_native": 4045.0, "population": null, "region_code": "兵库县", "region_name": "兵库县", "source": "维基百科条目（数据源自官方统计公报）", "year": 2019}, {"currency": "JPY", "economy": "JPN", "gdp_native": 21279583000000.0, "gdp_usd": null, "growth_rate": null, "increment_native": null, "level": "prefecture", "parent_code": "JPN", "parent_name": "日本", "per_capita_native": 3387.0, "population": null, "region_code": "千叶县", "region_name": "千叶县", "source": "维基百科条目（数据源自官方统计公报）", "year": 2019}, {"currency": "JPY", "economy": "JPN", "gdp_native": 20464601000000.0, "gdp_usd": null, "growth_rate": null, "increment_native": null, "level": "prefecture", "parent_code": "JPN", "parent_name": "日本", "per_capita_native": 3891.0, "population": null, "region_code": "北海道", "region_name": "北海道", "source": "维基百科条目（数据源自官方统计公报）", "year": 2019}, {"currency": "JPY", "economy": "JPN", "gdp_native": 19942412000000.0, "gdp_usd": null, "growth_rate": null, "increment_native": null, "level": "prefecture", "parent_code": "JPN", "parent_name": "日本", "per_capita_native": 3884.0, "population": null, "region_code": "福冈县", "region_name": "福冈县", "source": "维基百科条目（数据源自官方统计公报）", "year": 2019}, {"currency": "JPY", "economy": "JPN", "gdp_native": 17866284000000.0, "gdp_usd": null, "growth_rate": null, "increment_native": null, "level": "prefecture", "parent_code": "JPN", "parent_name": "日本", "per_capita_native": 4891.0, "population": null, "region_code": "静冈县", "region_name": "静冈县", "source": "维基百科条目（数据源自官方统计公报）", "year": 2019}, {"currency": "JPY", "economy": "JPN", "gdp_native": 14092237000000.0, "gdp_usd": null, "growth_rate": null, "increment_native": null, "level": "prefecture", "parent_code": "JPN", "parent_name": "日本", "per_capita_native": 4895.0, "population": null, "region_code": "茨城县", "region_name": "茨城县", "source": "维基百科条目（数据源自官方统计公报）", "year": 2019}, {"currency": "JPY", "economy": "JPN", "gdp_native": 11969086000000.0, "gdp_usd": null, "growth_rate": null, "increment_native": null, "level": "prefecture", "parent_code": "JPN", "parent_name": "日本", "per_capita_native": 4256.0, "population": null, "region_code": "广岛县", "region_name": "广岛县", "source": "维基百科条目（数据源自官方统计公报）", "year": 2019}, {"currency": "JPY", "economy": "JPN", "gdp_native": 10766100000000.0, "gdp_usd": null, "growth_rate": null, "increment_native": null, "level": "prefecture", "parent_code": "JPN", "parent_name": "日本", "per_capita_native": 4154.0, "population": null, "region_code": "京都府", "region_name": "京都府", "source": "维基百科条目（数据源自官方统计公报）", "year": 2019}, {"currency": "JPY", "economy": "JPN", "gdp_native": 9829354000000.0, "gdp_usd": null, "growth_rate": null, "increment_native": null, "level": "prefecture", "parent_code": "JPN", "parent_name": "日本", "per_capita_native": 4252.0, "population": null, "region_code": "宫城县", "region_name": "宫城县", "source": "维基百科条目（数据源自官方统计公报）", "year": 2019}, {"currency": "JPY", "economy": "JPN", "gdp_native": 9308340000000.0, "gdp_usd": null, "growth_rate": null, "increment_native": null, "level": "prefecture", "parent_code": "JPN", "parent_name": "日本", "per_capita_native": 4776.0, "population": null, "region_code": "群马县", "region_name": "群马县", "source": "维基百科条目（数据源自官方统计公报）", "year": 2019}, {"currency": "JPY", "economy": "JPN", "gdp_native": 9261942000000.0, "gdp_usd": null, "growth_rate": null, "increment_native": null, "level": "prefecture", "parent_code": "JPN", "parent_name": "日本", "per_capita_native": 4766.0, "population": null, "region_code": "栃木县", "region_name": "栃木县", "source": "维基百科条目（数据源自官方统计公报）", "year": 2019}, {"currency": "JPY", "economy": "JPN", "gdp_native": 9185179000000.0, "gdp_usd": null, "growth_rate": null, "increment_native": null, "level": "prefecture", "parent_code": "JPN", "parent_name": "日本", "per_capita_native": 4130.0, "population": null, "region_code": "新潟县", "region_name": "新潟县", "source": "维基百科条目（数据源自官方统计公报）", "year": 2019}, {"currency": "JPY", "economy": "JPN", "gdp_native": 8454339000000.0, "gdp_usd": null, "growth_rate": null, "increment_native": null, "level": "prefecture", "parent_code": "JPN", "parent_name": "日本", "per_capita_native": 4102.0, "population": null, "region_code": "长野县", "region_name": "长野县", "source": "维基百科条目（数据源自官方统计公报）", "year": 2019}, {"currency": "JPY", "economy": "JPN", "gdp_native": 8086393000000.0, "gdp_usd": null, "growth_rate": null, "increment_native": null, "level": "prefecture", "parent_code": "JPN", "parent_name": "日本", "per_capita_native": 4536.0, "population": null, "region_code": "三重县", "region_name": "三重县", "source": "维基百科条目（数据源自官方统计公报）", "year": 2019}, {"currency": "JPY", "economy": "JPN", "gdp_native": 7987042000000.0, "gdp_usd": null, "growth_rate": null, "increment_native": null, "level": "prefecture", "parent_code": "JPN", "parent_name": "日本", "per_capita_native": 4313.0, "population": null, "region_code": "福岛县", "region_name": "福岛县", "source": "维基百科条目（数据源自官方统计公报）", "year": 2019}, {"currency": "JPY", "economy": "JPN", "gdp_native": 7936830000000.0, "gdp_usd": null, "growth_rate": null, "increment_native": null, "level": "prefecture", "parent_code": "JPN", "parent_name": "日本", "per_capita_native": 3983.0, "population": null, "region_code": "岐阜县", "region_name": "岐阜县", "source": "维基百科条目（数据源自官方统计公报）", "year": 2019}, {"currency": "JPY", "economy": "JPN", "gdp_native": 7842490000000.0, "gdp_usd": null, "growth_rate": null, "increment_native": null, "level": "prefecture", "parent_code": "JPN", "parent_name": "日本", "per_capita_native": 4134.0, "population": null, "region_code": "冈山县", "region_name": "冈山县", "source": "维基百科条目（数据源自官方统计公报）", "year": 2019}, {"currency": "JPY", "economy": "JPN", "gdp_native": 6922569000000.0, "gdp_usd": null, "growth_rate": null, "increment_native": null, "level": "prefecture", "parent_code": "JPN", "parent_name": "日本", "per_capita_native": 4889.0, "population": null, "region_code": "滋贺县", "region_name": "滋贺县", "source": "维基百科条目（数据源自官方统计公报）", "year": 2019}, {"currency": "JPY", "economy": "JPN", "gdp_native": 6363425000000.0, "gdp_usd": null, "growth_rate": null, "increment_native": null, "level": "prefecture", "parent_code": "JPN", "parent_name": "日本", "per_capita_native": 3637.0, "population": null, "region_code": "熊本县", "region_name": "熊本县", "source": "维基百科条目（数据源自官方统计公报）", "year": 2019}, {"currency": "JPY", "economy": "JPN", "gdp_native": 6350497000000.0, "gdp_usd": null, "growth_rate": null, "increment_native": null, "level": "prefecture", "parent_code": "JPN", "parent_name": "日本", "per_capita_native": 4681.0, "population": null, "region_code": "山口县", "region_name": "山口县", "source": "维基百科条目（数据源自官方统计公报）", "year": 2019}, {"currency": "JPY", "economy": "JPN", "gdp_native": 5772861000000.0, "gdp_usd": null, "growth_rate": null, "increment_native": null, "level": "prefecture", "parent_code": "JPN", "parent_name": "日本", "per_capita_native": 3604.0, "population": null, "region_code": "鹿儿岛县", "region_name": "鹿儿岛县", "source": "维基百科条目（数据源自官方统计公报）", "year": 2019}, {"currency": "JPY", "economy": "JPN", "gdp_native": 5148271000000.0, "gdp_usd": null, "growth_rate": null, "increment_native": null, "level": "prefecture", "parent_code": "JPN", "parent_name": "日本", "per_capita_native": 3824.0, "population": null, "region_code": "爱媛县", "region_name": "爱媛县", "source": "维基百科条目（数据源自官方统计公报）", "year": 2019}, {"currency": "JPY", "economy": "JPN", "gdp_native": 4910232000000.0, "gdp_usd": null, "growth_rate": null, "increment_native": null, "level": "prefecture", "parent_code": "JPN", "parent_name": "日本", "per_capita_native": 4706.0, "population": null, "region_code": "富山县", "region_name": "富山县", "source": "维基百科条目（数据源自官方统计公报）", "year": 2019}, {"currency": "JPY", "economy": "JPN", "gdp_native": 4847594000000.0, "gdp_usd": null, "growth_rate": null, "increment_native": null, "level": "prefecture", "parent_code": "JPN", "parent_name": "日本", "per_capita_native": 3955.0, "population": null, "region_code": "岩手县", "region_name": "岩手县", "source": "维基百科条目（数据源自官方统计公报）", "year": 2019}, {"currency": "JPY", "economy": "JPN", "gdp_native": 4789758000000.0, "gdp_usd": null, "growth_rate": null, "increment_native": null, "level": "prefecture", "parent_code": "JPN", "parent_name": "日本", "per_capita_native": 3609.0, "population": null, "region_code": "长崎县", "region_name": "长崎县", "source": "维基百科条目（数据源自官方统计公报）", "year": 2019}], "total": 580766947000000.0, "year": 2019}</script>
+<script src="../static/js/pages/region.js"></script>
+
+</body>
+</html>
