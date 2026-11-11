@@ -1,0 +1,10 @@
+# Python 缓存与编译产物（源码目录里跑测试会生成）
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# 编辑器与系统
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
