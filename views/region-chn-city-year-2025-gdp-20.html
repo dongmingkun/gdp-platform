@@ -4,9 +4,9 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>区域对比 · 全球 GDP 数据采集与可视化分析平台</title>
-  <link rel="stylesheet" href="static/css/style.css">
+  <link rel="stylesheet" href="../static/css/style.css">
   
-  <script src="static/vendor/echarts.min.js"></script>
+  <script src="../static/vendor/echarts.min.js"></script>
 </head>
 <body>
 <header class="topbar">
@@ -19,15 +19,15 @@
       </div>
     </div>
     <nav class="nav">
-      <a href="index.html" class="">总览</a>
-      <a href="region.html" class="active">城市格局</a>
-      <a href="rank.html" class="">全球排行</a>
-      <a href="trend.html" class="">趋势分析</a>
-      <a href="compare.html" class="">国家对比</a>
-      <a href="share.html" class="">份额变化</a>
-      <a href="china.html" class="">中国季度</a>
-      <a href="dataset.html" class="">数据集</a>
-      <a href="about.html" class="">关于</a>
+      <a href="../index.html" class="">总览</a>
+      <a href="../region.html" class="active">城市格局</a>
+      <a href="../rank.html" class="">全球排行</a>
+      <a href="../trend.html" class="">趋势分析</a>
+      <a href="../compare.html" class="">国家对比</a>
+      <a href="../share.html" class="">份额变化</a>
+      <a href="../china.html" class="">中国季度</a>
+      <a href="../dataset.html" class="">数据集</a>
+      <a href="../about.html" class="">关于</a>
     </nav>
   </div>
 </header>
@@ -50,7 +50,7 @@
     <h2>区域 GDP 对比与增长趋势</h2>
     <span class="hint">美国数据来自经济分析局（BEA）官方批量文件；中国与日本数据来自维基百科统计条目；带「人工整理」标记的记录来自榜单整理</span>
   </div>
-  <form class="toolbar toolbar-grid" method="get" action="region.html" id="region-form">
+  <form class="toolbar toolbar-grid" method="get" action="../region.html" id="region-form">
     <div class="field">
       <label>经济体</label>
       <select name="economy">
@@ -87,8 +87,15 @@
     <div class="field">
       <label>统计口径</label>
       <select name="mode">
-        <option value="latest" selected>各区域最新可得</option>
-        <option value="year" >限定某一年</option>
+        <option value="latest" >各区域最新可得</option>
+        <option value="year" selected>限定某一年</option>
+      </select>
+    </div>
+    
+    <div class="field">
+      <label>年份</label>
+      <select name="year">
+        <option value="2025" selected>2025 年</option><option value="2024" >2024 年</option><option value="2023" >2023 年</option><option value="2022" >2022 年</option><option value="2021" >2021 年</option><option value="2020" >2020 年</option><option value="2019" >2019 年</option><option value="2018" >2018 年</option><option value="2017" >2017 年</option><option value="2015" >2015 年</option>
       </select>
     </div>
     
@@ -106,45 +113,45 @@
       <label>&nbsp;</label>
       <div class="action-row">
         <button type="submit">查询</button>
-        <a class="btn ghost" href="region.html?economy=CHN&amp;level=city">重置</a>
-        <a class="btn ghost" href="data/dataset/region-export-CHN-city.csv">导出 CSV</a>
+        <a class="btn ghost" href="../views/region-chn-city-latest-latest-gdp-20.html">重置</a>
+        <a class="btn ghost" href="../data/dataset/region-export-CHN-city.csv">导出 CSV</a>
       </div>
     </div>
   </form>
   <div class="quick-row">
     <span class="quick-label">快捷视图</span>
-    <a class="chip "
-       href="region.html?economy=CHN&amp;level=city&amp;mode=year&amp;year=2025&amp;limit=400">中国城市 2025（全部 336）</a>
     <a class="chip on"
-       href="region.html?economy=CHN&amp;level=city&amp;mode=latest">中国城市·各年最新</a>
+       href="../views/region-chn-city-year-2025-gdp-400.html">中国城市 2025（全部 336）</a>
     <a class="chip "
-       href="region.html?economy=CHN&amp;level=province&amp;mode=year&amp;year=2025">中国省级 2025</a>
+       href="../views/region-chn-city-latest-latest-gdp-20.html">中国城市·各年最新</a>
     <a class="chip "
-       href="region.html?economy=USA&amp;level=state&amp;mode=latest">美国各州</a>
+       href="../views/region-chn-province-year-2025-gdp-20.html">中国省级 2025</a>
     <a class="chip "
-       href="region.html?economy=USA&amp;level=county&amp;mode=latest">美国各县</a>
+       href="../views/region-usa-state-latest-latest-gdp-20.html">美国各州</a>
     <a class="chip "
-       href="region.html?economy=JPN&amp;level=prefecture&amp;mode=latest">日本都道府县</a>
+       href="../views/region-usa-county-latest-latest-gdp-20.html">美国各县</a>
     <a class="chip "
-       href="region.html?economy=CHN&amp;level=city&amp;mode=year&amp;year=2025&amp;metric=growth&amp;limit=400">2025 增速排行</a>
+       href="../views/region-jpn-prefecture-latest-latest-gdp-20.html">日本都道府县</a>
+    <a class="chip "
+       href="../views/region-chn-city-year-2025-growth-400.html">2025 增速排行</a>
   </div>
 </div>
 
 <div class="cards">
   <div class="card">
     <div class="label">中国 · 地级行政区（城市）</div>
-    <div class="value">361<span class="unit">个区域</span></div>
+    <div class="value">336<span class="unit">个区域</span></div>
     <div class="foot">
-      每个区域取各自最新可得年份
+      数据年份 2025 年
       
     </div>
   </div>
   
   <div class="card">
-    <div class="label">合计（各年最新）</div>
+    <div class="label">合计（2025 年）</div>
     <div class="value" id="kpi-total">-</div>
     <div class="foot">
-      各区域最新年份不同，合计为近似值
+      同一年各区域相加，不等于全国 GDP
     </div>
   </div>
   <div class="card accent">
@@ -161,33 +168,11 @@
 </div>
 
 
-<div class="panel panel-tight">
-  <div class="panel-head">
-    <h2>数据年份分布</h2>
-    <span class="hint">各省条目的更新程度不同，因此每个区域标注了自己的数据年份</span>
-  </div>
-  <div class="tags">
-    
-    <span class="tag">2025 年 · 336 个</span>
-    
-    <span class="tag">2024 年 · 1 个</span>
-    
-    <span class="tag">2021 年 · 15 个</span>
-    
-    <span class="tag">2019 年 · 2 个</span>
-    
-    <span class="tag">2018 年 · 5 个</span>
-    
-    <span class="tag">2015 年 · 2 个</span>
-    
-  </div>
-</div>
-
 
 <div class="panel">
   <div class="panel-head">
     <h2>中国 地级行政区（城市）排行</h2>
-    <span class="hint">各区域最新可得年份 · 鼠标悬停查看数值</span>
+    <span class="hint">2025 年 · 鼠标悬停查看数值</span>
   </div>
   <div id="chart-region" class="chart chart-lg"></div>
 </div>
@@ -223,7 +208,7 @@
           <td class="num" data-money="278200000000.0" data-currency="CNY">-</td>
           <td class="num" data-rate-cell="-">-</td>
           <td class="num" data-prev="-">-</td>
-          <td class="num">4.07%</td>
+          <td class="num">4.09%</td>
           <td class="num">228,664 元</td>
           <td class="num">2025</td>
         </tr>
@@ -239,7 +224,7 @@
           <td class="num" data-money="223030000000.00003" data-currency="CNY">-</td>
           <td class="num" data-rate-cell="-">-</td>
           <td class="num" data-prev="-">-</td>
-          <td class="num">3.74%</td>
+          <td class="num">3.76%</td>
           <td class="num">238,539 元</td>
           <td class="num">2025</td>
         </tr>
@@ -255,7 +240,7 @@
           <td class="num" data-money="192990000000.0" data-currency="CNY">-</td>
           <td class="num" data-rate-cell="-">-</td>
           <td class="num" data-prev="-">-</td>
-          <td class="num">2.78%</td>
+          <td class="num">2.80%</td>
           <td class="num">215,296 元</td>
           <td class="num">2025</td>
         </tr>
@@ -271,7 +256,7 @@
           <td class="num" data-money="156480000000.0" data-currency="CNY">-</td>
           <td class="num" data-rate-cell="-">-</td>
           <td class="num" data-prev="-">-</td>
-          <td class="num">2.42%</td>
+          <td class="num">2.44%</td>
           <td class="num">105,824 元</td>
           <td class="num">2025</td>
         </tr>
@@ -287,7 +272,7 @@
           <td class="num" data-money="100700000000.0" data-currency="CNY">-</td>
           <td class="num" data-rate-cell="-">-</td>
           <td class="num" data-prev="-">-</td>
-          <td class="num">2.30%</td>
+          <td class="num">2.31%</td>
           <td class="num">168,807 元</td>
           <td class="num">2025</td>
         </tr>
@@ -303,7 +288,7 @@
           <td class="num" data-money="96810000000.0" data-currency="CNY">-</td>
           <td class="num" data-rate-cell="-">-</td>
           <td class="num" data-prev="-">-</td>
-          <td class="num">1.99%</td>
+          <td class="num">2.00%</td>
           <td class="num">213,203 元</td>
           <td class="num">2025</td>
         </tr>
@@ -319,7 +304,7 @@
           <td class="num" data-money="125230000000.0" data-currency="CNY">-</td>
           <td class="num" data-rate-cell="-">-</td>
           <td class="num" data-prev="-">-</td>
-          <td class="num">1.78%</td>
+          <td class="num">1.79%</td>
           <td class="num">115,340 元</td>
           <td class="num">2025</td>
         </tr>
@@ -335,7 +320,7 @@
           <td class="num" data-money="115090000000.00002" data-currency="CNY">-</td>
           <td class="num" data-rate-cell="-">-</td>
           <td class="num" data-prev="-">-</td>
-          <td class="num">1.65%</td>
+          <td class="num">1.66%</td>
           <td class="num">182,337 元</td>
           <td class="num">2025</td>
         </tr>
@@ -351,7 +336,7 @@
           <td class="num" data-money="104109999999.99998" data-currency="CNY">-</td>
           <td class="num" data-rate-cell="-">-</td>
           <td class="num" data-prev="-">-</td>
-          <td class="num">1.59%</td>
+          <td class="num">1.60%</td>
           <td class="num">160,372 元</td>
           <td class="num">2025</td>
         </tr>
@@ -367,7 +352,7 @@
           <td class="num" data-money="92800000000.0" data-currency="CNY">-</td>
           <td class="num" data-rate-cell="-">-</td>
           <td class="num" data-prev="-">-</td>
-          <td class="num">1.39%</td>
+          <td class="num">1.40%</td>
           <td class="num">202,806 元</td>
           <td class="num">2025</td>
         </tr>
@@ -383,7 +368,7 @@
           <td class="num" data-money="56800000000.0" data-currency="CNY">-</td>
           <td class="num" data-rate-cell="-">-</td>
           <td class="num" data-prev="-">-</td>
-          <td class="num">1.34%</td>
+          <td class="num">1.35%</td>
           <td class="num">191,367 元</td>
           <td class="num">2025</td>
         </tr>
@@ -399,7 +384,7 @@
           <td class="num" data-money="51550000000.0" data-currency="CNY">-</td>
           <td class="num" data-rate-cell="-">-</td>
           <td class="num" data-prev="-">-</td>
-          <td class="num">1.33%</td>
+          <td class="num">1.34%</td>
           <td class="num">135,924 元</td>
           <td class="num">2025</td>
         </tr>
@@ -415,7 +400,7 @@
           <td class="num" data-money="84120000000.0" data-currency="CNY">-</td>
           <td class="num" data-rate-cell="-">-</td>
           <td class="num" data-prev="-">-</td>
-          <td class="num">1.26%</td>
+          <td class="num">1.27%</td>
           <td class="num">168,206 元</td>
           <td class="num">2025</td>
         </tr>
@@ -431,7 +416,7 @@
           <td class="num" data-money="51060000000.0" data-currency="CNY">-</td>
           <td class="num" data-rate-cell="-">-</td>
           <td class="num" data-prev="-">-</td>
-          <td class="num">1.20%</td>
+          <td class="num">1.21%</td>
           <td class="num">223,354 元</td>
           <td class="num">2025</td>
         </tr>
@@ -447,7 +432,7 @@
           <td class="num" data-money="46900000000.0" data-currency="CNY">-</td>
           <td class="num" data-rate-cell="-">-</td>
           <td class="num" data-prev="-">-</td>
-          <td class="num">1.13%</td>
+          <td class="num">1.14%</td>
           <td class="num">148,190 元</td>
           <td class="num">2025</td>
         </tr>
@@ -463,7 +448,7 @@
           <td class="num" data-money="71250000000.0" data-currency="CNY">-</td>
           <td class="num" data-rate-cell="-">-</td>
           <td class="num" data-prev="-">-</td>
-          <td class="num">1.09%</td>
+          <td class="num">1.10%</td>
           <td class="num">116,460 元</td>
           <td class="num">2025</td>
         </tr>
@@ -479,7 +464,7 @@
           <td class="num" data-money="87560000000.0" data-currency="CNY">-</td>
           <td class="num" data-rate-cell="-">-</td>
           <td class="num" data-prev="-">-</td>
-          <td class="num">1.08%</td>
+          <td class="num">1.09%</td>
           <td class="num">177,792 元</td>
           <td class="num">2025</td>
         </tr>
@@ -495,7 +480,7 @@
           <td class="num" data-money="68250000000.0" data-currency="CNY">-</td>
           <td class="num" data-rate-cell="-">-</td>
           <td class="num" data-prev="-">-</td>
-          <td class="num">1.02%</td>
+          <td class="num">1.03%</td>
           <td class="num">149,423 元</td>
           <td class="num">2025</td>
         </tr>
@@ -511,7 +496,7 @@
           <td class="num" data-money="70230000000.0" data-currency="CNY">-</td>
           <td class="num" data-rate-cell="-">-</td>
           <td class="num" data-prev="-">-</td>
-          <td class="num">1.02%</td>
+          <td class="num">1.03%</td>
           <td class="num">142,100 元</td>
           <td class="num">2025</td>
         </tr>
@@ -547,9 +532,9 @@
   <form class="toolbar" method="get" action="/region#drill" id="drill-form">
     <input type="hidden" name="economy" value="CHN">
     <input type="hidden" name="level" value="city">
-    <input type="hidden" name="mode" value="latest">
+    <input type="hidden" name="mode" value="year">
     <input type="hidden" name="metric" value="gdp">
-    
+    <input type="hidden" name="year" value="2025">
     <div class="field">
       <label>选择省份</label>
       
@@ -914,10 +899,10 @@
 </footer>
 
 
-<script src="static/js/charts.js"></script>
-  <script src="static/js/static-api.js"></script>
-<script type="application/json" id="page-data">{"children": [{"currency": "CNY", "economy": "CHN", "gdp_native": 3873180000000.0005, "gdp_usd": null, "growth_rate": 5.24, "increment_native": 192990000000.0, "level": "city", "parent_name": "广东", "per_capita_native": 215296.0, "population": 1799.0, "region_code": "深圳市", "region_name": "深圳市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "economy": "CHN", "gdp_native": 3203950000000.0, "gdp_usd": null, "growth_rate": 3.24, "increment_native": 100700000000.0, "level": "city", "parent_name": "广东", "per_capita_native": 168807.0, "population": 1898.0, "region_code": "广州市", "region_name": "广州市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "economy": "CHN", "gdp_native": 1315740000000.0, "gdp_usd": null, "growth_rate": -1.53, "increment_native": -20450000000.0, "level": "city", "parent_name": "广东", "per_capita_native": 135643.0, "population": 970.0, "region_code": "佛山市", "region_name": "佛山市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "economy": "CHN", "gdp_native": 1276020000000.0, "gdp_usd": null, "growth_rate": 3.89, "increment_native": 47810000000.0, "level": "city", "parent_name": "广东", "per_capita_native": 120721.0, "population": 1057.0, "region_code": "东莞市", "region_name": "东莞市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "economy": "CHN", "gdp_native": 636370000000.0, "gdp_usd": null, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "广东", "per_capita_native": 103982.0, "population": 612.0, "region_code": "惠州市", "region_name": "惠州市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "economy": "CHN", "gdp_native": 457310000000.00006, "gdp_usd": null, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "广东", "per_capita_native": 181472.0, "population": 252.0, "region_code": "珠海市", "region_name": "珠海市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "economy": "CHN", "gdp_native": 429389999999.99994, "gdp_usd": null, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "广东", "per_capita_native": 89085.0, "population": 482.0, "region_code": "江门市", "region_name": "江门市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "economy": "CHN", "gdp_native": 426060000000.00006, "gdp_usd": null, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "广东", "per_capita_native": 94891.0, "population": 449.0, "region_code": "中山市", "region_name": "中山市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "economy": "CHN", "gdp_native": 410639999999.99994, "gdp_usd": null, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "广东", "per_capita_native": 65493.0, "population": 627.0, "region_code": "茂名市", "region_name": "茂名市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "economy": "CHN", "gdp_native": 395290000000.0, "gdp_usd": null, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "广东", "per_capita_native": 55518.0, "population": 712.0, "region_code": "湛江市", "region_name": "湛江市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "economy": "CHN", "gdp_native": 302380000000.0, "gdp_usd": null, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "广东", "per_capita_native": 54190.0, "population": 558.0, "region_code": "汕头市", "region_name": "汕头市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "economy": "CHN", "gdp_native": 297480000000.0, "gdp_usd": null, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "广东", "per_capita_native": 72029.0, "population": 413.0, "region_code": "肇庆市", "region_name": "肇庆市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "economy": "CHN", "gdp_native": 255380000000.00003, "gdp_usd": null, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "广东", "per_capita_native": 44961.0, "population": 568.0, "region_code": "揭阳市", "region_name": "揭阳市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "economy": "CHN", "gdp_native": 231750000000.0, "gdp_usd": null, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "广东", "per_capita_native": 58083.0, "population": 399.0, "region_code": "清远市", "region_name": "清远市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "economy": "CHN", "gdp_native": 170510000000.0, "gdp_usd": null, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "广东", "per_capita_native": 59828.0, "population": 285.0, "region_code": "韶关市", "region_name": "韶关市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "economy": "CHN", "gdp_native": 167120000000.0, "gdp_usd": null, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "广东", "per_capita_native": 63544.0, "population": 263.0, "region_code": "阳江市", "region_name": "阳江市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "economy": "CHN", "gdp_native": 158320000000.0, "gdp_usd": null, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "广东", "per_capita_native": 41229.0, "population": 384.0, "region_code": "梅州市", "region_name": "梅州市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "economy": "CHN", "gdp_native": 154630000000.0, "gdp_usd": null, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "广东", "per_capita_native": 57270.0, "population": 270.0, "region_code": "汕尾市", "region_name": "汕尾市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "economy": "CHN", "gdp_native": 145220000000.0, "gdp_usd": null, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "广东", "per_capita_native": 56287.0, "population": 258.0, "region_code": "潮州市", "region_name": "潮州市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "economy": "CHN", "gdp_native": 143460000000.0, "gdp_usd": null, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "广东", "per_capita_native": 50514.0, "population": 284.0, "region_code": "河源市", "region_name": "河源市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}], "currency": "CNY", "growth": {"areas": 34, "average": 4.287058823529412, "max": 6.73, "min": -1.53}, "metric": "gdp", "mode": "latest", "rank": [{"currency": "CNY", "economy": "CHN", "gdp_native": 5670870000000.0, "gdp_usd": null, "growth_rate": 5.16, "increment_native": 278200000000.0, "level": "city", "parent_code": "中国", "parent_name": "中国", "per_capita_native": 228664.0, "population": 2480.0, "region_code": "上海", "region_name": "上海", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "economy": "CHN", "gdp_native": 5207300000000.0, "gdp_usd": null, "growth_rate": 4.47, "increment_native": 223030000000.00003, "level": "city", "parent_code": "中国", "parent_name": "中国", "per_capita_native": 238539.0, "population": 2183.0, "region_code": "北京", "region_name": "北京", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "economy": "CHN", "gdp_native": 3873180000000.0005, "gdp_usd": null, "growth_rate": 5.24, "increment_native": 192990000000.0, "level": "city", "parent_code": "广东", "parent_name": "广东", "per_capita_native": 215296.0, "population": 1799.0, "region_code": "深圳市", "region_name": "深圳市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "economy": "CHN", "gdp_native": 3375800000000.0, "gdp_usd": null, "growth_rate": 4.86, "increment_native": 156480000000.0, "level": "city", "parent_code": "中国", "parent_name": "中国", "per_capita_native": 105824.0, "population": 3190.0, "region_code": "重庆", "region_name": "重庆", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "economy": "CHN", "gdp_native": 3203950000000.0, "gdp_usd": null, "growth_rate": 3.24, "increment_native": 100700000000.0, "level": "city", "parent_code": "广东", "parent_name": "广东", "per_capita_native": 168807.0, "population": 1898.0, "region_code": "广州市", "region_name": "广州市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "economy": "CHN", "gdp_native": 2769510000000.0, "gdp_usd": null, "growth_rate": 3.62, "increment_native": 96810000000.0, "level": "city", "parent_code": "江苏", "parent_name": "江苏", "per_capita_native": 213203.0, "population": 1299.0, "region_code": "苏州市", "region_name": "苏州市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "economy": "CHN", "gdp_native": 2476360000000.0, "gdp_usd": null, "growth_rate": 5.33, "increment_native": 125230000000.0, "level": "city", "parent_code": "四川", "parent_name": "四川", "per_capita_native": 115340.0, "population": 2147.0, "region_code": "成都市", "region_name": "成都市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "economy": "CHN", "gdp_native": 2301090000000.0, "gdp_usd": null, "growth_rate": 5.26, "increment_native": 115090000000.00002, "level": "city", "parent_code": "浙江", "parent_name": "浙江", "per_capita_native": 182337.0, "population": 1262.0, "region_code": "杭州市", "region_name": "杭州市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "economy": "CHN", "gdp_native": 2214740000000.0, "gdp_usd": null, "growth_rate": 4.93, "increment_native": 104109999999.99998, "level": "city", "parent_code": "湖北", "parent_name": "湖北", "per_capita_native": 160372.0, "population": 1381.0, "region_code": "武汉", "region_name": "武汉", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "economy": "CHN", "gdp_native": 1942880000000.0, "gdp_usd": null, "growth_rate": 5.02, "increment_native": 92800000000.0, "level": "city", "parent_code": "江苏", "parent_name": "江苏", "per_capita_native": 202806.0, "population": 958.0, "region_code": "南京市", "region_name": "南京市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "economy": "CHN", "gdp_native": 1871570000000.0, "gdp_usd": null, "growth_rate": 3.13, "increment_native": 56800000000.0, "level": "city", "parent_code": "浙江", "parent_name": "浙江", "per_capita_native": 191367.0, "population": 978.0, "region_code": "宁波市", "region_name": "宁波市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "economy": "CHN", "gdp_native": 1854000000000.0, "gdp_usd": null, "growth_rate": 2.86, "increment_native": 51550000000.0, "level": "city", "parent_code": "中国", "parent_name": "中国", "per_capita_native": 135924.0, "population": 1364.0, "region_code": "天津", "region_name": "天津", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "economy": "CHN", "gdp_native": 1756070000000.0, "gdp_usd": null, "growth_rate": 5.03, "increment_native": 84120000000.0, "level": "city", "parent_code": "山东", "parent_name": "山东", "per_capita_native": 168206.0, "population": 1044.0, "region_code": "青岛市", "region_name": "青岛市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "economy": "CHN", "gdp_native": 1677390000000.0002, "gdp_usd": null, "growth_rate": 3.14, "increment_native": 51060000000.0, "level": "city", "parent_code": "江苏", "parent_name": "江苏", "per_capita_native": 223354.0, "population": 751.0, "region_code": "无锡市", "region_name": "无锡市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "economy": "CHN", "gdp_native": 1573780000000.0, "gdp_usd": null, "growth_rate": 3.07, "increment_native": 46900000000.0, "level": "city", "parent_code": "湖南", "parent_name": "湖南", "per_capita_native": 148190.0, "population": 1062.0, "region_code": "长沙市", "region_name": "长沙市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "economy": "CHN", "gdp_native": 1524460000000.0, "gdp_usd": null, "growth_rate": 4.9, "increment_native": 71250000000.0, "level": "city", "parent_code": "河南", "parent_name": "河南", "per_capita_native": 116460.0, "population": 1309.0, "region_code": "郑州市", "region_name": "郑州市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "economy": "CHN", "gdp_native": 1511230000000.0, "gdp_usd": null, "growth_rate": 6.15, "increment_native": 87560000000.0, "level": "city", "parent_code": "福建", "parent_name": "福建", "per_capita_native": 177792.0, "population": 850.0, "region_code": "福州市", "region_name": "福州市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "economy": "CHN", "gdp_native": 1421010000000.0, "gdp_usd": null, "growth_rate": 5.05, "increment_native": 68250000000.0, "level": "city", "parent_code": "山东", "parent_name": "山东", "per_capita_native": 149423.0, "population": 951.0, "region_code": "济南市", "region_name": "济南市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "economy": "CHN", "gdp_native": 1421000000000.0, "gdp_usd": null, "growth_rate": 5.2, "increment_native": 70230000000.0, "level": "city", "parent_code": "安徽", "parent_name": "安徽", "per_capita_native": 142100.0, "population": 1000.0, "region_code": "合肥市", "region_name": "合肥市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "economy": "CHN", "gdp_native": 1390270000000.0, "gdp_usd": null, "growth_rate": 4.39, "increment_native": 58490000000.0, "level": "city", "parent_code": "陕西", "parent_name": "陕西", "per_capita_native": 105563.0, "population": 1317.0, "region_code": "西安市", "region_name": "西安市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}], "total": 139408229000000.0, "year": 2025}</script>
-<script src="static/js/pages/region.js"></script>
+<script src="../static/js/charts.js"></script>
+  <script src="../static/js/static-api.js?v=f87c76d3"></script>
+<script type="application/json" id="page-data">{"children": [{"currency": "CNY", "economy": "CHN", "gdp_native": 3873180000000.0005, "gdp_usd": null, "growth_rate": 5.24, "increment_native": 192990000000.0, "level": "city", "parent_name": "广东", "per_capita_native": 215296.0, "population": 1799.0, "region_code": "深圳市", "region_name": "深圳市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "economy": "CHN", "gdp_native": 3203950000000.0, "gdp_usd": null, "growth_rate": 3.24, "increment_native": 100700000000.0, "level": "city", "parent_name": "广东", "per_capita_native": 168807.0, "population": 1898.0, "region_code": "广州市", "region_name": "广州市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "economy": "CHN", "gdp_native": 1315740000000.0, "gdp_usd": null, "growth_rate": -1.53, "increment_native": -20450000000.0, "level": "city", "parent_name": "广东", "per_capita_native": 135643.0, "population": 970.0, "region_code": "佛山市", "region_name": "佛山市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "economy": "CHN", "gdp_native": 1276020000000.0, "gdp_usd": null, "growth_rate": 3.89, "increment_native": 47810000000.0, "level": "city", "parent_name": "广东", "per_capita_native": 120721.0, "population": 1057.0, "region_code": "东莞市", "region_name": "东莞市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "economy": "CHN", "gdp_native": 636370000000.0, "gdp_usd": null, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "广东", "per_capita_native": 103982.0, "population": 612.0, "region_code": "惠州市", "region_name": "惠州市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "economy": "CHN", "gdp_native": 457310000000.00006, "gdp_usd": null, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "广东", "per_capita_native": 181472.0, "population": 252.0, "region_code": "珠海市", "region_name": "珠海市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "economy": "CHN", "gdp_native": 429389999999.99994, "gdp_usd": null, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "广东", "per_capita_native": 89085.0, "population": 482.0, "region_code": "江门市", "region_name": "江门市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "economy": "CHN", "gdp_native": 426060000000.00006, "gdp_usd": null, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "广东", "per_capita_native": 94891.0, "population": 449.0, "region_code": "中山市", "region_name": "中山市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "economy": "CHN", "gdp_native": 410639999999.99994, "gdp_usd": null, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "广东", "per_capita_native": 65493.0, "population": 627.0, "region_code": "茂名市", "region_name": "茂名市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "economy": "CHN", "gdp_native": 395290000000.0, "gdp_usd": null, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "广东", "per_capita_native": 55518.0, "population": 712.0, "region_code": "湛江市", "region_name": "湛江市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "economy": "CHN", "gdp_native": 302380000000.0, "gdp_usd": null, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "广东", "per_capita_native": 54190.0, "population": 558.0, "region_code": "汕头市", "region_name": "汕头市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "economy": "CHN", "gdp_native": 297480000000.0, "gdp_usd": null, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "广东", "per_capita_native": 72029.0, "population": 413.0, "region_code": "肇庆市", "region_name": "肇庆市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "economy": "CHN", "gdp_native": 255380000000.00003, "gdp_usd": null, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "广东", "per_capita_native": 44961.0, "population": 568.0, "region_code": "揭阳市", "region_name": "揭阳市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "economy": "CHN", "gdp_native": 231750000000.0, "gdp_usd": null, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "广东", "per_capita_native": 58083.0, "population": 399.0, "region_code": "清远市", "region_name": "清远市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "economy": "CHN", "gdp_native": 170510000000.0, "gdp_usd": null, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "广东", "per_capita_native": 59828.0, "population": 285.0, "region_code": "韶关市", "region_name": "韶关市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "economy": "CHN", "gdp_native": 167120000000.0, "gdp_usd": null, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "广东", "per_capita_native": 63544.0, "population": 263.0, "region_code": "阳江市", "region_name": "阳江市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "economy": "CHN", "gdp_native": 158320000000.0, "gdp_usd": null, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "广东", "per_capita_native": 41229.0, "population": 384.0, "region_code": "梅州市", "region_name": "梅州市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "economy": "CHN", "gdp_native": 154630000000.0, "gdp_usd": null, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "广东", "per_capita_native": 57270.0, "population": 270.0, "region_code": "汕尾市", "region_name": "汕尾市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "economy": "CHN", "gdp_native": 145220000000.0, "gdp_usd": null, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "广东", "per_capita_native": 56287.0, "population": 258.0, "region_code": "潮州市", "region_name": "潮州市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "economy": "CHN", "gdp_native": 143460000000.0, "gdp_usd": null, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "广东", "per_capita_native": 50514.0, "population": 284.0, "region_code": "河源市", "region_name": "河源市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}], "currency": "CNY", "growth": {"areas": 34, "average": 4.287058823529412, "max": 6.73, "min": -1.53}, "metric": "gdp", "mode": "year", "rank": [{"currency": "CNY", "gdp_native": 5670870000000.0, "gdp_usd": null, "growth_rate": 5.16, "increment_native": 278200000000.0, "parent_code": "中国", "parent_name": "中国", "per_capita_native": 228664.0, "population": 2480.0, "region_code": "上海", "region_name": "上海", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "gdp_native": 5207300000000.0, "gdp_usd": null, "growth_rate": 4.47, "increment_native": 223030000000.00003, "parent_code": "中国", "parent_name": "中国", "per_capita_native": 238539.0, "population": 2183.0, "region_code": "北京", "region_name": "北京", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "gdp_native": 3873180000000.0005, "gdp_usd": null, "growth_rate": 5.24, "increment_native": 192990000000.0, "parent_code": "广东", "parent_name": "广东", "per_capita_native": 215296.0, "population": 1799.0, "region_code": "深圳市", "region_name": "深圳市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "gdp_native": 3375800000000.0, "gdp_usd": null, "growth_rate": 4.86, "increment_native": 156480000000.0, "parent_code": "中国", "parent_name": "中国", "per_capita_native": 105824.0, "population": 3190.0, "region_code": "重庆", "region_name": "重庆", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "gdp_native": 3203950000000.0, "gdp_usd": null, "growth_rate": 3.24, "increment_native": 100700000000.0, "parent_code": "广东", "parent_name": "广东", "per_capita_native": 168807.0, "population": 1898.0, "region_code": "广州市", "region_name": "广州市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "gdp_native": 2769510000000.0, "gdp_usd": null, "growth_rate": 3.62, "increment_native": 96810000000.0, "parent_code": "江苏", "parent_name": "江苏", "per_capita_native": 213203.0, "population": 1299.0, "region_code": "苏州市", "region_name": "苏州市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "gdp_native": 2476360000000.0, "gdp_usd": null, "growth_rate": 5.33, "increment_native": 125230000000.0, "parent_code": "四川", "parent_name": "四川", "per_capita_native": 115340.0, "population": 2147.0, "region_code": "成都市", "region_name": "成都市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "gdp_native": 2301090000000.0, "gdp_usd": null, "growth_rate": 5.26, "increment_native": 115090000000.00002, "parent_code": "浙江", "parent_name": "浙江", "per_capita_native": 182337.0, "population": 1262.0, "region_code": "杭州市", "region_name": "杭州市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "gdp_native": 2214740000000.0, "gdp_usd": null, "growth_rate": 4.93, "increment_native": 104109999999.99998, "parent_code": "湖北", "parent_name": "湖北", "per_capita_native": 160372.0, "population": 1381.0, "region_code": "武汉", "region_name": "武汉", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "gdp_native": 1942880000000.0, "gdp_usd": null, "growth_rate": 5.02, "increment_native": 92800000000.0, "parent_code": "江苏", "parent_name": "江苏", "per_capita_native": 202806.0, "population": 958.0, "region_code": "南京市", "region_name": "南京市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "gdp_native": 1871570000000.0, "gdp_usd": null, "growth_rate": 3.13, "increment_native": 56800000000.0, "parent_code": "浙江", "parent_name": "浙江", "per_capita_native": 191367.0, "population": 978.0, "region_code": "宁波市", "region_name": "宁波市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "gdp_native": 1854000000000.0, "gdp_usd": null, "growth_rate": 2.86, "increment_native": 51550000000.0, "parent_code": "中国", "parent_name": "中国", "per_capita_native": 135924.0, "population": 1364.0, "region_code": "天津", "region_name": "天津", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "gdp_native": 1756070000000.0, "gdp_usd": null, "growth_rate": 5.03, "increment_native": 84120000000.0, "parent_code": "山东", "parent_name": "山东", "per_capita_native": 168206.0, "population": 1044.0, "region_code": "青岛市", "region_name": "青岛市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "gdp_native": 1677390000000.0002, "gdp_usd": null, "growth_rate": 3.14, "increment_native": 51060000000.0, "parent_code": "江苏", "parent_name": "江苏", "per_capita_native": 223354.0, "population": 751.0, "region_code": "无锡市", "region_name": "无锡市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "gdp_native": 1573780000000.0, "gdp_usd": null, "growth_rate": 3.07, "increment_native": 46900000000.0, "parent_code": "湖南", "parent_name": "湖南", "per_capita_native": 148190.0, "population": 1062.0, "region_code": "长沙市", "region_name": "长沙市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "gdp_native": 1524460000000.0, "gdp_usd": null, "growth_rate": 4.9, "increment_native": 71250000000.0, "parent_code": "河南", "parent_name": "河南", "per_capita_native": 116460.0, "population": 1309.0, "region_code": "郑州市", "region_name": "郑州市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "gdp_native": 1511230000000.0, "gdp_usd": null, "growth_rate": 6.15, "increment_native": 87560000000.0, "parent_code": "福建", "parent_name": "福建", "per_capita_native": 177792.0, "population": 850.0, "region_code": "福州市", "region_name": "福州市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "gdp_native": 1421010000000.0, "gdp_usd": null, "growth_rate": 5.05, "increment_native": 68250000000.0, "parent_code": "山东", "parent_name": "山东", "per_capita_native": 149423.0, "population": 951.0, "region_code": "济南市", "region_name": "济南市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "gdp_native": 1421000000000.0, "gdp_usd": null, "growth_rate": 5.2, "increment_native": 70230000000.0, "parent_code": "安徽", "parent_name": "安徽", "per_capita_native": 142100.0, "population": 1000.0, "region_code": "合肥市", "region_name": "合肥市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}, {"currency": "CNY", "gdp_native": 1390270000000.0, "gdp_usd": null, "growth_rate": 4.39, "increment_native": 58490000000.0, "parent_code": "陕西", "parent_name": "陕西", "per_capita_native": 105563.0, "population": 1317.0, "region_code": "西安市", "region_name": "西安市", "source": "人工整理·抖音「2025年全国333地级区划GDP总量汇总」（数据源自各地统计局）", "year": 2025}], "total": 138560680000000.0, "year": 2025}</script>
+<script src="../static/js/pages/region.js"></script>
 
 </body>
 </html>

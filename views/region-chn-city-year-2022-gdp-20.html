@@ -4,9 +4,9 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>区域对比 · 全球 GDP 数据采集与可视化分析平台</title>
-  <link rel="stylesheet" href="static/css/style.css">
+  <link rel="stylesheet" href="../static/css/style.css">
   
-  <script src="static/vendor/echarts.min.js"></script>
+  <script src="../static/vendor/echarts.min.js"></script>
 </head>
 <body>
 <header class="topbar">
@@ -19,15 +19,15 @@
       </div>
     </div>
     <nav class="nav">
-      <a href="index.html" class="">总览</a>
-      <a href="region.html" class="active">城市格局</a>
-      <a href="rank.html" class="">全球排行</a>
-      <a href="trend.html" class="">趋势分析</a>
-      <a href="compare.html" class="">国家对比</a>
-      <a href="share.html" class="">份额变化</a>
-      <a href="china.html" class="">中国季度</a>
-      <a href="dataset.html" class="">数据集</a>
-      <a href="about.html" class="">关于</a>
+      <a href="../index.html" class="">总览</a>
+      <a href="../region.html" class="active">城市格局</a>
+      <a href="../rank.html" class="">全球排行</a>
+      <a href="../trend.html" class="">趋势分析</a>
+      <a href="../compare.html" class="">国家对比</a>
+      <a href="../share.html" class="">份额变化</a>
+      <a href="../china.html" class="">中国季度</a>
+      <a href="../dataset.html" class="">数据集</a>
+      <a href="../about.html" class="">关于</a>
     </nav>
   </div>
 </header>
@@ -50,7 +50,7 @@
     <h2>区域 GDP 对比与增长趋势</h2>
     <span class="hint">美国数据来自经济分析局（BEA）官方批量文件；中国与日本数据来自维基百科统计条目；带「人工整理」标记的记录来自榜单整理</span>
   </div>
-  <form class="toolbar toolbar-grid" method="get" action="region.html" id="region-form">
+  <form class="toolbar toolbar-grid" method="get" action="../region.html" id="region-form">
     <div class="field">
       <label>经济体</label>
       <select name="economy">
@@ -113,27 +113,27 @@
       <label>&nbsp;</label>
       <div class="action-row">
         <button type="submit">查询</button>
-        <a class="btn ghost" href="region.html?economy=CHN&amp;level=city">重置</a>
-        <a class="btn ghost" href="data/dataset/region-export-CHN-city.csv">导出 CSV</a>
+        <a class="btn ghost" href="../views/region-chn-city-latest-latest-gdp-20.html">重置</a>
+        <a class="btn ghost" href="../data/dataset/region-export-CHN-city.csv">导出 CSV</a>
       </div>
     </div>
   </form>
   <div class="quick-row">
     <span class="quick-label">快捷视图</span>
     <a class="chip "
-       href="region.html?economy=CHN&amp;level=city&amp;mode=year&amp;year=2025&amp;limit=400">中国城市 2025（全部 336）</a>
+       href="../views/region-chn-city-year-2025-gdp-400.html">中国城市 2025（全部 336）</a>
     <a class="chip "
-       href="region.html?economy=CHN&amp;level=city&amp;mode=latest">中国城市·各年最新</a>
+       href="../views/region-chn-city-latest-latest-gdp-20.html">中国城市·各年最新</a>
     <a class="chip "
-       href="region.html?economy=CHN&amp;level=province&amp;mode=year&amp;year=2025">中国省级 2025</a>
+       href="../views/region-chn-province-year-2025-gdp-20.html">中国省级 2025</a>
     <a class="chip "
-       href="region.html?economy=USA&amp;level=state&amp;mode=latest">美国各州</a>
+       href="../views/region-usa-state-latest-latest-gdp-20.html">美国各州</a>
     <a class="chip "
-       href="region.html?economy=USA&amp;level=county&amp;mode=latest">美国各县</a>
+       href="../views/region-usa-county-latest-latest-gdp-20.html">美国各县</a>
     <a class="chip "
-       href="region.html?economy=JPN&amp;level=prefecture&amp;mode=latest">日本都道府县</a>
+       href="../views/region-jpn-prefecture-latest-latest-gdp-20.html">日本都道府县</a>
     <a class="chip "
-       href="region.html?economy=CHN&amp;level=city&amp;mode=year&amp;year=2025&amp;metric=growth&amp;limit=400">2025 增速排行</a>
+       href="../views/region-chn-city-year-2025-growth-400.html">2025 增速排行</a>
   </div>
 </div>
 
@@ -855,10 +855,10 @@
 </footer>
 
 
-<script src="static/js/charts.js"></script>
-  <script src="static/js/static-api.js"></script>
+<script src="../static/js/charts.js"></script>
+  <script src="../static/js/static-api.js?v=f87c76d3"></script>
 <script type="application/json" id="page-data">{"children": [{"currency": "CNY", "economy": "CHN", "gdp_native": 754137000000.0, "gdp_usd": 111230000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "云南", "per_capita_native": 88193.0, "population": null, "region_code": "昆明市", "region_name": "昆明市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2022}, {"currency": "CNY", "economy": "CHN", "gdp_native": 380220000000.0, "gdp_usd": 56079999999.99999, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "云南", "per_capita_native": 66373.0, "population": null, "region_code": "曲靖市", "region_name": "曲靖市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2022}, {"currency": "CNY", "economy": "CHN", "gdp_native": 286308000000.0, "gdp_usd": 42228000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "云南", "per_capita_native": 64768.0, "population": null, "region_code": "红河州", "region_name": "红河州", "source": "维基百科条目（数据源自官方统计公报）", "year": 2022}, {"currency": "CNY", "economy": "CHN", "gdp_native": 252057000000.00003, "gdp_usd": 37177000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "云南", "per_capita_native": 111579.0, "population": null, "region_code": "玉溪市", "region_name": "玉溪市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2022}, {"currency": "CNY", "economy": "CHN", "gdp_native": 176342000000.0, "gdp_usd": 26008999999.999996, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "云南", "per_capita_native": 74046.0, "population": null, "region_code": "楚雄州", "region_name": "楚雄州", "source": "维基百科条目（数据源自官方统计公报）", "year": 2022}, {"currency": "CNY", "economy": "CHN", "gdp_native": 169962000000.0, "gdp_usd": 25068000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "云南", "per_capita_native": 51302.0, "population": null, "region_code": "大理州", "region_name": "大理州", "source": "维基百科条目（数据源自官方统计公报）", "year": 2022}, {"currency": "CNY", "economy": "CHN", "gdp_native": 154102000000.0, "gdp_usd": 22729000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "云南", "per_capita_native": 30935.0, "population": null, "region_code": "昭通市", "region_name": "昭通市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2022}, {"currency": "CNY", "economy": "CHN", "gdp_native": 140539000000.0, "gdp_usd": 20728000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "云南", "per_capita_native": 40748.0, "population": null, "region_code": "文山州", "region_name": "文山州", "source": "维基百科条目（数据源自官方统计公报）", "year": 2022}, {"currency": "CNY", "economy": "CHN", "gdp_native": 126244000000.0, "gdp_usd": 18620000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "云南", "per_capita_native": 52438.0, "population": null, "region_code": "保山市", "region_name": "保山市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2022}, {"currency": "CNY", "economy": "CHN", "gdp_native": 107297000000.0, "gdp_usd": 15826000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "云南", "per_capita_native": 45168.0, "population": null, "region_code": "普洱市", "region_name": "普洱市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2022}, {"currency": "CNY", "economy": "CHN", "gdp_native": 100024000000.0, "gdp_usd": 14753000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "云南", "per_capita_native": 44723.0, "population": null, "region_code": "临沧市", "region_name": "临沧市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2022}, {"currency": "CNY", "economy": "CHN", "gdp_native": 72139000000.0, "gdp_usd": 10640000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "云南", "per_capita_native": 55194.0, "population": null, "region_code": "西双版纳州", "region_name": "西双版纳州", "source": "维基百科条目（数据源自官方统计公报）", "year": 2022}, {"currency": "CNY", "economy": "CHN", "gdp_native": 62010000000.0, "gdp_usd": 9146000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "云南", "per_capita_native": 49768.0, "population": null, "region_code": "丽江市", "region_name": "丽江市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2022}, {"currency": "CNY", "economy": "CHN", "gdp_native": 58712000000.0, "gdp_usd": 8660000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "云南", "per_capita_native": 44530.0, "population": null, "region_code": "德宏州", "region_name": "德宏州", "source": "维基百科条目（数据源自官方统计公报）", "year": 2022}, {"currency": "CNY", "economy": "CHN", "gdp_native": 30336000000.0, "gdp_usd": 4474000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "云南", "per_capita_native": 77785.0, "population": null, "region_code": "迪庆州", "region_name": "迪庆州", "source": "维基百科条目（数据源自官方统计公报）", "year": 2022}, {"currency": "CNY", "economy": "CHN", "gdp_native": 24993000000.0, "gdp_usd": 3686000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "云南", "per_capita_native": 45441.0, "population": null, "region_code": "怒江州", "region_name": "怒江州", "source": "维基百科条目（数据源自官方统计公报）", "year": 2022}], "currency": "CNY", "growth": {"areas": 0, "average": null, "max": null, "min": null}, "metric": "gdp", "mode": "year", "rank": [{"currency": "CNY", "gdp_native": 754137000000.0, "gdp_usd": 111230000000.0, "growth_rate": null, "increment_native": null, "parent_code": "云南", "parent_name": "云南", "per_capita_native": 88193.0, "population": null, "region_code": "昆明市", "region_name": "昆明市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2022}, {"currency": "CNY", "gdp_native": 557117000000.0, "gdp_usd": 82170000000.0, "growth_rate": null, "increment_native": null, "parent_code": "山西", "parent_name": "山西", "per_capita_native": null, "population": null, "region_code": "太原市", "region_name": "太原市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2022}, {"currency": "CNY", "gdp_native": 380220000000.0, "gdp_usd": 56079999999.99999, "growth_rate": null, "increment_native": null, "parent_code": "云南", "parent_name": "云南", "per_capita_native": 66373.0, "population": null, "region_code": "曲靖市", "region_name": "曲靖市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2022}, {"currency": "CNY", "gdp_native": 286308000000.0, "gdp_usd": 42228000000.0, "growth_rate": null, "increment_native": null, "parent_code": "云南", "parent_name": "云南", "per_capita_native": 64768.0, "population": null, "region_code": "红河州", "region_name": "红河州", "source": "维基百科条目（数据源自官方统计公报）", "year": 2022}, {"currency": "CNY", "gdp_native": 280480000000.0, "gdp_usd": null, "growth_rate": null, "increment_native": null, "parent_code": "山西", "parent_name": "山西", "per_capita_native": null, "population": null, "region_code": "长治市", "region_name": "长治市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2022}, {"currency": "CNY", "gdp_native": 252057000000.00003, "gdp_usd": 37177000000.0, "growth_rate": null, "increment_native": null, "parent_code": "云南", "parent_name": "云南", "per_capita_native": 111579.0, "population": null, "region_code": "玉溪市", "region_name": "玉溪市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2022}, {"currency": "CNY", "gdp_native": 241890000000.0, "gdp_usd": null, "growth_rate": null, "increment_native": null, "parent_code": "山西", "parent_name": "山西", "per_capita_native": null, "population": null, "region_code": "吕梁市", "region_name": "吕梁市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2022}, {"currency": "CNY", "gdp_native": 230540000000.0, "gdp_usd": null, "growth_rate": null, "increment_native": null, "parent_code": "山西", "parent_name": "山西", "per_capita_native": null, "population": null, "region_code": "晋城市", "region_name": "晋城市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2022}, {"currency": "CNY", "gdp_native": 230110000000.0, "gdp_usd": null, "growth_rate": null, "increment_native": null, "parent_code": "山西", "parent_name": "山西", "per_capita_native": null, "population": null, "region_code": "运城市", "region_name": "运城市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2022}, {"currency": "CNY", "gdp_native": 222790000000.0, "gdp_usd": null, "growth_rate": null, "increment_native": null, "parent_code": "山西", "parent_name": "山西", "per_capita_native": null, "population": null, "region_code": "临汾市", "region_name": "临汾市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2022}, {"currency": "CNY", "gdp_native": 211230000000.00003, "gdp_usd": null, "growth_rate": null, "increment_native": null, "parent_code": "山西", "parent_name": "山西", "per_capita_native": null, "population": null, "region_code": "晋中市", "region_name": "晋中市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2022}, {"currency": "CNY", "gdp_native": 184250000000.0, "gdp_usd": null, "growth_rate": null, "increment_native": null, "parent_code": "山西", "parent_name": "山西", "per_capita_native": null, "population": null, "region_code": "大同市", "region_name": "大同市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2022}, {"currency": "CNY", "gdp_native": 176342000000.0, "gdp_usd": 26008999999.999996, "growth_rate": null, "increment_native": null, "parent_code": "云南", "parent_name": "云南", "per_capita_native": 74046.0, "population": null, "region_code": "楚雄州", "region_name": "楚雄州", "source": "维基百科条目（数据源自官方统计公报）", "year": 2022}, {"currency": "CNY", "gdp_native": 169962000000.0, "gdp_usd": 25068000000.0, "growth_rate": null, "increment_native": null, "parent_code": "云南", "parent_name": "云南", "per_capita_native": 51302.0, "population": null, "region_code": "大理州", "region_name": "大理州", "source": "维基百科条目（数据源自官方统计公报）", "year": 2022}, {"currency": "CNY", "gdp_native": 154102000000.0, "gdp_usd": 22729000000.0, "growth_rate": null, "increment_native": null, "parent_code": "云南", "parent_name": "云南", "per_capita_native": 30935.0, "population": null, "region_code": "昭通市", "region_name": "昭通市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2022}, {"currency": "CNY", "gdp_native": 153620000000.0, "gdp_usd": null, "growth_rate": null, "increment_native": null, "parent_code": "山西", "parent_name": "山西", "per_capita_native": null, "population": null, "region_code": "朔州市", "region_name": "朔州市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2022}, {"currency": "CNY", "gdp_native": 150060000000.0, "gdp_usd": null, "growth_rate": null, "increment_native": null, "parent_code": "山西", "parent_name": "山西", "per_capita_native": null, "population": null, "region_code": "忻州市", "region_name": "忻州市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2022}, {"currency": "CNY", "gdp_native": 140539000000.0, "gdp_usd": 20728000000.0, "growth_rate": null, "increment_native": null, "parent_code": "云南", "parent_name": "云南", "per_capita_native": 40748.0, "population": null, "region_code": "文山州", "region_name": "文山州", "source": "维基百科条目（数据源自官方统计公报）", "year": 2022}, {"currency": "CNY", "gdp_native": 126244000000.0, "gdp_usd": 18620000000.0, "growth_rate": null, "increment_native": null, "parent_code": "云南", "parent_name": "云南", "per_capita_native": 52438.0, "population": null, "region_code": "保山市", "region_name": "保山市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2022}, {"currency": "CNY", "gdp_native": 107297000000.0, "gdp_usd": 15826000000.0, "growth_rate": null, "increment_native": null, "parent_code": "云南", "parent_name": "云南", "per_capita_native": 45168.0, "population": null, "region_code": "普洱市", "region_name": "普洱市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2022}], "total": 5458799000000.0, "year": 2022}</script>
-<script src="static/js/pages/region.js"></script>
+<script src="../static/js/pages/region.js"></script>
 
 </body>
 </html>

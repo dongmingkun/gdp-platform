@@ -4,9 +4,9 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>区域对比 · 全球 GDP 数据采集与可视化分析平台</title>
-  <link rel="stylesheet" href="static/css/style.css">
+  <link rel="stylesheet" href="../static/css/style.css">
   
-  <script src="static/vendor/echarts.min.js"></script>
+  <script src="../static/vendor/echarts.min.js"></script>
 </head>
 <body>
 <header class="topbar">
@@ -19,15 +19,15 @@
       </div>
     </div>
     <nav class="nav">
-      <a href="index.html" class="">总览</a>
-      <a href="region.html" class="active">城市格局</a>
-      <a href="rank.html" class="">全球排行</a>
-      <a href="trend.html" class="">趋势分析</a>
-      <a href="compare.html" class="">国家对比</a>
-      <a href="share.html" class="">份额变化</a>
-      <a href="china.html" class="">中国季度</a>
-      <a href="dataset.html" class="">数据集</a>
-      <a href="about.html" class="">关于</a>
+      <a href="../index.html" class="">总览</a>
+      <a href="../region.html" class="active">城市格局</a>
+      <a href="../rank.html" class="">全球排行</a>
+      <a href="../trend.html" class="">趋势分析</a>
+      <a href="../compare.html" class="">国家对比</a>
+      <a href="../share.html" class="">份额变化</a>
+      <a href="../china.html" class="">中国季度</a>
+      <a href="../dataset.html" class="">数据集</a>
+      <a href="../about.html" class="">关于</a>
     </nav>
   </div>
 </header>
@@ -50,7 +50,7 @@
     <h2>区域 GDP 对比与增长趋势</h2>
     <span class="hint">美国数据来自经济分析局（BEA）官方批量文件；中国与日本数据来自维基百科统计条目；带「人工整理」标记的记录来自榜单整理</span>
   </div>
-  <form class="toolbar toolbar-grid" method="get" action="region.html" id="region-form">
+  <form class="toolbar toolbar-grid" method="get" action="../region.html" id="region-form">
     <div class="field">
       <label>经济体</label>
       <select name="economy">
@@ -106,27 +106,27 @@
       <label>&nbsp;</label>
       <div class="action-row">
         <button type="submit">查询</button>
-        <a class="btn ghost" href="region.html?economy=USA&amp;level=state">重置</a>
-        <a class="btn ghost" href="data/dataset/region-export-USA-state.csv">导出 CSV</a>
+        <a class="btn ghost" href="../views/region-usa-state-latest-latest-gdp-20.html">重置</a>
+        <a class="btn ghost" href="../data/dataset/region-export-USA-state.csv">导出 CSV</a>
       </div>
     </div>
   </form>
   <div class="quick-row">
     <span class="quick-label">快捷视图</span>
     <a class="chip "
-       href="region.html?economy=CHN&amp;level=city&amp;mode=year&amp;year=2025&amp;limit=400">中国城市 2025（全部 336）</a>
+       href="../views/region-chn-city-year-2025-gdp-400.html">中国城市 2025（全部 336）</a>
     <a class="chip "
-       href="region.html?economy=CHN&amp;level=city&amp;mode=latest">中国城市·各年最新</a>
+       href="../views/region-chn-city-latest-latest-gdp-20.html">中国城市·各年最新</a>
     <a class="chip "
-       href="region.html?economy=CHN&amp;level=province&amp;mode=year&amp;year=2025">中国省级 2025</a>
+       href="../views/region-chn-province-year-2025-gdp-20.html">中国省级 2025</a>
     <a class="chip on"
-       href="region.html?economy=USA&amp;level=state&amp;mode=latest">美国各州</a>
+       href="../views/region-usa-state-latest-latest-gdp-20.html">美国各州</a>
     <a class="chip "
-       href="region.html?economy=USA&amp;level=county&amp;mode=latest">美国各县</a>
+       href="../views/region-usa-county-latest-latest-gdp-20.html">美国各县</a>
     <a class="chip "
-       href="region.html?economy=JPN&amp;level=prefecture&amp;mode=latest">日本都道府县</a>
+       href="../views/region-jpn-prefecture-latest-latest-gdp-20.html">日本都道府县</a>
     <a class="chip "
-       href="region.html?economy=CHN&amp;level=city&amp;mode=year&amp;year=2025&amp;metric=growth&amp;limit=400">2025 增速排行</a>
+       href="../views/region-chn-city-year-2025-growth-400.html">2025 增速排行</a>
   </div>
 </div>
 
@@ -564,10 +564,10 @@
 </footer>
 
 
-<script src="static/js/charts.js"></script>
-  <script src="static/js/static-api.js"></script>
+<script src="../static/js/charts.js"></script>
+  <script src="../static/js/static-api.js?v=f87c76d3"></script>
 <script type="application/json" id="page-data">{"children": [], "currency": "USD", "growth": {"areas": 0, "average": null, "max": null, "min": null}, "metric": "gdp", "mode": "latest", "rank": [{"currency": "USD", "economy": "USA", "gdp_native": 4048108136000.0, "gdp_usd": 4048108136000.0, "growth_rate": null, "increment_native": null, "level": "state", "parent_code": "USA", "parent_name": "美国", "per_capita_native": null, "population": null, "region_code": "06000", "region_name": "California", "source": "美国经济分析局（BEA）", "year": 2024}, {"currency": "USD", "economy": "USA", "gdp_native": 2769766225000.0, "gdp_usd": 2769766225000.0, "growth_rate": null, "increment_native": null, "level": "state", "parent_code": "USA", "parent_name": "美国", "per_capita_native": null, "population": null, "region_code": "48000", "region_name": "Texas", "source": "美国经济分析局（BEA）", "year": 2024}, {"currency": "USD", "economy": "USA", "gdp_native": 2322138926000.0, "gdp_usd": 2322138926000.0, "growth_rate": null, "increment_native": null, "level": "state", "parent_code": "USA", "parent_name": "美国", "per_capita_native": null, "population": null, "region_code": "36000", "region_name": "New York", "source": "美国经济分析局（BEA）", "year": 2024}, {"currency": "USD", "economy": "USA", "gdp_native": 1726709901000.0, "gdp_usd": 1726709901000.0, "growth_rate": null, "increment_native": null, "level": "state", "parent_code": "USA", "parent_name": "美国", "per_capita_native": null, "population": null, "region_code": "12000", "region_name": "Florida", "source": "美国经济分析局（BEA）", "year": 2024}, {"currency": "USD", "economy": "USA", "gdp_native": 1148106102000.0, "gdp_usd": 1148106102000.0, "growth_rate": null, "increment_native": null, "level": "state", "parent_code": "USA", "parent_name": "美国", "per_capita_native": null, "population": null, "region_code": "17000", "region_name": "Illinois", "source": "美国经济分析局（BEA）", "year": 2024}, {"currency": "USD", "economy": "USA", "gdp_native": 1007873940000.0, "gdp_usd": 1007873940000.0, "growth_rate": null, "increment_native": null, "level": "state", "parent_code": "USA", "parent_name": "美国", "per_capita_native": null, "population": null, "region_code": "42000", "region_name": "Pennsylvania", "source": "美国经济分析局（BEA）", "year": 2024}, {"currency": "USD", "economy": "USA", "gdp_native": 923140558000.0, "gdp_usd": 923140558000.0, "growth_rate": null, "increment_native": null, "level": "state", "parent_code": "USA", "parent_name": "美国", "per_capita_native": null, "population": null, "region_code": "39000", "region_name": "Ohio", "source": "美国经济分析局（BEA）", "year": 2024}, {"currency": "USD", "economy": "USA", "gdp_native": 881508201000.0, "gdp_usd": 881508201000.0, "growth_rate": null, "increment_native": null, "level": "state", "parent_code": "USA", "parent_name": "美国", "per_capita_native": null, "population": null, "region_code": "13000", "region_name": "Georgia", "source": "美国经济分析局（BEA）", "year": 2024}, {"currency": "USD", "economy": "USA", "gdp_native": 856013561000.0, "gdp_usd": 856013561000.0, "growth_rate": null, "increment_native": null, "level": "state", "parent_code": "USA", "parent_name": "美国", "per_capita_native": null, "population": null, "region_code": "53000", "region_name": "Washington", "source": "美国经济分析局（BEA）", "year": 2024}, {"currency": "USD", "economy": "USA", "gdp_native": 846000400000.0, "gdp_usd": 846000400000.0, "growth_rate": null, "increment_native": null, "level": "state", "parent_code": "USA", "parent_name": "美国", "per_capita_native": null, "population": null, "region_code": "34000", "region_name": "New Jersey", "source": "美国经济分析局（BEA）", "year": 2024}, {"currency": "USD", "economy": "USA", "gdp_native": 844209019000.0, "gdp_usd": 844209019000.0, "growth_rate": null, "increment_native": null, "level": "state", "parent_code": "USA", "parent_name": "美国", "per_capita_native": null, "population": null, "region_code": "37000", "region_name": "North Carolina", "source": "美国经济分析局（BEA）", "year": 2024}, {"currency": "USD", "economy": "USA", "gdp_native": 778523444000.0, "gdp_usd": 778523444000.0, "growth_rate": null, "increment_native": null, "level": "state", "parent_code": "USA", "parent_name": "美国", "per_capita_native": null, "population": null, "region_code": "25000", "region_name": "Massachusetts", "source": "美国经济分析局（BEA）", "year": 2024}, {"currency": "USD", "economy": "USA", "gdp_native": 761733844000.0, "gdp_usd": 761733844000.0, "growth_rate": null, "increment_native": null, "level": "state", "parent_code": "USA", "parent_name": "美国", "per_capita_native": null, "population": null, "region_code": "51000", "region_name": "Virginia", "source": "美国经济分析局（BEA）", "year": 2024}, {"currency": "USD", "economy": "USA", "gdp_native": 702466918000.0, "gdp_usd": 702466918000.0, "growth_rate": null, "increment_native": null, "level": "state", "parent_code": "USA", "parent_name": "美国", "per_capita_native": null, "population": null, "region_code": "26000", "region_name": "Michigan", "source": "美国经济分析局（BEA）", "year": 2024}, {"currency": "USD", "economy": "USA", "gdp_native": 570088550000.0, "gdp_usd": 570088550000.0, "growth_rate": null, "increment_native": null, "level": "state", "parent_code": "USA", "parent_name": "美国", "per_capita_native": null, "population": null, "region_code": "04000", "region_name": "Arizona", "source": "美国经济分析局（BEA）", "year": 2024}, {"currency": "USD", "economy": "USA", "gdp_native": 561201229000.0, "gdp_usd": 561201229000.0, "growth_rate": null, "increment_native": null, "level": "state", "parent_code": "USA", "parent_name": "美国", "per_capita_native": null, "population": null, "region_code": "47000", "region_name": "Tennessee", "source": "美国经济分析局（BEA）", "year": 2024}, {"currency": "USD", "economy": "USA", "gdp_native": 557632963000.0, "gdp_usd": 557632963000.0, "growth_rate": null, "increment_native": null, "level": "state", "parent_code": "USA", "parent_name": "美国", "per_capita_native": null, "population": null, "region_code": "08000", "region_name": "Colorado", "source": "美国经济分析局（BEA）", "year": 2024}, {"currency": "USD", "economy": "USA", "gdp_native": 546028367000.0, "gdp_usd": 546028367000.0, "growth_rate": null, "increment_native": null, "level": "state", "parent_code": "USA", "parent_name": "美国", "per_capita_native": null, "population": null, "region_code": "24000", "region_name": "Maryland", "source": "美国经济分析局（BEA）", "year": 2024}, {"currency": "USD", "economy": "USA", "gdp_native": 519516461000.0, "gdp_usd": 519516461000.0, "growth_rate": null, "increment_native": null, "level": "state", "parent_code": "USA", "parent_name": "美国", "per_capita_native": null, "population": null, "region_code": "18000", "region_name": "Indiana", "source": "美国经济分析局（BEA）", "year": 2024}, {"currency": "USD", "economy": "USA", "gdp_native": 507687780000.0, "gdp_usd": 507687780000.0, "growth_rate": null, "increment_native": null, "level": "state", "parent_code": "USA", "parent_name": "美国", "per_capita_native": null, "population": null, "region_code": "27000", "region_name": "Minnesota", "source": "美国经济分析局（BEA）", "year": 2024}], "total": 29137790997000.0, "year": 2024}</script>
-<script src="static/js/pages/region.js"></script>
+<script src="../static/js/pages/region.js"></script>
 
 </body>
 </html>

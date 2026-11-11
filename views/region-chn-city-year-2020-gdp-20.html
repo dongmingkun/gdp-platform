@@ -4,9 +4,9 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>区域对比 · 全球 GDP 数据采集与可视化分析平台</title>
-  <link rel="stylesheet" href="static/css/style.css">
+  <link rel="stylesheet" href="../static/css/style.css">
   
-  <script src="static/vendor/echarts.min.js"></script>
+  <script src="../static/vendor/echarts.min.js"></script>
 </head>
 <body>
 <header class="topbar">
@@ -19,15 +19,15 @@
       </div>
     </div>
     <nav class="nav">
-      <a href="index.html" class="">总览</a>
-      <a href="region.html" class="active">城市格局</a>
-      <a href="rank.html" class="">全球排行</a>
-      <a href="trend.html" class="">趋势分析</a>
-      <a href="compare.html" class="">国家对比</a>
-      <a href="share.html" class="">份额变化</a>
-      <a href="china.html" class="">中国季度</a>
-      <a href="dataset.html" class="">数据集</a>
-      <a href="about.html" class="">关于</a>
+      <a href="../index.html" class="">总览</a>
+      <a href="../region.html" class="active">城市格局</a>
+      <a href="../rank.html" class="">全球排行</a>
+      <a href="../trend.html" class="">趋势分析</a>
+      <a href="../compare.html" class="">国家对比</a>
+      <a href="../share.html" class="">份额变化</a>
+      <a href="../china.html" class="">中国季度</a>
+      <a href="../dataset.html" class="">数据集</a>
+      <a href="../about.html" class="">关于</a>
     </nav>
   </div>
 </header>
@@ -50,7 +50,7 @@
     <h2>区域 GDP 对比与增长趋势</h2>
     <span class="hint">美国数据来自经济分析局（BEA）官方批量文件；中国与日本数据来自维基百科统计条目；带「人工整理」标记的记录来自榜单整理</span>
   </div>
-  <form class="toolbar toolbar-grid" method="get" action="region.html" id="region-form">
+  <form class="toolbar toolbar-grid" method="get" action="../region.html" id="region-form">
     <div class="field">
       <label>经济体</label>
       <select name="economy">
@@ -113,27 +113,27 @@
       <label>&nbsp;</label>
       <div class="action-row">
         <button type="submit">查询</button>
-        <a class="btn ghost" href="region.html?economy=CHN&amp;level=city">重置</a>
-        <a class="btn ghost" href="data/dataset/region-export-CHN-city.csv">导出 CSV</a>
+        <a class="btn ghost" href="../views/region-chn-city-latest-latest-gdp-20.html">重置</a>
+        <a class="btn ghost" href="../data/dataset/region-export-CHN-city.csv">导出 CSV</a>
       </div>
     </div>
   </form>
   <div class="quick-row">
     <span class="quick-label">快捷视图</span>
     <a class="chip "
-       href="region.html?economy=CHN&amp;level=city&amp;mode=year&amp;year=2025&amp;limit=400">中国城市 2025（全部 336）</a>
+       href="../views/region-chn-city-year-2025-gdp-400.html">中国城市 2025（全部 336）</a>
     <a class="chip "
-       href="region.html?economy=CHN&amp;level=city&amp;mode=latest">中国城市·各年最新</a>
+       href="../views/region-chn-city-latest-latest-gdp-20.html">中国城市·各年最新</a>
     <a class="chip "
-       href="region.html?economy=CHN&amp;level=province&amp;mode=year&amp;year=2025">中国省级 2025</a>
+       href="../views/region-chn-province-year-2025-gdp-20.html">中国省级 2025</a>
     <a class="chip "
-       href="region.html?economy=USA&amp;level=state&amp;mode=latest">美国各州</a>
+       href="../views/region-usa-state-latest-latest-gdp-20.html">美国各州</a>
     <a class="chip "
-       href="region.html?economy=USA&amp;level=county&amp;mode=latest">美国各县</a>
+       href="../views/region-usa-county-latest-latest-gdp-20.html">美国各县</a>
     <a class="chip "
-       href="region.html?economy=JPN&amp;level=prefecture&amp;mode=latest">日本都道府县</a>
+       href="../views/region-jpn-prefecture-latest-latest-gdp-20.html">日本都道府县</a>
     <a class="chip "
-       href="region.html?economy=CHN&amp;level=city&amp;mode=year&amp;year=2025&amp;metric=growth&amp;limit=400">2025 增速排行</a>
+       href="../views/region-chn-city-year-2025-growth-400.html">2025 增速排行</a>
   </div>
 </div>
 
@@ -800,10 +800,10 @@
 </footer>
 
 
-<script src="static/js/charts.js"></script>
-  <script src="static/js/static-api.js"></script>
+<script src="../static/js/charts.js"></script>
+  <script src="../static/js/static-api.js?v=f87c76d3"></script>
 <script type="application/json" id="page-data">{"children": [{"currency": "CNY", "economy": "CHN", "gdp_native": 1610600000000.0, "gdp_usd": 204146000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "浙江", "per_capita_native": 136617.0, "population": null, "region_code": "杭州市", "region_name": "杭州市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2020}, {"currency": "CNY", "economy": "CHN", "gdp_native": 1240900000000.0, "gdp_usd": 162382000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "浙江", "per_capita_native": 132614.0, "population": null, "region_code": "宁波市", "region_name": "宁波市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2020}, {"currency": "CNY", "economy": "CHN", "gdp_native": 687100000000.0, "gdp_usd": 90763000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "浙江", "per_capita_native": 67329.0, "population": null, "region_code": "温州市", "region_name": "温州市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2020}, {"currency": "CNY", "economy": "CHN", "gdp_native": 600100000000.0, "gdp_usd": 81858000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "浙江", "per_capita_native": 113746.0, "population": null, "region_code": "绍兴市", "region_name": "绍兴市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2020}, {"currency": "CNY", "economy": "CHN", "gdp_native": 551000000000.0, "gdp_usd": 73624000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "浙江", "per_capita_native": 102541.0, "population": null, "region_code": "嘉兴市", "region_name": "嘉兴市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2020}, {"currency": "CNY", "economy": "CHN", "gdp_native": 526300000000.0, "gdp_usd": 73664000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "浙江", "per_capita_native": 79889.0, "population": null, "region_code": "台州市", "region_name": "台州市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2020}, {"currency": "CNY", "economy": "CHN", "gdp_native": 470400000000.0, "gdp_usd": 61961000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "浙江", "per_capita_native": 72192.0, "population": null, "region_code": "金华市", "region_name": "金华市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2020}, {"currency": "CNY", "economy": "CHN", "gdp_native": 320100000000.0, "gdp_usd": 41090000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "浙江", "per_capita_native": 95579.0, "population": null, "region_code": "湖州市", "region_name": "湖州市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2020}, {"currency": "CNY", "economy": "CHN", "gdp_native": 163900000000.0, "gdp_usd": 22223000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "浙江", "per_capita_native": 71766.0, "population": null, "region_code": "衢州市", "region_name": "衢州市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2020}, {"currency": "CNY", "economy": "CHN", "gdp_native": 154000000000.0, "gdp_usd": 21076000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "浙江", "per_capita_native": 61811.0, "population": null, "region_code": "丽水市", "region_name": "丽水市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2020}, {"currency": "CNY", "economy": "CHN", "gdp_native": 151200000000.0, "gdp_usd": 19898000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "浙江", "per_capita_native": 130130.0, "population": null, "region_code": "舟山市", "region_name": "舟山市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2020}], "currency": "CNY", "growth": {"areas": 0, "average": null, "max": null, "min": null}, "metric": "gdp", "mode": "year", "rank": [{"currency": "CNY", "gdp_native": 1610600000000.0, "gdp_usd": 204146000000.0, "growth_rate": null, "increment_native": null, "parent_code": "浙江", "parent_name": "浙江", "per_capita_native": 136617.0, "population": null, "region_code": "杭州市", "region_name": "杭州市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2020}, {"currency": "CNY", "gdp_native": 1240900000000.0, "gdp_usd": 162382000000.0, "growth_rate": null, "increment_native": null, "parent_code": "浙江", "parent_name": "浙江", "per_capita_native": 132614.0, "population": null, "region_code": "宁波市", "region_name": "宁波市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2020}, {"currency": "CNY", "gdp_native": 687100000000.0, "gdp_usd": 90763000000.0, "growth_rate": null, "increment_native": null, "parent_code": "浙江", "parent_name": "浙江", "per_capita_native": 67329.0, "population": null, "region_code": "温州市", "region_name": "温州市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2020}, {"currency": "CNY", "gdp_native": 600100000000.0, "gdp_usd": 81858000000.0, "growth_rate": null, "increment_native": null, "parent_code": "浙江", "parent_name": "浙江", "per_capita_native": 113746.0, "population": null, "region_code": "绍兴市", "region_name": "绍兴市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2020}, {"currency": "CNY", "gdp_native": 551000000000.0, "gdp_usd": 73624000000.0, "growth_rate": null, "increment_native": null, "parent_code": "浙江", "parent_name": "浙江", "per_capita_native": 102541.0, "population": null, "region_code": "嘉兴市", "region_name": "嘉兴市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2020}, {"currency": "CNY", "gdp_native": 526300000000.0, "gdp_usd": 73664000000.0, "growth_rate": null, "increment_native": null, "parent_code": "浙江", "parent_name": "浙江", "per_capita_native": 79889.0, "population": null, "region_code": "台州市", "region_name": "台州市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2020}, {"currency": "CNY", "gdp_native": 470400000000.0, "gdp_usd": 61961000000.0, "growth_rate": null, "increment_native": null, "parent_code": "浙江", "parent_name": "浙江", "per_capita_native": 72192.0, "population": null, "region_code": "金华市", "region_name": "金华市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2020}, {"currency": "CNY", "gdp_native": 431164999999.99994, "gdp_usd": 62511000000.0, "growth_rate": null, "increment_native": null, "parent_code": "贵州", "parent_name": "贵州", "per_capita_native": null, "population": null, "region_code": "贵阳市", "region_name": "贵阳市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2020}, {"currency": "CNY", "gdp_native": 372005000000.0, "gdp_usd": 53934000000.0, "growth_rate": null, "increment_native": null, "parent_code": "贵州", "parent_name": "贵州", "per_capita_native": null, "population": null, "region_code": "遵义市", "region_name": "遵义市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2020}, {"currency": "CNY", "gdp_native": 320100000000.0, "gdp_usd": 41090000000.0, "growth_rate": null, "increment_native": null, "parent_code": "浙江", "parent_name": "浙江", "per_capita_native": 95579.0, "population": null, "region_code": "湖州市", "region_name": "湖州市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2020}, {"currency": "CNY", "gdp_native": 202039000000.0, "gdp_usd": 29292000000.0, "growth_rate": null, "increment_native": null, "parent_code": "贵州", "parent_name": "贵州", "per_capita_native": null, "population": null, "region_code": "毕节市", "region_name": "毕节市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2020}, {"currency": "CNY", "gdp_native": 163900000000.0, "gdp_usd": 22223000000.0, "growth_rate": null, "increment_native": null, "parent_code": "浙江", "parent_name": "浙江", "per_capita_native": 71766.0, "population": null, "region_code": "衢州市", "region_name": "衢州市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2020}, {"currency": "CNY", "gdp_native": 159540000000.0, "gdp_usd": 23130000000.0, "growth_rate": null, "increment_native": null, "parent_code": "贵州", "parent_name": "贵州", "per_capita_native": null, "population": null, "region_code": "黔南州", "region_name": "黔南州", "source": "维基百科条目（数据源自官方统计公报）", "year": 2020}, {"currency": "CNY", "gdp_native": 154000000000.0, "gdp_usd": 21076000000.0, "growth_rate": null, "increment_native": null, "parent_code": "浙江", "parent_name": "浙江", "per_capita_native": 61811.0, "population": null, "region_code": "丽水市", "region_name": "丽水市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2020}, {"currency": "CNY", "gdp_native": 151200000000.0, "gdp_usd": 19898000000.0, "growth_rate": null, "increment_native": null, "parent_code": "浙江", "parent_name": "浙江", "per_capita_native": 130130.0, "population": null, "region_code": "舟山市", "region_name": "舟山市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2020}, {"currency": "CNY", "gdp_native": 135340000000.00002, "gdp_usd": 19622000000.0, "growth_rate": null, "increment_native": null, "parent_code": "贵州", "parent_name": "贵州", "per_capita_native": null, "population": null, "region_code": "黔西南州", "region_name": "黔西南州", "source": "维基百科条目（数据源自官方统计公报）", "year": 2020}, {"currency": "CNY", "gdp_native": 133961999999.99998, "gdp_usd": 19422000000.0, "growth_rate": null, "increment_native": null, "parent_code": "贵州", "parent_name": "贵州", "per_capita_native": null, "population": null, "region_code": "六盘水市", "region_name": "六盘水市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2020}, {"currency": "CNY", "gdp_native": 132779000000.0, "gdp_usd": 19251000000.0, "growth_rate": null, "increment_native": null, "parent_code": "贵州", "parent_name": "贵州", "per_capita_native": null, "population": null, "region_code": "铜仁市", "region_name": "铜仁市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2020}, {"currency": "CNY", "gdp_native": 119152000000.0, "gdp_usd": 17275000000.0, "growth_rate": null, "increment_native": null, "parent_code": "贵州", "parent_name": "贵州", "per_capita_native": null, "population": null, "region_code": "黔东南州", "region_name": "黔东南州", "source": "维基百科条目（数据源自官方统计公报）", "year": 2020}, {"currency": "CNY", "gdp_native": 96674000000.0, "gdp_usd": 14016000000.0, "growth_rate": null, "increment_native": null, "parent_code": "贵州", "parent_name": "贵州", "per_capita_native": null, "population": null, "region_code": "安顺市", "region_name": "安顺市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2020}], "total": 8258256000000.0, "year": 2020}</script>
-<script src="static/js/pages/region.js"></script>
+<script src="../static/js/pages/region.js"></script>
 
 </body>
 </html>

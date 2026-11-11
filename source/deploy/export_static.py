@@ -19,9 +19,11 @@
     cd dist && python -m http.server 8100     # 然后访问 http://127.0.0.1:8100/
 """
 
+import hashlib
 import json
 import re
 import shutil
+from html import unescape
 import sys
 from datetime import datetime
 from pathlib import Path
@@ -239,7 +241,7 @@ def build_data(dao, out_dir, log):
 
 def view_file(economy, level, mode, year, metric, limit):
     """区域视图的文件名（唯一、可读）。"""
-    return "region-%s-%s-%s-%s-%s-%s.html" % (
+    return "views/region-%s-%s-%s-%s-%s-%s.html" % (
         economy.lower(), level, mode, year or "latest", metric, limit)
 
 
@@ -251,27 +253,80 @@ ROUTE_FILES = {"/": "index.html", "/region": "region.html", "/rank": "rank.html"
                "/china": "china.html", "/dataset": "dataset.html", "/about": "about.html"}
 
 
+def match_view(params):
+    """按查询参数挑最接近的预生成视图（评分规则与 static-api.js 一致）。"""
+    economy = params.get("economy", "CHN")
+    level = params.get("level", "")
+    best_score, best_file = -999, None
+    for view_economy, view_level, mode, year, metric, limit, _ in REGION_VIEWS:
+        if view_economy != economy or (level and view_level != level):
+            continue
+        score = 1
+        score += 3 if mode == params.get("mode") else -1
+        if (str(year) if year else "latest") == (params.get("year") or "latest"):
+            score += 2
+        if metric == params.get("metric", "gdp"):
+            score += 2
+        if str(limit) == params.get("limit"):
+            score += 2
+        if score > best_score:
+            best_score = score
+            best_file = view_file(view_economy, view_level, mode, year, metric, limit)
+    return best_file
+
+
+def shim_version():
+    """static-api.js 的内容哈希：文件一变，URL 就变，浏览器不会拿旧缓存。"""
+    source = ROOT / "webapp" / "static" / "js" / "static-api.js"
+    return hashlib.md5(source.read_bytes()).hexdigest()[:8]
+
+
 def rewrite(html, page_file, region_export=None):
-    """把站内绝对路径改成相对路径，并挂上静态数据层。"""
-    # 静态资源：/static/xxx → static/xxx
-    html = html.replace('href="/static/', 'href="static/').replace('src="/static/', 'src="static/')
-    # 页面路由：/region?... → region.html?...；同时处理表单 action
+    """把站内绝对路径改成相对路径，并挂上静态数据层。
+
+    预生成的视图放在 views/ 子目录里，所以这些页面的相对路径要多退一层（../）；
+    其余页面在站点根目录，前缀为空。
+    """
+    prefix = "../" if "/" in page_file else ""
+
+    # 静态资源：/static/xxx → {prefix}static/xxx
+    html = html.replace('href="/static/', 'href="%sstatic/' % prefix)
+    html = html.replace('src="/static/', 'src="%sstatic/' % prefix)
+
+    # 页面路由：/region?... → {prefix}region.html?...；同时处理表单 action
     for route, target in sorted(ROUTE_FILES.items(), key=lambda item: -len(item[0])):
         if route == "/":
-            html = html.replace('href="/"', 'href="index.html"')
+            html = html.replace('href="/"', 'href="%sindex.html"' % prefix)
             continue
-        html = html.replace('href="%s"' % route, 'href="%s"' % target)
-        html = html.replace('href="%s?' % route, 'href="%s?' % target)
-        html = html.replace('action="%s"' % route, 'action="%s"' % target)
-    # 导出接口：静态站提供完整 CSV（把 href 连同后面的查询串一起换掉，静态文件不需要参数）
+        html = html.replace('href="%s"' % route, 'href="%s%s"' % (prefix, target))
+        html = html.replace('href="%s?' % route, 'href="%s%s?' % (prefix, target))
+        html = html.replace('action="%s"' % route, 'action="%s%s"' % (prefix, target))
+
+    # 快捷视图 chip：href 里带着视图参数，直接指向预生成的那份 HTML
+    # （原来换成 region.html?参数 后页面不会重新渲染，chip 等于失效）
+    def to_view(match):
+        raw = match.group(1)
+        params = {}
+        for pair in unescape(raw).split("&"):       # Jinja 会把 & 转义成 &amp;，先还原
+            if "=" in pair:
+                key, value = pair.split("=", 1)
+                params[key] = value
+        target = match_view(params) or "region.html?" + raw
+        return 'href="%s%s"' % (prefix, target)
+
+    html = re.sub(r'href="[^"]*?region\.html\?([^"]+)"', to_view, html)
+
+    # 导出接口：静态站提供完整 CSV（href 连同查询串一起换掉，静态文件不需要参数）
     target_csv = region_export or "region-export-backup.csv"
     html = re.sub(r'href="/api/region/export\.csv[^"]*"',
-                  'href="data/dataset/%s"' % target_csv, html)
-    html = re.sub(r'href="/api/export/csv[^"]*"', 'href="data/dataset/gdp_annual.csv"', html)
-    # 挂上静态数据层（必须在 charts.js 之后，页面自己的脚本之前）
+                  'href="%sdata/dataset/%s"' % (prefix, target_csv), html)
+    html = re.sub(r'href="/api/export/csv[^"]*"',
+                  'href="%sdata/dataset/gdp_annual.csv"' % prefix, html)
+
+    # 挂上静态数据层（必须在 charts.js 之后、页面自己的脚本之前）
     marker = 'js/charts.js"></script>'
-    shim = ('js/charts.js"></script>\n  '
-            '<script src="static/js/static-api.js"></script>')
+    shim = ('js/charts.js"></script>' + chr(10) + '  '
+            '<script src="%sstatic/js/static-api.js?v=%s"></script>' % (prefix, shim_version()))
     html = html.replace(marker, shim)
     return html
 
@@ -294,6 +349,7 @@ def build_pages(app, out_dir, log):
         query += "&metric=%s&limit=%d" % (metric, limit)
         html = client.get("/region?" + query).get_data(as_text=True)
         target = view_file(economy, level, mode, year, metric, limit)
+        (out_dir / target).parent.mkdir(parents=True, exist_ok=True)
         (out_dir / target).write_text(
             rewrite(html, target, region_export="region-export-%s-%s.csv" % (economy, level)),
             encoding="utf-8")

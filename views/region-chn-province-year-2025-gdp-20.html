@@ -4,9 +4,9 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>区域对比 · 全球 GDP 数据采集与可视化分析平台</title>
-  <link rel="stylesheet" href="static/css/style.css">
+  <link rel="stylesheet" href="../static/css/style.css">
   
-  <script src="static/vendor/echarts.min.js"></script>
+  <script src="../static/vendor/echarts.min.js"></script>
 </head>
 <body>
 <header class="topbar">
@@ -19,15 +19,15 @@
       </div>
     </div>
     <nav class="nav">
-      <a href="index.html" class="">总览</a>
-      <a href="region.html" class="active">城市格局</a>
-      <a href="rank.html" class="">全球排行</a>
-      <a href="trend.html" class="">趋势分析</a>
-      <a href="compare.html" class="">国家对比</a>
-      <a href="share.html" class="">份额变化</a>
-      <a href="china.html" class="">中国季度</a>
-      <a href="dataset.html" class="">数据集</a>
-      <a href="about.html" class="">关于</a>
+      <a href="../index.html" class="">总览</a>
+      <a href="../region.html" class="active">城市格局</a>
+      <a href="../rank.html" class="">全球排行</a>
+      <a href="../trend.html" class="">趋势分析</a>
+      <a href="../compare.html" class="">国家对比</a>
+      <a href="../share.html" class="">份额变化</a>
+      <a href="../china.html" class="">中国季度</a>
+      <a href="../dataset.html" class="">数据集</a>
+      <a href="../about.html" class="">关于</a>
     </nav>
   </div>
 </header>
@@ -50,7 +50,7 @@
     <h2>区域 GDP 对比与增长趋势</h2>
     <span class="hint">美国数据来自经济分析局（BEA）官方批量文件；中国与日本数据来自维基百科统计条目；带「人工整理」标记的记录来自榜单整理</span>
   </div>
-  <form class="toolbar toolbar-grid" method="get" action="region.html" id="region-form">
+  <form class="toolbar toolbar-grid" method="get" action="../region.html" id="region-form">
     <div class="field">
       <label>经济体</label>
       <select name="economy">
@@ -113,27 +113,27 @@
       <label>&nbsp;</label>
       <div class="action-row">
         <button type="submit">查询</button>
-        <a class="btn ghost" href="region.html?economy=CHN&amp;level=province">重置</a>
-        <a class="btn ghost" href="data/dataset/region-export-CHN-province.csv">导出 CSV</a>
+        <a class="btn ghost" href="../views/region-chn-province-year-2025-gdp-20.html">重置</a>
+        <a class="btn ghost" href="../data/dataset/region-export-CHN-province.csv">导出 CSV</a>
       </div>
     </div>
   </form>
   <div class="quick-row">
     <span class="quick-label">快捷视图</span>
     <a class="chip "
-       href="region.html?economy=CHN&amp;level=city&amp;mode=year&amp;year=2025&amp;limit=400">中国城市 2025（全部 336）</a>
+       href="../views/region-chn-city-year-2025-gdp-400.html">中国城市 2025（全部 336）</a>
     <a class="chip "
-       href="region.html?economy=CHN&amp;level=city&amp;mode=latest">中国城市·各年最新</a>
+       href="../views/region-chn-city-latest-latest-gdp-20.html">中国城市·各年最新</a>
     <a class="chip on"
-       href="region.html?economy=CHN&amp;level=province&amp;mode=year&amp;year=2025">中国省级 2025</a>
+       href="../views/region-chn-province-year-2025-gdp-20.html">中国省级 2025</a>
     <a class="chip "
-       href="region.html?economy=USA&amp;level=state&amp;mode=latest">美国各州</a>
+       href="../views/region-usa-state-latest-latest-gdp-20.html">美国各州</a>
     <a class="chip "
-       href="region.html?economy=USA&amp;level=county&amp;mode=latest">美国各县</a>
+       href="../views/region-usa-county-latest-latest-gdp-20.html">美国各县</a>
     <a class="chip "
-       href="region.html?economy=JPN&amp;level=prefecture&amp;mode=latest">日本都道府县</a>
+       href="../views/region-jpn-prefecture-latest-latest-gdp-20.html">日本都道府县</a>
     <a class="chip "
-       href="region.html?economy=CHN&amp;level=city&amp;mode=year&amp;year=2025&amp;metric=growth&amp;limit=400">2025 增速排行</a>
+       href="../views/region-chn-city-year-2025-growth-400.html">2025 增速排行</a>
   </div>
 </div>
 
@@ -559,10 +559,10 @@
 </footer>
 
 
-<script src="static/js/charts.js"></script>
-  <script src="static/js/static-api.js"></script>
+<script src="../static/js/charts.js"></script>
+  <script src="../static/js/static-api.js?v=f87c76d3"></script>
 <script type="application/json" id="page-data">{"children": [], "currency": "CNY", "growth": {"areas": 0, "average": null, "max": null, "min": null}, "metric": "gdp", "mode": "year", "rank": [{"currency": "CNY", "gdp_native": 14584676000000.0, "gdp_usd": 2041842000000.0, "growth_rate": null, "increment_native": null, "parent_code": "CHN", "parent_name": "中国", "per_capita_native": null, "population": null, "region_code": "广东", "region_name": "广东", "source": "维基百科条目（数据源自官方统计公报）", "year": 2025}, {"currency": "CNY", "gdp_native": 14235150000000.0, "gdp_usd": 1992909000000.0, "growth_rate": null, "increment_native": null, "parent_code": "CHN", "parent_name": "中国", "per_capita_native": null, "population": null, "region_code": "江苏", "region_name": "江苏", "source": "维基百科条目（数据源自官方统计公报）", "year": 2025}, {"currency": "CNY", "gdp_native": 10319750000000.0, "gdp_usd": 1444756000000.0, "growth_rate": null, "increment_native": null, "parent_code": "CHN", "parent_name": "中国", "per_capita_native": null, "population": null, "region_code": "山东", "region_name": "山东", "source": "维基百科条目（数据源自官方统计公报）", "year": 2025}, {"currency": "CNY", "gdp_native": 9454500000000.0, "gdp_usd": 1323622000000.0, "growth_rate": null, "increment_native": null, "parent_code": "CHN", "parent_name": "中国", "per_capita_native": null, "population": null, "region_code": "浙江", "region_name": "浙江", "source": "维基百科条目（数据源自官方统计公报）", "year": 2025}, {"currency": "CNY", "gdp_native": 6766534000000.0, "gdp_usd": 947309000000.0, "growth_rate": null, "increment_native": null, "parent_code": "CHN", "parent_name": "中国", "per_capita_native": null, "population": null, "region_code": "四川", "region_name": "四川", "source": "维基百科条目（数据源自官方统计公报）", "year": 2025}, {"currency": "CNY", "gdp_native": 6663279000000.0, "gdp_usd": 932853000000.0, "growth_rate": null, "increment_native": null, "parent_code": "CHN", "parent_name": "中国", "per_capita_native": null, "population": null, "region_code": "河南", "region_name": "河南", "source": "维基百科条目（数据源自官方统计公报）", "year": 2025}, {"currency": "CNY", "gdp_native": 6266090000000.0, "gdp_usd": 877247000000.0, "growth_rate": null, "increment_native": null, "parent_code": "CHN", "parent_name": "中国", "per_capita_native": null, "population": null, "region_code": "湖北", "region_name": "湖北", "source": "维基百科条目（数据源自官方统计公报）", "year": 2025}, {"currency": "CNY", "gdp_native": 6019945000000.0, "gdp_usd": 842787000000.0, "growth_rate": null, "increment_native": null, "parent_code": "CHN", "parent_name": "中国", "per_capita_native": null, "population": null, "region_code": "福建", "region_name": "福建", "source": "维基百科条目（数据源自官方统计公报）", "year": 2025}, {"currency": "CNY", "gdp_native": 5670871000000.0, "gdp_usd": 793917000000.0, "growth_rate": null, "increment_native": null, "parent_code": "CHN", "parent_name": "中国", "per_capita_native": null, "population": null, "region_code": "上海", "region_name": "上海", "source": "维基百科条目（数据源自官方统计公报）", "year": 2025}, {"currency": "CNY", "gdp_native": 5530865000000.0, "gdp_usd": 774316000000.0, "growth_rate": null, "increment_native": null, "parent_code": "CHN", "parent_name": "中国", "per_capita_native": null, "population": null, "region_code": "湖南", "region_name": "湖南", "source": "维基百科条目（数据源自官方统计公报）", "year": 2025}, {"currency": "CNY", "gdp_native": 5298900000000.0, "gdp_usd": 741842000000.0, "growth_rate": null, "increment_native": null, "parent_code": "CHN", "parent_name": "中国", "per_capita_native": null, "population": null, "region_code": "安徽", "region_name": "安徽", "source": "维基百科条目（数据源自官方统计公报）", "year": 2025}, {"currency": "CNY", "gdp_native": 5207300000000.0, "gdp_usd": 729018000000.0, "growth_rate": null, "increment_native": null, "parent_code": "CHN", "parent_name": "中国", "per_capita_native": null, "population": null, "region_code": "北京", "region_name": "北京", "source": "维基百科条目（数据源自官方统计公报）", "year": 2025}, {"currency": "CNY", "gdp_native": 4930520000000.0, "gdp_usd": 690269000000.0, "growth_rate": null, "increment_native": null, "parent_code": "CHN", "parent_name": "中国", "per_capita_native": null, "population": null, "region_code": "河北", "region_name": "河北", "source": "维基百科条目（数据源自官方统计公报）", "year": 2025}, {"currency": "CNY", "gdp_native": 3655110000000.0, "gdp_usd": 511712000000.0, "growth_rate": null, "increment_native": null, "parent_code": "CHN", "parent_name": "中国", "per_capita_native": null, "population": null, "region_code": "陕西", "region_name": "陕西", "source": "维基百科条目（数据源自官方统计公报）", "year": 2025}, {"currency": "CNY", "gdp_native": 3602000000000.0, "gdp_usd": 504277000000.0, "growth_rate": null, "increment_native": null, "parent_code": "CHN", "parent_name": "中国", "per_capita_native": null, "population": null, "region_code": "江西", "region_name": "江西", "source": "维基百科条目（数据源自官方统计公报）", "year": 2025}, {"currency": "CNY", "gdp_native": 3375793000000.0, "gdp_usd": 472608000000.0, "growth_rate": null, "increment_native": null, "parent_code": "CHN", "parent_name": "中国", "per_capita_native": null, "population": null, "region_code": "重庆", "region_name": "重庆", "source": "维基百科条目（数据源自官方统计公报）", "year": 2025}, {"currency": "CNY", "gdp_native": 3318290000000.0, "gdp_usd": 464558000000.0, "growth_rate": null, "increment_native": null, "parent_code": "CHN", "parent_name": "中国", "per_capita_native": null, "population": null, "region_code": "辽宁", "region_name": "辽宁", "source": "维基百科条目（数据源自官方统计公报）", "year": 2025}, {"currency": "CNY", "gdp_native": 3276578000000.0, "gdp_usd": 458718000000.0, "growth_rate": null, "increment_native": null, "parent_code": "CHN", "parent_name": "中国", "per_capita_native": null, "population": null, "region_code": "云南", "region_name": "云南", "source": "维基百科条目（数据源自官方统计公报）", "year": 2025}, {"currency": "CNY", "gdp_native": 3052473000000.0, "gdp_usd": 427342000000.0, "growth_rate": null, "increment_native": null, "parent_code": "CHN", "parent_name": "中国", "per_capita_native": null, "population": null, "region_code": "香港", "region_name": "香港", "source": "维基百科条目（数据源自官方统计公报）", "year": 2025}, {"currency": "CNY", "gdp_native": 2972745000000.0, "gdp_usd": 416182000000.0, "growth_rate": null, "increment_native": null, "parent_code": "CHN", "parent_name": "中国", "per_capita_native": null, "population": null, "region_code": "广西", "region_name": "广西", "source": "维基百科条目（数据源自官方统计公报）", "year": 2025}], "total": 140129815000000.0, "year": 2025}</script>
-<script src="static/js/pages/region.js"></script>
+<script src="../static/js/pages/region.js"></script>
 
 </body>
 </html>

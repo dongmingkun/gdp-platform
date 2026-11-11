@@ -4,9 +4,9 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>区域对比 · 全球 GDP 数据采集与可视化分析平台</title>
-  <link rel="stylesheet" href="static/css/style.css">
+  <link rel="stylesheet" href="../static/css/style.css">
   
-  <script src="static/vendor/echarts.min.js"></script>
+  <script src="../static/vendor/echarts.min.js"></script>
 </head>
 <body>
 <header class="topbar">
@@ -19,15 +19,15 @@
       </div>
     </div>
     <nav class="nav">
-      <a href="index.html" class="">总览</a>
-      <a href="region.html" class="active">城市格局</a>
-      <a href="rank.html" class="">全球排行</a>
-      <a href="trend.html" class="">趋势分析</a>
-      <a href="compare.html" class="">国家对比</a>
-      <a href="share.html" class="">份额变化</a>
-      <a href="china.html" class="">中国季度</a>
-      <a href="dataset.html" class="">数据集</a>
-      <a href="about.html" class="">关于</a>
+      <a href="../index.html" class="">总览</a>
+      <a href="../region.html" class="active">城市格局</a>
+      <a href="../rank.html" class="">全球排行</a>
+      <a href="../trend.html" class="">趋势分析</a>
+      <a href="../compare.html" class="">国家对比</a>
+      <a href="../share.html" class="">份额变化</a>
+      <a href="../china.html" class="">中国季度</a>
+      <a href="../dataset.html" class="">数据集</a>
+      <a href="../about.html" class="">关于</a>
     </nav>
   </div>
 </header>
@@ -50,7 +50,7 @@
     <h2>区域 GDP 对比与增长趋势</h2>
     <span class="hint">美国数据来自经济分析局（BEA）官方批量文件；中国与日本数据来自维基百科统计条目；带「人工整理」标记的记录来自榜单整理</span>
   </div>
-  <form class="toolbar toolbar-grid" method="get" action="region.html" id="region-form">
+  <form class="toolbar toolbar-grid" method="get" action="../region.html" id="region-form">
     <div class="field">
       <label>经济体</label>
       <select name="economy">
@@ -113,27 +113,27 @@
       <label>&nbsp;</label>
       <div class="action-row">
         <button type="submit">查询</button>
-        <a class="btn ghost" href="region.html?economy=CHN&amp;level=city">重置</a>
-        <a class="btn ghost" href="data/dataset/region-export-CHN-city.csv">导出 CSV</a>
+        <a class="btn ghost" href="../views/region-chn-city-latest-latest-gdp-20.html">重置</a>
+        <a class="btn ghost" href="../data/dataset/region-export-CHN-city.csv">导出 CSV</a>
       </div>
     </div>
   </form>
   <div class="quick-row">
     <span class="quick-label">快捷视图</span>
     <a class="chip "
-       href="region.html?economy=CHN&amp;level=city&amp;mode=year&amp;year=2025&amp;limit=400">中国城市 2025（全部 336）</a>
+       href="../views/region-chn-city-year-2025-gdp-400.html">中国城市 2025（全部 336）</a>
     <a class="chip "
-       href="region.html?economy=CHN&amp;level=city&amp;mode=latest">中国城市·各年最新</a>
+       href="../views/region-chn-city-latest-latest-gdp-20.html">中国城市·各年最新</a>
     <a class="chip "
-       href="region.html?economy=CHN&amp;level=province&amp;mode=year&amp;year=2025">中国省级 2025</a>
+       href="../views/region-chn-province-year-2025-gdp-20.html">中国省级 2025</a>
     <a class="chip "
-       href="region.html?economy=USA&amp;level=state&amp;mode=latest">美国各州</a>
+       href="../views/region-usa-state-latest-latest-gdp-20.html">美国各州</a>
     <a class="chip "
-       href="region.html?economy=USA&amp;level=county&amp;mode=latest">美国各县</a>
+       href="../views/region-usa-county-latest-latest-gdp-20.html">美国各县</a>
     <a class="chip "
-       href="region.html?economy=JPN&amp;level=prefecture&amp;mode=latest">日本都道府县</a>
+       href="../views/region-jpn-prefecture-latest-latest-gdp-20.html">日本都道府县</a>
     <a class="chip "
-       href="region.html?economy=CHN&amp;level=city&amp;mode=year&amp;year=2025&amp;metric=growth&amp;limit=400">2025 增速排行</a>
+       href="../views/region-chn-city-year-2025-growth-400.html">2025 增速排行</a>
   </div>
 </div>
 
@@ -855,10 +855,10 @@
 </footer>
 
 
-<script src="static/js/charts.js"></script>
-  <script src="static/js/static-api.js"></script>
+<script src="../static/js/charts.js"></script>
+  <script src="../static/js/static-api.js?v=f87c76d3"></script>
 <script type="application/json" id="page-data">{"children": [{"currency": "CNY", "economy": "CHN", "gdp_native": 1141280000000.0, "gdp_usd": 145040000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "安徽", "per_capita_native": 120579.0, "population": null, "region_code": "合肥市", "region_name": "合肥市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2021}, {"currency": "CNY", "economy": "CHN", "gdp_native": 430263000000.0, "gdp_usd": 53840000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "安徽", "per_capita_native": 117174.0, "population": null, "region_code": "芜湖市", "region_name": "芜湖市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2021}, {"currency": "CNY", "economy": "CHN", "gdp_native": 336211000000.0, "gdp_usd": 42717000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "安徽", "per_capita_native": 84263.0, "population": null, "region_code": "滁州市", "region_name": "滁州市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2021}, {"currency": "CNY", "economy": "CHN", "gdp_native": 307153000000.0, "gdp_usd": 39493000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "安徽", "per_capita_native": 37591.0, "population": null, "region_code": "阜阳市", "region_name": "阜阳市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2021}, {"currency": "CNY", "economy": "CHN", "gdp_native": 265688000000.0, "gdp_usd": 34521000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "安徽", "per_capita_native": 63699.0, "population": null, "region_code": "安庆市", "region_name": "安庆市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2021}, {"currency": "CNY", "economy": "CHN", "gdp_native": 243933000000.0, "gdp_usd": 30481000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "安徽", "per_capita_native": 113089.0, "population": null, "region_code": "马鞍山市", "region_name": "马鞍山市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2021}, {"currency": "CNY", "economy": "CHN", "gdp_native": 216767000000.0, "gdp_usd": 28545999999.999996, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "安徽", "per_capita_native": 40707.0, "population": null, "region_code": "宿州市", "region_name": "宿州市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2021}, {"currency": "CNY", "economy": "CHN", "gdp_native": 198897000000.0, "gdp_usd": 29258000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "安徽", "per_capita_native": 59963.0, "population": null, "region_code": "蚌埠市", "region_name": "蚌埠市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2021}, {"currency": "CNY", "economy": "CHN", "gdp_native": 197268000000.0, "gdp_usd": 26179000000.000004, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "安徽", "per_capita_native": 39564.0, "population": null, "region_code": "亳州市", "region_name": "亳州市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2021}, {"currency": "CNY", "economy": "CHN", "gdp_native": 192347000000.0, "gdp_usd": 24200000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "安徽", "per_capita_native": 43666.0, "population": null, "region_code": "六安市", "region_name": "六安市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2021}, {"currency": "CNY", "economy": "CHN", "gdp_native": 183392000000.0, "gdp_usd": 23068000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "安徽", "per_capita_native": 73740.0, "population": null, "region_code": "宣城市", "region_name": "宣城市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2021}, {"currency": "CNY", "economy": "CHN", "gdp_native": 145705000000.0, "gdp_usd": 18927000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "安徽", "per_capita_native": 47929.0, "population": null, "region_code": "淮南市", "region_name": "淮南市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2021}, {"currency": "CNY", "economy": "CHN", "gdp_native": 122302000000.0, "gdp_usd": 16222000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "安徽", "per_capita_native": 61956.0, "population": null, "region_code": "淮北市", "region_name": "淮北市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2021}, {"currency": "CNY", "economy": "CHN", "gdp_native": 116558000000.0, "gdp_usd": 14549000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "安徽", "per_capita_native": 89248.0, "population": null, "region_code": "铜陵市", "region_name": "铜陵市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2021}, {"currency": "CNY", "economy": "CHN", "gdp_native": 100418000000.0, "gdp_usd": 12366000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "安徽", "per_capita_native": 75446.0, "population": null, "region_code": "池州市", "region_name": "池州市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2021}, {"currency": "CNY", "economy": "CHN", "gdp_native": 95737000000.0, "gdp_usd": 12327000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "安徽", "per_capita_native": 71875.0, "population": null, "region_code": "黄山市", "region_name": "黄山市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2021}], "currency": "CNY", "growth": {"areas": 0, "average": null, "max": null, "min": null}, "metric": "gdp", "mode": "year", "rank": [{"currency": "CNY", "gdp_native": 1141280000000.0, "gdp_usd": 145040000000.0, "growth_rate": null, "increment_native": null, "parent_code": "安徽", "parent_name": "安徽", "per_capita_native": 120579.0, "population": null, "region_code": "合肥市", "region_name": "合肥市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2021}, {"currency": "CNY", "gdp_native": 512093999999.99994, "gdp_usd": 79377000000.0, "growth_rate": null, "increment_native": null, "parent_code": "广西", "parent_name": "广西", "per_capita_native": 58241.0, "population": null, "region_code": "南宁市", "region_name": "南宁市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2021}, {"currency": "CNY", "gdp_native": 430263000000.0, "gdp_usd": 53840000000.0, "growth_rate": null, "increment_native": null, "parent_code": "安徽", "parent_name": "安徽", "per_capita_native": 117174.0, "population": null, "region_code": "芜湖市", "region_name": "芜湖市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2021}, {"currency": "CNY", "gdp_native": 336211000000.0, "gdp_usd": 42717000000.0, "growth_rate": null, "increment_native": null, "parent_code": "安徽", "parent_name": "安徽", "per_capita_native": 84263.0, "population": null, "region_code": "滁州市", "region_name": "滁州市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2021}, {"currency": "CNY", "gdp_native": 307153000000.0, "gdp_usd": 39493000000.0, "growth_rate": null, "increment_native": null, "parent_code": "安徽", "parent_name": "安徽", "per_capita_native": 37591.0, "population": null, "region_code": "阜阳市", "region_name": "阜阳市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2021}, {"currency": "CNY", "gdp_native": 305724000000.0, "gdp_usd": 47389000000.0, "growth_rate": null, "increment_native": null, "parent_code": "广西", "parent_name": "广西", "per_capita_native": 73328.0, "population": null, "region_code": "柳州市", "region_name": "柳州市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2021}, {"currency": "CNY", "gdp_native": 265688000000.0, "gdp_usd": 34521000000.0, "growth_rate": null, "increment_native": null, "parent_code": "安徽", "parent_name": "安徽", "per_capita_native": 63699.0, "population": null, "region_code": "安庆市", "region_name": "安庆市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2021}, {"currency": "CNY", "gdp_native": 243933000000.0, "gdp_usd": 30481000000.0, "growth_rate": null, "increment_native": null, "parent_code": "安徽", "parent_name": "安徽", "per_capita_native": 113089.0, "population": null, "region_code": "马鞍山市", "region_name": "马鞍山市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2021}, {"currency": "CNY", "gdp_native": 231106000000.0, "gdp_usd": 35823000000.0, "growth_rate": null, "increment_native": null, "parent_code": "广西", "parent_name": "广西", "per_capita_native": 46767.0, "population": null, "region_code": "桂林市", "region_name": "桂林市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2021}, {"currency": "CNY", "gdp_native": 216767000000.0, "gdp_usd": 28545999999.999996, "growth_rate": null, "increment_native": null, "parent_code": "安徽", "parent_name": "安徽", "per_capita_native": 40707.0, "population": null, "region_code": "宿州市", "region_name": "宿州市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2021}, {"currency": "CNY", "gdp_native": 207061000000.0, "gdp_usd": 32095999999.999996, "growth_rate": null, "increment_native": null, "parent_code": "广西", "parent_name": "广西", "per_capita_native": 35639.0, "population": null, "region_code": "玉林市", "region_name": "玉林市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2021}, {"currency": "CNY", "gdp_native": 205706000000.0, "gdp_usd": 31885000000.000004, "growth_rate": null, "increment_native": null, "parent_code": "海南", "parent_name": "海南", "per_capita_native": 70738.0, "population": null, "region_code": "海口市", "region_name": "海口市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2021}, {"currency": "CNY", "gdp_native": 198897000000.0, "gdp_usd": 29258000000.0, "growth_rate": null, "increment_native": null, "parent_code": "安徽", "parent_name": "安徽", "per_capita_native": 59963.0, "population": null, "region_code": "蚌埠市", "region_name": "蚌埠市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2021}, {"currency": "CNY", "gdp_native": 197268000000.0, "gdp_usd": 26179000000.000004, "growth_rate": null, "increment_native": null, "parent_code": "安徽", "parent_name": "安徽", "per_capita_native": 39564.0, "population": null, "region_code": "亳州市", "region_name": "亳州市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2021}, {"currency": "CNY", "gdp_native": 192347000000.0, "gdp_usd": 24200000000.0, "growth_rate": null, "increment_native": null, "parent_code": "安徽", "parent_name": "安徽", "per_capita_native": 43666.0, "population": null, "region_code": "六安市", "region_name": "六安市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2021}, {"currency": "CNY", "gdp_native": 183392000000.0, "gdp_usd": 23068000000.0, "growth_rate": null, "increment_native": null, "parent_code": "安徽", "parent_name": "安徽", "per_capita_native": 73740.0, "population": null, "region_code": "宣城市", "region_name": "宣城市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2021}, {"currency": "CNY", "gdp_native": 164783000000.0, "gdp_usd": 25542000000.0, "growth_rate": null, "increment_native": null, "parent_code": "广西", "parent_name": "广西", "per_capita_native": 49804.0, "population": null, "region_code": "钦州市", "region_name": "钦州市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2021}, {"currency": "CNY", "gdp_native": 156871000000.0, "gdp_usd": 24316000000.0, "growth_rate": null, "increment_native": null, "parent_code": "广西", "parent_name": "广西", "per_capita_native": 43892.0, "population": null, "region_code": "百色市", "region_name": "百色市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2021}, {"currency": "CNY", "gdp_native": 150443000000.0, "gdp_usd": 23319000000.0, "growth_rate": null, "increment_native": null, "parent_code": "广西", "parent_name": "广西", "per_capita_native": 80710.0, "population": null, "region_code": "北海市", "region_name": "北海市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2021}, {"currency": "CNY", "gdp_native": 150164000000.0, "gdp_usd": 23276000000.0, "growth_rate": null, "increment_native": null, "parent_code": "广西", "parent_name": "广西", "per_capita_native": 34632.0, "population": null, "region_code": "贵港市", "region_name": "贵港市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2021}], "total": 7415039000000.0, "year": 2021}</script>
-<script src="static/js/pages/region.js"></script>
+<script src="../static/js/pages/region.js"></script>
 
 </body>
 </html>

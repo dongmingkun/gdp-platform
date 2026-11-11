@@ -4,9 +4,9 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>区域对比 · 全球 GDP 数据采集与可视化分析平台</title>
-  <link rel="stylesheet" href="static/css/style.css">
+  <link rel="stylesheet" href="../static/css/style.css">
   
-  <script src="static/vendor/echarts.min.js"></script>
+  <script src="../static/vendor/echarts.min.js"></script>
 </head>
 <body>
 <header class="topbar">
@@ -19,15 +19,15 @@
       </div>
     </div>
     <nav class="nav">
-      <a href="index.html" class="">总览</a>
-      <a href="region.html" class="active">城市格局</a>
-      <a href="rank.html" class="">全球排行</a>
-      <a href="trend.html" class="">趋势分析</a>
-      <a href="compare.html" class="">国家对比</a>
-      <a href="share.html" class="">份额变化</a>
-      <a href="china.html" class="">中国季度</a>
-      <a href="dataset.html" class="">数据集</a>
-      <a href="about.html" class="">关于</a>
+      <a href="../index.html" class="">总览</a>
+      <a href="../region.html" class="active">城市格局</a>
+      <a href="../rank.html" class="">全球排行</a>
+      <a href="../trend.html" class="">趋势分析</a>
+      <a href="../compare.html" class="">国家对比</a>
+      <a href="../share.html" class="">份额变化</a>
+      <a href="../china.html" class="">中国季度</a>
+      <a href="../dataset.html" class="">数据集</a>
+      <a href="../about.html" class="">关于</a>
     </nav>
   </div>
 </header>
@@ -50,7 +50,7 @@
     <h2>区域 GDP 对比与增长趋势</h2>
     <span class="hint">美国数据来自经济分析局（BEA）官方批量文件；中国与日本数据来自维基百科统计条目；带「人工整理」标记的记录来自榜单整理</span>
   </div>
-  <form class="toolbar toolbar-grid" method="get" action="region.html" id="region-form">
+  <form class="toolbar toolbar-grid" method="get" action="../region.html" id="region-form">
     <div class="field">
       <label>经济体</label>
       <select name="economy">
@@ -113,27 +113,27 @@
       <label>&nbsp;</label>
       <div class="action-row">
         <button type="submit">查询</button>
-        <a class="btn ghost" href="region.html?economy=CHN&amp;level=city">重置</a>
-        <a class="btn ghost" href="data/dataset/region-export-CHN-city.csv">导出 CSV</a>
+        <a class="btn ghost" href="../views/region-chn-city-latest-latest-gdp-20.html">重置</a>
+        <a class="btn ghost" href="../data/dataset/region-export-CHN-city.csv">导出 CSV</a>
       </div>
     </div>
   </form>
   <div class="quick-row">
     <span class="quick-label">快捷视图</span>
     <a class="chip "
-       href="region.html?economy=CHN&amp;level=city&amp;mode=year&amp;year=2025&amp;limit=400">中国城市 2025（全部 336）</a>
+       href="../views/region-chn-city-year-2025-gdp-400.html">中国城市 2025（全部 336）</a>
     <a class="chip "
-       href="region.html?economy=CHN&amp;level=city&amp;mode=latest">中国城市·各年最新</a>
+       href="../views/region-chn-city-latest-latest-gdp-20.html">中国城市·各年最新</a>
     <a class="chip "
-       href="region.html?economy=CHN&amp;level=province&amp;mode=year&amp;year=2025">中国省级 2025</a>
+       href="../views/region-chn-province-year-2025-gdp-20.html">中国省级 2025</a>
     <a class="chip "
-       href="region.html?economy=USA&amp;level=state&amp;mode=latest">美国各州</a>
+       href="../views/region-usa-state-latest-latest-gdp-20.html">美国各州</a>
     <a class="chip "
-       href="region.html?economy=USA&amp;level=county&amp;mode=latest">美国各县</a>
+       href="../views/region-usa-county-latest-latest-gdp-20.html">美国各县</a>
     <a class="chip "
-       href="region.html?economy=JPN&amp;level=prefecture&amp;mode=latest">日本都道府县</a>
+       href="../views/region-jpn-prefecture-latest-latest-gdp-20.html">日本都道府县</a>
     <a class="chip "
-       href="region.html?economy=CHN&amp;level=city&amp;mode=year&amp;year=2025&amp;metric=growth&amp;limit=400">2025 增速排行</a>
+       href="../views/region-chn-city-year-2025-growth-400.html">2025 增速排行</a>
   </div>
 </div>
 
@@ -822,10 +822,10 @@
 </footer>
 
 
-<script src="static/js/charts.js"></script>
-  <script src="static/js/static-api.js"></script>
+<script src="../static/js/charts.js"></script>
+  <script src="../static/js/static-api.js?v=f87c76d3"></script>
 <script type="application/json" id="page-data">{"children": [{"currency": "CNY", "economy": "CHN", "gdp_native": 2465300000000.0, "gdp_usd": 349900000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "江苏", "per_capita_native": 190605.0, "population": null, "region_code": "苏州市", "region_name": "苏州市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2023}, {"currency": "CNY", "economy": "CHN", "gdp_native": 1742100000000.0, "gdp_usd": 247200000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "江苏", "per_capita_native": 183016.0, "population": null, "region_code": "南京市", "region_name": "南京市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2023}, {"currency": "CNY", "economy": "CHN", "gdp_native": 1545600000000.0, "gdp_usd": 219300000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "江苏", "per_capita_native": 206278.0, "population": null, "region_code": "无锡市", "region_name": "无锡市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2023}, {"currency": "CNY", "economy": "CHN", "gdp_native": 1181300000000.0, "gdp_usd": 167600000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "江苏", "per_capita_native": 152508.0, "population": null, "region_code": "南通市", "region_name": "南通市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2023}, {"currency": "CNY", "economy": "CHN", "gdp_native": 1011600000000.0, "gdp_usd": 143600000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "江苏", "per_capita_native": 188366.0, "population": null, "region_code": "常州市", "region_name": "常州市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2023}, {"currency": "CNY", "economy": "CHN", "gdp_native": 890000000000.0, "gdp_usd": 126300000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "江苏", "per_capita_native": 98683.0, "population": null, "region_code": "徐州市", "region_name": "徐州市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2023}, {"currency": "CNY", "economy": "CHN", "gdp_native": 742300000000.0, "gdp_usd": 105300000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "江苏", "per_capita_native": 161940.0, "population": null, "region_code": "扬州市", "region_name": "扬州市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2023}, {"currency": "CNY", "economy": "CHN", "gdp_native": 740400000000.0, "gdp_usd": 105100000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "江苏", "per_capita_native": 110681.0, "population": null, "region_code": "盐城市", "region_name": "盐城市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2023}, {"currency": "CNY", "economy": "CHN", "gdp_native": 673200000000.0, "gdp_usd": 95500000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "江苏", "per_capita_native": 149383.0, "population": null, "region_code": "泰州市", "region_name": "泰州市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2023}, {"currency": "CNY", "economy": "CHN", "gdp_native": 526400000000.0, "gdp_usd": 74700000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "江苏", "per_capita_native": 163273.0, "population": null, "region_code": "镇江市", "region_name": "镇江市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2023}, {"currency": "CNY", "economy": "CHN", "gdp_native": 501500000000.0, "gdp_usd": 71200000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "江苏", "per_capita_native": 110329.0, "population": null, "region_code": "淮安市", "region_name": "淮安市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2023}, {"currency": "CNY", "economy": "CHN", "gdp_native": 439800000000.0, "gdp_usd": 62400000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "江苏", "per_capita_native": 88379.0, "population": null, "region_code": "宿迁市", "region_name": "宿迁市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2023}, {"currency": "CNY", "economy": "CHN", "gdp_native": 436400000000.0, "gdp_usd": 61900000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "江苏", "per_capita_native": 94918.0, "population": null, "region_code": "连云港市", "region_name": "连云港市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2023}], "currency": "CNY", "growth": {"areas": 0, "average": null, "max": null, "min": null}, "metric": "gdp", "mode": "year", "rank": [{"currency": "CNY", "gdp_native": 5140450000000.0, "gdp_usd": null, "growth_rate": null, "increment_native": null, "parent_code": "CHN", "parent_name": "中国", "per_capita_native": null, "population": null, "region_code": "上海", "region_name": "上海", "source": "维基百科条目（数据源自官方统计公报）", "year": 2023}, {"currency": "CNY", "gdp_native": 4735370000000.0, "gdp_usd": null, "growth_rate": null, "increment_native": null, "parent_code": "CHN", "parent_name": "中国", "per_capita_native": null, "population": null, "region_code": "北京", "region_name": "北京", "source": "维基百科条目（数据源自官方统计公报）", "year": 2023}, {"currency": "CNY", "gdp_native": 3061430000000.0, "gdp_usd": null, "growth_rate": null, "increment_native": null, "parent_code": "CHN", "parent_name": "中国", "per_capita_native": null, "population": null, "region_code": "重庆", "region_name": "重庆", "source": "维基百科条目（数据源自官方统计公报）", "year": 2023}, {"currency": "CNY", "gdp_native": 2465300000000.0, "gdp_usd": 349900000000.0, "growth_rate": null, "increment_native": null, "parent_code": "江苏", "parent_name": "江苏", "per_capita_native": 190605.0, "population": null, "region_code": "苏州市", "region_name": "苏州市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2023}, {"currency": "CNY", "gdp_native": 1742100000000.0, "gdp_usd": 247200000000.0, "growth_rate": null, "increment_native": null, "parent_code": "江苏", "parent_name": "江苏", "per_capita_native": 183016.0, "population": null, "region_code": "南京市", "region_name": "南京市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2023}, {"currency": "CNY", "gdp_native": 1721180000000.0, "gdp_usd": null, "growth_rate": null, "increment_native": null, "parent_code": "CHN", "parent_name": "中国", "per_capita_native": null, "population": null, "region_code": "天津", "region_name": "天津", "source": "维基百科条目（数据源自官方统计公报）", "year": 2023}, {"currency": "CNY", "gdp_native": 1545600000000.0, "gdp_usd": 219300000000.0, "growth_rate": null, "increment_native": null, "parent_code": "江苏", "parent_name": "江苏", "per_capita_native": 206278.0, "population": null, "region_code": "无锡市", "region_name": "无锡市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2023}, {"currency": "CNY", "gdp_native": 1181300000000.0, "gdp_usd": 167600000000.0, "growth_rate": null, "increment_native": null, "parent_code": "江苏", "parent_name": "江苏", "per_capita_native": 152508.0, "population": null, "region_code": "南通市", "region_name": "南通市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2023}, {"currency": "CNY", "gdp_native": 1011600000000.0, "gdp_usd": 143600000000.0, "growth_rate": null, "increment_native": null, "parent_code": "江苏", "parent_name": "江苏", "per_capita_native": 188366.0, "population": null, "region_code": "常州市", "region_name": "常州市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2023}, {"currency": "CNY", "gdp_native": 890000000000.0, "gdp_usd": 126300000000.0, "growth_rate": null, "increment_native": null, "parent_code": "江苏", "parent_name": "江苏", "per_capita_native": 98683.0, "population": null, "region_code": "徐州市", "region_name": "徐州市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2023}, {"currency": "CNY", "gdp_native": 875290000000.0, "gdp_usd": 124213000000.00002, "growth_rate": null, "increment_native": null, "parent_code": "辽宁", "parent_name": "辽宁", "per_capita_native": 116163.0, "population": null, "region_code": "大连市", "region_name": "大连市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2023}, {"currency": "CNY", "gdp_native": 812210000000.0, "gdp_usd": 115260999999.99998, "growth_rate": null, "increment_native": null, "parent_code": "辽宁", "parent_name": "辽宁", "per_capita_native": 88519.0, "population": null, "region_code": "沈阳市", "region_name": "沈阳市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2023}, {"currency": "CNY", "gdp_native": 742300000000.0, "gdp_usd": 105300000000.0, "growth_rate": null, "increment_native": null, "parent_code": "江苏", "parent_name": "江苏", "per_capita_native": 161940.0, "population": null, "region_code": "扬州市", "region_name": "扬州市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2023}, {"currency": "CNY", "gdp_native": 740400000000.0, "gdp_usd": 105100000000.0, "growth_rate": null, "increment_native": null, "parent_code": "江苏", "parent_name": "江苏", "per_capita_native": 110681.0, "population": null, "region_code": "盐城市", "region_name": "盐城市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2023}, {"currency": "CNY", "gdp_native": 721285000000.0, "gdp_usd": 102358000000.0, "growth_rate": null, "increment_native": null, "parent_code": "江西", "parent_name": "江西", "per_capita_native": 110067.0, "population": null, "region_code": "南昌市", "region_name": "南昌市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2023}, {"currency": "CNY", "gdp_native": 700206000000.0, "gdp_usd": 99366000000.0, "growth_rate": null, "increment_native": null, "parent_code": "吉林", "parent_name": "吉林", "per_capita_native": 77084.0, "population": null, "region_code": "长春市", "region_name": "长春市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2023}, {"currency": "CNY", "gdp_native": 673200000000.0, "gdp_usd": 95500000000.0, "growth_rate": null, "increment_native": null, "parent_code": "江苏", "parent_name": "江苏", "per_capita_native": 149383.0, "population": null, "region_code": "泰州市", "region_name": "泰州市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2023}, {"currency": "CNY", "gdp_native": 526400000000.0, "gdp_usd": 74700000000.0, "growth_rate": null, "increment_native": null, "parent_code": "江苏", "parent_name": "江苏", "per_capita_native": 163273.0, "population": null, "region_code": "镇江市", "region_name": "镇江市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2023}, {"currency": "CNY", "gdp_native": 501500000000.0, "gdp_usd": 71200000000.0, "growth_rate": null, "increment_native": null, "parent_code": "江苏", "parent_name": "江苏", "per_capita_native": 110329.0, "population": null, "region_code": "淮安市", "region_name": "淮安市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2023}, {"currency": "CNY", "gdp_native": 460621000000.0, "gdp_usd": 65366999999.99999, "growth_rate": null, "increment_native": null, "parent_code": "江西", "parent_name": "江西", "per_capita_native": 51245.0, "population": null, "region_code": "赣州市", "region_name": "赣州市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2023}], "total": 35103065000000.0, "year": 2023}</script>
-<script src="static/js/pages/region.js"></script>
+<script src="../static/js/pages/region.js"></script>
 
 </body>
 </html>

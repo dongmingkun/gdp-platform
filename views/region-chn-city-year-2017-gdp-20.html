@@ -4,9 +4,9 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>区域对比 · 全球 GDP 数据采集与可视化分析平台</title>
-  <link rel="stylesheet" href="static/css/style.css">
+  <link rel="stylesheet" href="../static/css/style.css">
   
-  <script src="static/vendor/echarts.min.js"></script>
+  <script src="../static/vendor/echarts.min.js"></script>
 </head>
 <body>
 <header class="topbar">
@@ -19,15 +19,15 @@
       </div>
     </div>
     <nav class="nav">
-      <a href="index.html" class="">总览</a>
-      <a href="region.html" class="active">城市格局</a>
-      <a href="rank.html" class="">全球排行</a>
-      <a href="trend.html" class="">趋势分析</a>
-      <a href="compare.html" class="">国家对比</a>
-      <a href="share.html" class="">份额变化</a>
-      <a href="china.html" class="">中国季度</a>
-      <a href="dataset.html" class="">数据集</a>
-      <a href="about.html" class="">关于</a>
+      <a href="../index.html" class="">总览</a>
+      <a href="../region.html" class="active">城市格局</a>
+      <a href="../rank.html" class="">全球排行</a>
+      <a href="../trend.html" class="">趋势分析</a>
+      <a href="../compare.html" class="">国家对比</a>
+      <a href="../share.html" class="">份额变化</a>
+      <a href="../china.html" class="">中国季度</a>
+      <a href="../dataset.html" class="">数据集</a>
+      <a href="../about.html" class="">关于</a>
     </nav>
   </div>
 </header>
@@ -50,7 +50,7 @@
     <h2>区域 GDP 对比与增长趋势</h2>
     <span class="hint">美国数据来自经济分析局（BEA）官方批量文件；中国与日本数据来自维基百科统计条目；带「人工整理」标记的记录来自榜单整理</span>
   </div>
-  <form class="toolbar toolbar-grid" method="get" action="region.html" id="region-form">
+  <form class="toolbar toolbar-grid" method="get" action="../region.html" id="region-form">
     <div class="field">
       <label>经济体</label>
       <select name="economy">
@@ -113,27 +113,27 @@
       <label>&nbsp;</label>
       <div class="action-row">
         <button type="submit">查询</button>
-        <a class="btn ghost" href="region.html?economy=CHN&amp;level=city">重置</a>
-        <a class="btn ghost" href="data/dataset/region-export-CHN-city.csv">导出 CSV</a>
+        <a class="btn ghost" href="../views/region-chn-city-latest-latest-gdp-20.html">重置</a>
+        <a class="btn ghost" href="../data/dataset/region-export-CHN-city.csv">导出 CSV</a>
       </div>
     </div>
   </form>
   <div class="quick-row">
     <span class="quick-label">快捷视图</span>
     <a class="chip "
-       href="region.html?economy=CHN&amp;level=city&amp;mode=year&amp;year=2025&amp;limit=400">中国城市 2025（全部 336）</a>
+       href="../views/region-chn-city-year-2025-gdp-400.html">中国城市 2025（全部 336）</a>
     <a class="chip "
-       href="region.html?economy=CHN&amp;level=city&amp;mode=latest">中国城市·各年最新</a>
+       href="../views/region-chn-city-latest-latest-gdp-20.html">中国城市·各年最新</a>
     <a class="chip "
-       href="region.html?economy=CHN&amp;level=province&amp;mode=year&amp;year=2025">中国省级 2025</a>
+       href="../views/region-chn-province-year-2025-gdp-20.html">中国省级 2025</a>
     <a class="chip "
-       href="region.html?economy=USA&amp;level=state&amp;mode=latest">美国各州</a>
+       href="../views/region-usa-state-latest-latest-gdp-20.html">美国各州</a>
     <a class="chip "
-       href="region.html?economy=USA&amp;level=county&amp;mode=latest">美国各县</a>
+       href="../views/region-usa-county-latest-latest-gdp-20.html">美国各县</a>
     <a class="chip "
-       href="region.html?economy=JPN&amp;level=prefecture&amp;mode=latest">日本都道府县</a>
+       href="../views/region-jpn-prefecture-latest-latest-gdp-20.html">日本都道府县</a>
     <a class="chip "
-       href="region.html?economy=CHN&amp;level=city&amp;mode=year&amp;year=2025&amp;metric=growth&amp;limit=400">2025 增速排行</a>
+       href="../views/region-chn-city-year-2025-growth-400.html">2025 增速排行</a>
   </div>
 </div>
 
@@ -656,10 +656,10 @@
 </footer>
 
 
-<script src="static/js/charts.js"></script>
-  <script src="static/js/static-api.js"></script>
+<script src="../static/js/charts.js"></script>
+  <script src="../static/js/static-api.js?v=f87c76d3"></script>
 <script type="application/json" id="page-data">{"children": [{"currency": "CNY", "economy": "CHN", "gdp_native": 653015000000.0, "gdp_usd": 96717000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "河北", "per_capita_native": 82692.0, "population": null, "region_code": "唐山市", "region_name": "唐山市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2017}, {"currency": "CNY", "economy": "CHN", "gdp_native": 617703000000.0, "gdp_usd": 91487000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "河北", "per_capita_native": 56775.0, "population": null, "region_code": "石家庄市", "region_name": "石家庄市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2017}, {"currency": "CNY", "economy": "CHN", "gdp_native": 364340000000.0, "gdp_usd": 53962000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "河北", "per_capita_native": 48226.0, "population": null, "region_code": "沧州市", "region_name": "沧州市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2017}, {"currency": "CNY", "economy": "CHN", "gdp_native": 344974000000.0, "gdp_usd": 51094000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "河北", "per_capita_native": 29509.0, "population": null, "region_code": "保定市", "region_name": "保定市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2017}, {"currency": "CNY", "economy": "CHN", "gdp_native": 337953000000.0, "gdp_usd": 50054000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "河北", "per_capita_native": 35532.0, "population": null, "region_code": "邯郸市", "region_name": "邯郸市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2017}, {"currency": "CNY", "economy": "CHN", "gdp_native": 288101000000.0, "gdp_usd": 42670000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "河北", "per_capita_native": 60769.0, "population": null, "region_code": "廊坊市", "region_name": "廊坊市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2017}, {"currency": "CNY", "economy": "CHN", "gdp_native": 209062000000.0, "gdp_usd": 30964000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "河北", "per_capita_native": 28438.0, "population": null, "region_code": "邢台市", "region_name": "邢台市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2017}, {"currency": "CNY", "economy": "CHN", "gdp_native": 152319000000.0, "gdp_usd": 22560000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "河北", "per_capita_native": 34149.0, "population": null, "region_code": "衡水市", "region_name": "衡水市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2017}, {"currency": "CNY", "economy": "CHN", "gdp_native": 150034000000.0, "gdp_usd": 22221000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "河北", "per_capita_native": 48230.0, "population": null, "region_code": "秦皇岛市", "region_name": "秦皇岛市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2017}, {"currency": "CNY", "economy": "CHN", "gdp_native": 146545000000.0, "gdp_usd": 21705000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "河北", "per_capita_native": 41107.0, "population": null, "region_code": "承德市", "region_name": "承德市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2017}, {"currency": "CNY", "economy": "CHN", "gdp_native": 142702000000.0, "gdp_usd": 21135000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "河北", "per_capita_native": 32190.0, "population": null, "region_code": "张家口市", "region_name": "张家口市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2017}], "currency": "CNY", "growth": {"areas": 0, "average": null, "max": null, "min": null}, "metric": "gdp", "mode": "year", "rank": [{"currency": "CNY", "gdp_native": 653015000000.0, "gdp_usd": 96717000000.0, "growth_rate": null, "increment_native": null, "parent_code": "河北", "parent_name": "河北", "per_capita_native": 82692.0, "population": null, "region_code": "唐山市", "region_name": "唐山市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2017}, {"currency": "CNY", "gdp_native": 617703000000.0, "gdp_usd": 91487000000.0, "growth_rate": null, "increment_native": null, "parent_code": "河北", "parent_name": "河北", "per_capita_native": 56775.0, "population": null, "region_code": "石家庄市", "region_name": "石家庄市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2017}, {"currency": "CNY", "gdp_native": 364340000000.0, "gdp_usd": 53962000000.0, "growth_rate": null, "increment_native": null, "parent_code": "河北", "parent_name": "河北", "per_capita_native": 48226.0, "population": null, "region_code": "沧州市", "region_name": "沧州市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2017}, {"currency": "CNY", "gdp_native": 344974000000.0, "gdp_usd": 51094000000.0, "growth_rate": null, "increment_native": null, "parent_code": "河北", "parent_name": "河北", "per_capita_native": 29509.0, "population": null, "region_code": "保定市", "region_name": "保定市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2017}, {"currency": "CNY", "gdp_native": 337953000000.0, "gdp_usd": 50054000000.0, "growth_rate": null, "increment_native": null, "parent_code": "河北", "parent_name": "河北", "per_capita_native": 35532.0, "population": null, "region_code": "邯郸市", "region_name": "邯郸市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2017}, {"currency": "CNY", "gdp_native": 288101000000.0, "gdp_usd": 42670000000.0, "growth_rate": null, "increment_native": null, "parent_code": "河北", "parent_name": "河北", "per_capita_native": 60769.0, "population": null, "region_code": "廊坊市", "region_name": "廊坊市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2017}, {"currency": "CNY", "gdp_native": 209062000000.0, "gdp_usd": 30964000000.0, "growth_rate": null, "increment_native": null, "parent_code": "河北", "parent_name": "河北", "per_capita_native": 28438.0, "population": null, "region_code": "邢台市", "region_name": "邢台市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2017}, {"currency": "CNY", "gdp_native": 152319000000.0, "gdp_usd": 22560000000.0, "growth_rate": null, "increment_native": null, "parent_code": "河北", "parent_name": "河北", "per_capita_native": 34149.0, "population": null, "region_code": "衡水市", "region_name": "衡水市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2017}, {"currency": "CNY", "gdp_native": 150034000000.0, "gdp_usd": 22221000000.0, "growth_rate": null, "increment_native": null, "parent_code": "河北", "parent_name": "河北", "per_capita_native": 48230.0, "population": null, "region_code": "秦皇岛市", "region_name": "秦皇岛市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2017}, {"currency": "CNY", "gdp_native": 146545000000.0, "gdp_usd": 21705000000.0, "growth_rate": null, "increment_native": null, "parent_code": "河北", "parent_name": "河北", "per_capita_native": 41107.0, "population": null, "region_code": "承德市", "region_name": "承德市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2017}, {"currency": "CNY", "gdp_native": 142702000000.0, "gdp_usd": 21135000000.0, "growth_rate": null, "increment_native": null, "parent_code": "河北", "parent_name": "河北", "per_capita_native": 32190.0, "population": null, "region_code": "张家口市", "region_name": "张家口市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2017}], "total": 3406748000000.0, "year": 2017}</script>
-<script src="static/js/pages/region.js"></script>
+<script src="../static/js/pages/region.js"></script>
 
 </body>
 </html>

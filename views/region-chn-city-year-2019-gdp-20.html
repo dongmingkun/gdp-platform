@@ -4,9 +4,9 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>区域对比 · 全球 GDP 数据采集与可视化分析平台</title>
-  <link rel="stylesheet" href="static/css/style.css">
+  <link rel="stylesheet" href="../static/css/style.css">
   
-  <script src="static/vendor/echarts.min.js"></script>
+  <script src="../static/vendor/echarts.min.js"></script>
 </head>
 <body>
 <header class="topbar">
@@ -19,15 +19,15 @@
       </div>
     </div>
     <nav class="nav">
-      <a href="index.html" class="">总览</a>
-      <a href="region.html" class="active">城市格局</a>
-      <a href="rank.html" class="">全球排行</a>
-      <a href="trend.html" class="">趋势分析</a>
-      <a href="compare.html" class="">国家对比</a>
-      <a href="share.html" class="">份额变化</a>
-      <a href="china.html" class="">中国季度</a>
-      <a href="dataset.html" class="">数据集</a>
-      <a href="about.html" class="">关于</a>
+      <a href="../index.html" class="">总览</a>
+      <a href="../region.html" class="active">城市格局</a>
+      <a href="../rank.html" class="">全球排行</a>
+      <a href="../trend.html" class="">趋势分析</a>
+      <a href="../compare.html" class="">国家对比</a>
+      <a href="../share.html" class="">份额变化</a>
+      <a href="../china.html" class="">中国季度</a>
+      <a href="../dataset.html" class="">数据集</a>
+      <a href="../about.html" class="">关于</a>
     </nav>
   </div>
 </header>
@@ -50,7 +50,7 @@
     <h2>区域 GDP 对比与增长趋势</h2>
     <span class="hint">美国数据来自经济分析局（BEA）官方批量文件；中国与日本数据来自维基百科统计条目；带「人工整理」标记的记录来自榜单整理</span>
   </div>
-  <form class="toolbar toolbar-grid" method="get" action="region.html" id="region-form">
+  <form class="toolbar toolbar-grid" method="get" action="../region.html" id="region-form">
     <div class="field">
       <label>经济体</label>
       <select name="economy">
@@ -113,27 +113,27 @@
       <label>&nbsp;</label>
       <div class="action-row">
         <button type="submit">查询</button>
-        <a class="btn ghost" href="region.html?economy=CHN&amp;level=city">重置</a>
-        <a class="btn ghost" href="data/dataset/region-export-CHN-city.csv">导出 CSV</a>
+        <a class="btn ghost" href="../views/region-chn-city-latest-latest-gdp-20.html">重置</a>
+        <a class="btn ghost" href="../data/dataset/region-export-CHN-city.csv">导出 CSV</a>
       </div>
     </div>
   </form>
   <div class="quick-row">
     <span class="quick-label">快捷视图</span>
     <a class="chip "
-       href="region.html?economy=CHN&amp;level=city&amp;mode=year&amp;year=2025&amp;limit=400">中国城市 2025（全部 336）</a>
+       href="../views/region-chn-city-year-2025-gdp-400.html">中国城市 2025（全部 336）</a>
     <a class="chip "
-       href="region.html?economy=CHN&amp;level=city&amp;mode=latest">中国城市·各年最新</a>
+       href="../views/region-chn-city-latest-latest-gdp-20.html">中国城市·各年最新</a>
     <a class="chip "
-       href="region.html?economy=CHN&amp;level=province&amp;mode=year&amp;year=2025">中国省级 2025</a>
+       href="../views/region-chn-province-year-2025-gdp-20.html">中国省级 2025</a>
     <a class="chip "
-       href="region.html?economy=USA&amp;level=state&amp;mode=latest">美国各州</a>
+       href="../views/region-usa-state-latest-latest-gdp-20.html">美国各州</a>
     <a class="chip "
-       href="region.html?economy=USA&amp;level=county&amp;mode=latest">美国各县</a>
+       href="../views/region-usa-county-latest-latest-gdp-20.html">美国各县</a>
     <a class="chip "
-       href="region.html?economy=JPN&amp;level=prefecture&amp;mode=latest">日本都道府县</a>
+       href="../views/region-jpn-prefecture-latest-latest-gdp-20.html">日本都道府县</a>
     <a class="chip "
-       href="region.html?economy=CHN&amp;level=city&amp;mode=year&amp;year=2025&amp;metric=growth&amp;limit=400">2025 增速排行</a>
+       href="../views/region-chn-city-year-2025-growth-400.html">2025 增速排行</a>
   </div>
 </div>
 
@@ -764,10 +764,10 @@
 </footer>
 
 
-<script src="static/js/charts.js"></script>
-  <script src="static/js/static-api.js"></script>
+<script src="../static/js/charts.js"></script>
+  <script src="../static/js/static-api.js?v=f87c76d3"></script>
 <script type="application/json" id="page-data">{"children": [{"currency": "CNY", "economy": "CHN", "gdp_native": 341326000000.0, "gdp_usd": 49478000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "新疆", "per_capita_native": 96723.0, "population": null, "region_code": "乌鲁木齐市", "region_name": "乌鲁木齐市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2019}, {"currency": "CNY", "economy": "CHN", "gdp_native": 132474000000.0, "gdp_usd": 19203000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "新疆", "per_capita_native": 82605.0, "population": null, "region_code": "昌吉州", "region_name": "昌吉州", "source": "维基百科条目（数据源自官方统计公报）", "year": 2019}, {"currency": "CNY", "economy": "CHN", "gdp_native": 122243000000.0, "gdp_usd": 17720000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "新疆", "per_capita_native": 42531.0, "population": null, "region_code": "阿克苏地区", "region_name": "阿克苏地区", "source": "维基百科条目（数据源自官方统计公报）", "year": 2019}, {"currency": "CNY", "economy": "CHN", "gdp_native": 119071000000.0, "gdp_usd": 17260000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "新疆", "per_capita_native": 42768.0, "population": null, "region_code": "伊犁州", "region_name": "伊犁州", "source": "维基百科条目（数据源自官方统计公报）", "year": 2019}, {"currency": "CNY", "economy": "CHN", "gdp_native": 114933999999.99998, "gdp_usd": 16661000000.000002, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "新疆", "per_capita_native": 80170.0, "population": null, "region_code": "巴音郭楞州", "region_name": "巴音郭楞州", "source": "维基百科条目（数据源自官方统计公报）", "year": 2019}, {"currency": "CNY", "economy": "CHN", "gdp_native": 104832000000.0, "gdp_usd": 15196000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "新疆", "per_capita_native": 22647.0, "population": null, "region_code": "喀什地区", "region_name": "喀什地区", "source": "维基百科条目（数据源自官方统计公报）", "year": 2019}, {"currency": "CNY", "economy": "CHN", "gdp_native": 97293000000.0, "gdp_usd": 14104000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "新疆", "per_capita_native": 188857.0, "population": null, "region_code": "克拉玛依市", "region_name": "克拉玛依市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2019}, {"currency": "CNY", "economy": "CHN", "gdp_native": 69658000000.0, "gdp_usd": 10098000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "新疆", "per_capita_native": 54095.0, "population": null, "region_code": "塔城地区", "region_name": "塔城地区", "source": "维基百科条目（数据源自官方统计公报）", "year": 2019}, {"currency": "CNY", "economy": "CHN", "gdp_native": 60482000000.00001, "gdp_usd": 8767000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "新疆", "per_capita_native": 98148.0, "population": null, "region_code": "哈密市", "region_name": "哈密市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2019}, {"currency": "CNY", "economy": "CHN", "gdp_native": 38448000000.0, "gdp_usd": 5573000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "新疆", "per_capita_native": 60985.0, "population": null, "region_code": "吐鲁番市", "region_name": "吐鲁番市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2019}, {"currency": "CNY", "economy": "CHN", "gdp_native": 37765000000.0, "gdp_usd": 5474000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "新疆", "per_capita_native": 14923.0, "population": null, "region_code": "和田地区", "region_name": "和田地区", "source": "维基百科条目（数据源自官方统计公报）", "year": 2019}, {"currency": "CNY", "economy": "CHN", "gdp_native": 35936000000.0, "gdp_usd": 5209000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "新疆", "per_capita_native": 79537.0, "population": null, "region_code": "石河子市", "region_name": "石河子市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2019}, {"currency": "CNY", "economy": "CHN", "gdp_native": 35429000000.0, "gdp_usd": 5136000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "新疆", "per_capita_native": 74276.0, "population": null, "region_code": "博尔塔拉州", "region_name": "博尔塔拉州", "source": "维基百科条目（数据源自官方统计公报）", "year": 2019}, {"currency": "CNY", "economy": "CHN", "gdp_native": 33916000000.000004, "gdp_usd": 4916000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "新疆", "per_capita_native": 51524.0, "population": null, "region_code": "阿勒泰地区", "region_name": "阿勒泰地区", "source": "维基百科条目（数据源自官方统计公报）", "year": 2019}, {"currency": "CNY", "economy": "CHN", "gdp_native": 15905000000.000002, "gdp_usd": 2306000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "新疆", "per_capita_native": 25556.0, "population": null, "region_code": "克孜勒苏州", "region_name": "克孜勒苏州", "source": "维基百科条目（数据源自官方统计公报）", "year": 2019}], "currency": "CNY", "growth": {"areas": 0, "average": null, "max": null, "min": null}, "metric": "gdp", "mode": "year", "rank": [{"currency": "CNY", "gdp_native": 341326000000.0, "gdp_usd": 49478000000.0, "growth_rate": null, "increment_native": null, "parent_code": "新疆", "parent_name": "新疆", "per_capita_native": 96723.0, "population": null, "region_code": "乌鲁木齐市", "region_name": "乌鲁木齐市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2019}, {"currency": "CNY", "gdp_native": 132474000000.0, "gdp_usd": 19203000000.0, "growth_rate": null, "increment_native": null, "parent_code": "新疆", "parent_name": "新疆", "per_capita_native": 82605.0, "population": null, "region_code": "昌吉州", "region_name": "昌吉州", "source": "维基百科条目（数据源自官方统计公报）", "year": 2019}, {"currency": "CNY", "gdp_native": 122243000000.0, "gdp_usd": 17720000000.0, "growth_rate": null, "increment_native": null, "parent_code": "新疆", "parent_name": "新疆", "per_capita_native": 42531.0, "population": null, "region_code": "阿克苏地区", "region_name": "阿克苏地区", "source": "维基百科条目（数据源自官方统计公报）", "year": 2019}, {"currency": "CNY", "gdp_native": 119071000000.0, "gdp_usd": 17260000000.0, "growth_rate": null, "increment_native": null, "parent_code": "新疆", "parent_name": "新疆", "per_capita_native": 42768.0, "population": null, "region_code": "伊犁州", "region_name": "伊犁州", "source": "维基百科条目（数据源自官方统计公报）", "year": 2019}, {"currency": "CNY", "gdp_native": 114933999999.99998, "gdp_usd": 16661000000.000002, "growth_rate": null, "increment_native": null, "parent_code": "新疆", "parent_name": "新疆", "per_capita_native": 80170.0, "population": null, "region_code": "巴音郭楞州", "region_name": "巴音郭楞州", "source": "维基百科条目（数据源自官方统计公报）", "year": 2019}, {"currency": "CNY", "gdp_native": 104832000000.0, "gdp_usd": 15196000000.0, "growth_rate": null, "increment_native": null, "parent_code": "新疆", "parent_name": "新疆", "per_capita_native": 22647.0, "population": null, "region_code": "喀什地区", "region_name": "喀什地区", "source": "维基百科条目（数据源自官方统计公报）", "year": 2019}, {"currency": "CNY", "gdp_native": 97293000000.0, "gdp_usd": 14104000000.0, "growth_rate": null, "increment_native": null, "parent_code": "新疆", "parent_name": "新疆", "per_capita_native": 188857.0, "population": null, "region_code": "克拉玛依市", "region_name": "克拉玛依市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2019}, {"currency": "CNY", "gdp_native": 69658000000.0, "gdp_usd": 10098000000.0, "growth_rate": null, "increment_native": null, "parent_code": "新疆", "parent_name": "新疆", "per_capita_native": 54095.0, "population": null, "region_code": "塔城地区", "region_name": "塔城地区", "source": "维基百科条目（数据源自官方统计公报）", "year": 2019}, {"currency": "CNY", "gdp_native": 60482000000.00001, "gdp_usd": 8767000000.0, "growth_rate": null, "increment_native": null, "parent_code": "新疆", "parent_name": "新疆", "per_capita_native": 98148.0, "population": null, "region_code": "哈密市", "region_name": "哈密市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2019}, {"currency": "CNY", "gdp_native": 38448000000.0, "gdp_usd": 5573000000.0, "growth_rate": null, "increment_native": null, "parent_code": "新疆", "parent_name": "新疆", "per_capita_native": 60985.0, "population": null, "region_code": "吐鲁番市", "region_name": "吐鲁番市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2019}, {"currency": "CNY", "gdp_native": 37765000000.0, "gdp_usd": 5474000000.0, "growth_rate": null, "increment_native": null, "parent_code": "新疆", "parent_name": "新疆", "per_capita_native": 14923.0, "population": null, "region_code": "和田地区", "region_name": "和田地区", "source": "维基百科条目（数据源自官方统计公报）", "year": 2019}, {"currency": "CNY", "gdp_native": 35936000000.0, "gdp_usd": 5209000000.0, "growth_rate": null, "increment_native": null, "parent_code": "新疆", "parent_name": "新疆", "per_capita_native": 79537.0, "population": null, "region_code": "石河子市", "region_name": "石河子市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2019}, {"currency": "CNY", "gdp_native": 35429000000.0, "gdp_usd": 5136000000.0, "growth_rate": null, "increment_native": null, "parent_code": "新疆", "parent_name": "新疆", "per_capita_native": 74276.0, "population": null, "region_code": "博尔塔拉州", "region_name": "博尔塔拉州", "source": "维基百科条目（数据源自官方统计公报）", "year": 2019}, {"currency": "CNY", "gdp_native": 33916000000.000004, "gdp_usd": 4916000000.0, "growth_rate": null, "increment_native": null, "parent_code": "新疆", "parent_name": "新疆", "per_capita_native": 51524.0, "population": null, "region_code": "阿勒泰地区", "region_name": "阿勒泰地区", "source": "维基百科条目（数据源自官方统计公报）", "year": 2019}, {"currency": "CNY", "gdp_native": 15905000000.000002, "gdp_usd": 2306000000.0, "growth_rate": null, "increment_native": null, "parent_code": "新疆", "parent_name": "新疆", "per_capita_native": 25556.0, "population": null, "region_code": "克孜勒苏州", "region_name": "克孜勒苏州", "source": "维基百科条目（数据源自官方统计公报）", "year": 2019}], "total": 1359712000000.0, "year": 2019}</script>
-<script src="static/js/pages/region.js"></script>
+<script src="../static/js/pages/region.js"></script>
 
 </body>
 </html>

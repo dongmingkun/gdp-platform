@@ -23,7 +23,11 @@
     return;
   }
 
-  var DATA_DIR = "data/";
+  // 数据目录：站点根目录用相对路径，预生成视图在 views/ 下一层，要多退一级。
+  // （不用 document.currentScript：部分浏览器/嵌入环境里取不到，改成按路径判断）
+  // 站点内的相对前缀：根目录页面为空，views/ 子目录里的页面要多退一级
+  var SITE_PREFIX = /\/views\/[^/]*$/.test(window.location.pathname) ? "../" : "";
+  var DATA_DIR = SITE_PREFIX + "data/";
   var METRIC_NAMES = { gdp: "GDP 总量", per_capita: "人均 GDP", growth: "同比增速" };
   var LEVEL_NAMES = {
     province: "省级行政区", city: "地级行政区（城市）", state: "州级行政区",
@@ -1000,7 +1004,7 @@
              " 暂无该组合的页面，请在本地版或在线版查看。");
         return;
       }
-      window.location.href = view.file;
+      window.location.href = SITE_PREFIX + view.file;
     }
 
     // 覆盖页面里的 submitForm()，把“提交表单”变成“切换到对应视图”

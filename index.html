@@ -56,11 +56,11 @@
   </p>
   <div class="quick-row" style="border-top:0; margin-top:6px; padding-top:0">
     <span class="quick-label">直接去看</span>
-    <a class="chip" href="region.html?economy=CHN&amp;level=city&amp;mode=year&amp;year=2025&amp;limit=400">城市总量排行（全部 336 城）</a>
-    <a class="chip" href="region.html?economy=CHN&amp;level=city&amp;mode=year&amp;year=2025&amp;metric=growth&amp;limit=400">谁在增长（增速榜）</a>
-    <a class="chip" href="region.html?economy=CHN&amp;level=city&amp;mode=year&amp;year=2025&amp;limit=100">人均水平梯队</a>
-    <a class="chip" href="region.html?economy=USA&amp;level=state&amp;mode=latest">与美国各州对照</a>
-    <a class="chip" href="region.html?economy=JPN&amp;level=prefecture&amp;mode=latest">与日本都道府县对照</a>
+    <a class="chip" href="views/region-chn-city-year-2025-gdp-400.html">城市总量排行（全部 336 城）</a>
+    <a class="chip" href="views/region-chn-city-year-2025-growth-400.html">谁在增长（增速榜）</a>
+    <a class="chip" href="views/region-chn-city-year-2025-gdp-100.html">人均水平梯队</a>
+    <a class="chip" href="views/region-usa-state-latest-latest-gdp-20.html">与美国各州对照</a>
+    <a class="chip" href="views/region-jpn-prefecture-latest-latest-gdp-20.html">与日本都道府县对照</a>
   </div>
 </div>
 
@@ -98,26 +98,26 @@
       <h3>① 体量高度集中</h3>
       <p>29 个城市 GDP 破万亿，上海以 56709 亿元居首，
         是第 5 名广州市（32040 亿元）的 1.8 倍。</p>
-      <a class="btn ghost small" href="region.html?economy=CHN&amp;level=city&amp;mode=year&amp;year=2025&amp;limit=50">看总量排行</a>
+      <a class="btn ghost small" href="views/region-chn-city-year-2025-gdp-50.html">看总量排行</a>
     </div>
     <div class="conclusion">
       <h3>② 增长明显分化</h3>
       <p>有增速数据的 34 个城市平均名义增速 4.29%；
         最快的绍兴市达 +6.73%，
         最慢的天津为 2.86%。</p>
-      <a class="btn ghost small" href="region.html?economy=CHN&amp;level=city&amp;mode=year&amp;year=2025&amp;metric=growth&amp;limit=400">看增速排行</a>
+      <a class="btn ghost small" href="views/region-chn-city-year-2025-growth-400.html">看增速排行</a>
     </div>
     <div class="conclusion">
       <h3>③ 人均水平仍在爬坡</h3>
       <p>336 个城市中，人均超过 1.4 万美元（高收入门槛）的有 97 个（29%），
         多数（235 个）处于中高收入区间；最高的鄂尔多斯市与最低的玉树州相差 12.1 倍。</p>
-      <a class="btn ghost small" href="region.html?economy=CHN&amp;level=city&amp;mode=year&amp;year=2025&amp;limit=400">看人均明细</a>
+      <a class="btn ghost small" href="views/region-chn-city-year-2025-gdp-400.html">看人均明细</a>
     </div>
     <div class="conclusion">
       <h3>④ 区域分化清晰</h3>
       <p>按四大板块看，东部 84 城占城市 GDP 合计的 49.0%，
         中部 24.1%，西部 21.6%，东北仅 5.3%。</p>
-      <a class="btn ghost small" href="region.html?economy=CHN&amp;level=province&amp;mode=year&amp;year=2025">看省级对比</a>
+      <a class="btn ghost small" href="views/region-chn-province-year-2025-gdp-20.html">看省级对比</a>
     </div>
   </div>
 </div>
@@ -204,7 +204,7 @@
 
 
 <script src="static/js/charts.js"></script>
-  <script src="static/js/static-api.js"></script>
+  <script src="static/js/static-api.js?v=f87c76d3"></script>
 <script type="application/json" id="page-data">{"focus": {"areas": 336, "blocks": {"东北": {"areas": 36, "gdp": 65108.79999999999, "share": 5.317056682534833}, "东部": {"areas": 84, "gdp": 599731.5, "share": 48.97658042847725}, "中部": {"areas": 82, "gdp": 295153.8999999999, "share": 24.10350085351316}, "西部": {"areas": 130, "gdp": 264532.89999999997, "share": 21.602862035474757}}, "empty": false, "growth_areas": 34, "growth_average": 4.287058823529412, "growth_fast": [["绍兴市", 6.73], ["福州市", 6.15], ["石家庄市", 5.46]], "growth_slow": [["佛山市", -1.53], ["沈阳市", 0.81], ["天津", 2.86]], "per_capita_bottom": ["玉树州", 22651.0], "per_capita_ratio": 12.066266390004856, "per_capita_top": ["鄂尔多斯市", 273313.0], "tiers": {"中低收入": 4, "中高收入": 235, "高收入": 97}, "top_cities": [["上海", 56708.7], ["北京", 52073.0], ["深圳市", 38731.8], ["重庆", 33758.0], ["广州市", 32039.5]], "trillion_count": 29, "trillion_top": ["上海", "北京", "深圳市", "重庆", "广州市", "苏州市"], "year": 2025}, "summary": {"china_first_value": 361560229445.507, "china_first_year": 1990, "china_multiple": 53.92750031701502, "china_per_capita": 13861.970224368, "china_per_capita_first": 318.50335359039, "china_per_capita_multiple": 43.522211204705656, "china_per_capita_rank": 72, "china_rank": 2, "china_rank_start": [1990, 11], "china_share": 16.74438480352644, "china_value": 19498039388042.6, "china_vs_usa": 63.367661654298225, "country_count": 217, "crawl_total": 82, "empty": false, "last_update": "2026-10-17 13:16:20", "latest_year": 2025, "record_count": 8985, "top_country": {"code": "USA", "name_cn": "美国", "name_en": "United States", "region": "北美地区", "value": 30769700000000.0}, "usa_value": 30769700000000.0, "world_total": 116445241893486.75, "year_range": [1990, 2025]}}</script>
 <script src="static/js/pages/index.js"></script>
 

@@ -4,9 +4,9 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>区域对比 · 全球 GDP 数据采集与可视化分析平台</title>
-  <link rel="stylesheet" href="static/css/style.css">
+  <link rel="stylesheet" href="../static/css/style.css">
   
-  <script src="static/vendor/echarts.min.js"></script>
+  <script src="../static/vendor/echarts.min.js"></script>
 </head>
 <body>
 <header class="topbar">
@@ -19,15 +19,15 @@
       </div>
     </div>
     <nav class="nav">
-      <a href="index.html" class="">总览</a>
-      <a href="region.html" class="active">城市格局</a>
-      <a href="rank.html" class="">全球排行</a>
-      <a href="trend.html" class="">趋势分析</a>
-      <a href="compare.html" class="">国家对比</a>
-      <a href="share.html" class="">份额变化</a>
-      <a href="china.html" class="">中国季度</a>
-      <a href="dataset.html" class="">数据集</a>
-      <a href="about.html" class="">关于</a>
+      <a href="../index.html" class="">总览</a>
+      <a href="../region.html" class="active">城市格局</a>
+      <a href="../rank.html" class="">全球排行</a>
+      <a href="../trend.html" class="">趋势分析</a>
+      <a href="../compare.html" class="">国家对比</a>
+      <a href="../share.html" class="">份额变化</a>
+      <a href="../china.html" class="">中国季度</a>
+      <a href="../dataset.html" class="">数据集</a>
+      <a href="../about.html" class="">关于</a>
     </nav>
   </div>
 </header>
@@ -50,7 +50,7 @@
     <h2>区域 GDP 对比与增长趋势</h2>
     <span class="hint">美国数据来自经济分析局（BEA）官方批量文件；中国与日本数据来自维基百科统计条目；带「人工整理」标记的记录来自榜单整理</span>
   </div>
-  <form class="toolbar toolbar-grid" method="get" action="region.html" id="region-form">
+  <form class="toolbar toolbar-grid" method="get" action="../region.html" id="region-form">
     <div class="field">
       <label>经济体</label>
       <select name="economy">
@@ -113,27 +113,27 @@
       <label>&nbsp;</label>
       <div class="action-row">
         <button type="submit">查询</button>
-        <a class="btn ghost" href="region.html?economy=CHN&amp;level=city">重置</a>
-        <a class="btn ghost" href="data/dataset/region-export-CHN-city.csv">导出 CSV</a>
+        <a class="btn ghost" href="../views/region-chn-city-latest-latest-gdp-20.html">重置</a>
+        <a class="btn ghost" href="../data/dataset/region-export-CHN-city.csv">导出 CSV</a>
       </div>
     </div>
   </form>
   <div class="quick-row">
     <span class="quick-label">快捷视图</span>
     <a class="chip "
-       href="region.html?economy=CHN&amp;level=city&amp;mode=year&amp;year=2025&amp;limit=400">中国城市 2025（全部 336）</a>
+       href="../views/region-chn-city-year-2025-gdp-400.html">中国城市 2025（全部 336）</a>
     <a class="chip "
-       href="region.html?economy=CHN&amp;level=city&amp;mode=latest">中国城市·各年最新</a>
+       href="../views/region-chn-city-latest-latest-gdp-20.html">中国城市·各年最新</a>
     <a class="chip "
-       href="region.html?economy=CHN&amp;level=province&amp;mode=year&amp;year=2025">中国省级 2025</a>
+       href="../views/region-chn-province-year-2025-gdp-20.html">中国省级 2025</a>
     <a class="chip "
-       href="region.html?economy=USA&amp;level=state&amp;mode=latest">美国各州</a>
+       href="../views/region-usa-state-latest-latest-gdp-20.html">美国各州</a>
     <a class="chip "
-       href="region.html?economy=USA&amp;level=county&amp;mode=latest">美国各县</a>
+       href="../views/region-usa-county-latest-latest-gdp-20.html">美国各县</a>
     <a class="chip "
-       href="region.html?economy=JPN&amp;level=prefecture&amp;mode=latest">日本都道府县</a>
+       href="../views/region-jpn-prefecture-latest-latest-gdp-20.html">日本都道府县</a>
     <a class="chip "
-       href="region.html?economy=CHN&amp;level=city&amp;mode=year&amp;year=2025&amp;metric=growth&amp;limit=400">2025 增速排行</a>
+       href="../views/region-chn-city-year-2025-growth-400.html">2025 增速排行</a>
   </div>
 </div>
 
@@ -866,10 +866,10 @@
 </footer>
 
 
-<script src="static/js/charts.js"></script>
-  <script src="static/js/static-api.js"></script>
+<script src="../static/js/charts.js"></script>
+  <script src="../static/js/static-api.js?v=f87c76d3"></script>
 <script type="application/json" id="page-data">{"children": [{"currency": "CNY", "economy": "CHN", "gdp_native": 1200152000000.0, "gdp_usd": 181363000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "山东", "per_capita_native": 128459.0, "population": null, "region_code": "青岛市", "region_name": "青岛市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2018}, {"currency": "CNY", "economy": "CHN", "gdp_native": 785656000000.0, "gdp_usd": 118726000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "山东", "per_capita_native": 106302.0, "population": null, "region_code": "济南市", "region_name": "济南市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2018}, {"currency": "CNY", "economy": "CHN", "gdp_native": 783258000000.0, "gdp_usd": 118363000000.00002, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "山东", "per_capita_native": 110231.0, "population": null, "region_code": "烟台市", "region_name": "烟台市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2018}, {"currency": "CNY", "economy": "CHN", "gdp_native": 615678000000.0, "gdp_usd": 93039000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "山东", "per_capita_native": 65721.0, "population": null, "region_code": "潍坊市", "region_name": "潍坊市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2018}, {"currency": "CNY", "economy": "CHN", "gdp_native": 506835000000.00006, "gdp_usd": 76591000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "山东", "per_capita_native": 107720.0, "population": null, "region_code": "淄博市", "region_name": "淄博市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2018}, {"currency": "CNY", "economy": "CHN", "gdp_native": 493058000000.0, "gdp_usd": 74509000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "山东", "per_capita_native": 58972.0, "population": null, "region_code": "济宁市", "region_name": "济宁市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2018}, {"currency": "CNY", "economy": "CHN", "gdp_native": 471780000000.0, "gdp_usd": 71294000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "山东", "per_capita_native": 44534.0, "population": null, "region_code": "临沂市", "region_name": "临沂市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2018}, {"currency": "CNY", "economy": "CHN", "gdp_native": 415247000000.0, "gdp_usd": 62751000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "山东", "per_capita_native": 191946.0, "population": null, "region_code": "东营市", "region_name": "东营市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2018}, {"currency": "CNY", "economy": "CHN", "gdp_native": 365153000000.0, "gdp_usd": 55180999999.99999, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "山东", "per_capita_native": 64714.0, "population": null, "region_code": "泰安市", "region_name": "泰安市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2018}, {"currency": "CNY", "economy": "CHN", "gdp_native": 364148000000.0, "gdp_usd": 55029000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "山东", "per_capita_native": 128774.0, "population": null, "region_code": "威海市", "region_name": "威海市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2018}, {"currency": "CNY", "economy": "CHN", "gdp_native": 338030000000.0, "gdp_usd": 51082000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "山东", "per_capita_native": 58252.0, "population": null, "region_code": "德州市", "region_name": "德州市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2018}, {"currency": "CNY", "economy": "CHN", "gdp_native": 315215000000.0, "gdp_usd": 47634000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "山东", "per_capita_native": 51935.0, "population": null, "region_code": "聊城市", "region_name": "聊城市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2018}, {"currency": "CNY", "economy": "CHN", "gdp_native": 307878000000.0, "gdp_usd": 46526000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "山东", "per_capita_native": 35184.0, "population": null, "region_code": "菏泽市", "region_name": "菏泽市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2018}, {"currency": "CNY", "economy": "CHN", "gdp_native": 264052000000.0, "gdp_usd": 39903000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "山东", "per_capita_native": 67405.0, "population": null, "region_code": "滨州市", "region_name": "滨州市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2018}, {"currency": "CNY", "economy": "CHN", "gdp_native": 240238000000.0, "gdp_usd": 36304000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "山东", "per_capita_native": 61226.0, "population": null, "region_code": "枣庄市", "region_name": "枣庄市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2018}, {"currency": "CNY", "economy": "CHN", "gdp_native": 220217000000.0, "gdp_usd": 33277999999.999996, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "山东", "per_capita_native": 75329.0, "population": null, "region_code": "日照市", "region_name": "日照市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2018}, {"currency": "CNY", "economy": "CHN", "gdp_native": 100565000000.0, "gdp_usd": 15197000000.0, "growth_rate": null, "increment_native": null, "level": "city", "parent_name": "山东", "per_capita_native": 73005.0, "population": null, "region_code": "莱芜市", "region_name": "莱芜市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2018}], "currency": "CNY", "growth": {"areas": 0, "average": null, "max": null, "min": null}, "metric": "gdp", "mode": "year", "rank": [{"currency": "CNY", "gdp_native": 1534277000000.0, "gdp_usd": 231855000000.00003, "growth_rate": null, "increment_native": null, "parent_code": "四川", "parent_name": "四川", "per_capita_native": 94782.0, "population": null, "region_code": "成都市", "region_name": "成都市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2018}, {"currency": "CNY", "gdp_native": 1484729000000.0, "gdp_usd": null, "growth_rate": null, "increment_native": null, "parent_code": "湖北", "parent_name": "湖北", "per_capita_native": null, "population": null, "region_code": "武汉", "region_name": "武汉", "source": "维基百科条目（数据源自官方统计公报）", "year": 2018}, {"currency": "CNY", "gdp_native": 1200152000000.0, "gdp_usd": 181363000000.0, "growth_rate": null, "increment_native": null, "parent_code": "山东", "parent_name": "山东", "per_capita_native": 128459.0, "population": null, "region_code": "青岛市", "region_name": "青岛市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2018}, {"currency": "CNY", "gdp_native": 785656000000.0, "gdp_usd": 118726000000.0, "growth_rate": null, "increment_native": null, "parent_code": "山东", "parent_name": "山东", "per_capita_native": 106302.0, "population": null, "region_code": "济南市", "region_name": "济南市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2018}, {"currency": "CNY", "gdp_native": 783258000000.0, "gdp_usd": 118363000000.00002, "growth_rate": null, "increment_native": null, "parent_code": "山东", "parent_name": "山东", "per_capita_native": 110231.0, "population": null, "region_code": "烟台市", "region_name": "烟台市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2018}, {"currency": "CNY", "gdp_native": 615678000000.0, "gdp_usd": 93039000000.0, "growth_rate": null, "increment_native": null, "parent_code": "山东", "parent_name": "山东", "per_capita_native": 65721.0, "population": null, "region_code": "潍坊市", "region_name": "潍坊市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2018}, {"currency": "CNY", "gdp_native": 506835000000.00006, "gdp_usd": 76591000000.0, "growth_rate": null, "increment_native": null, "parent_code": "山东", "parent_name": "山东", "per_capita_native": 107720.0, "population": null, "region_code": "淄博市", "region_name": "淄博市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2018}, {"currency": "CNY", "gdp_native": 493058000000.0, "gdp_usd": 74509000000.0, "growth_rate": null, "increment_native": null, "parent_code": "山东", "parent_name": "山东", "per_capita_native": 58972.0, "population": null, "region_code": "济宁市", "region_name": "济宁市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2018}, {"currency": "CNY", "gdp_native": 471780000000.0, "gdp_usd": 71294000000.0, "growth_rate": null, "increment_native": null, "parent_code": "山东", "parent_name": "山东", "per_capita_native": 44534.0, "population": null, "region_code": "临沂市", "region_name": "临沂市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2018}, {"currency": "CNY", "gdp_native": 430979000000.0, "gdp_usd": null, "growth_rate": null, "increment_native": null, "parent_code": "湖北", "parent_name": "湖北", "per_capita_native": null, "population": null, "region_code": "襄阳", "region_name": "襄阳", "source": "维基百科条目（数据源自官方统计公报）", "year": 2018}, {"currency": "CNY", "gdp_native": 415247000000.0, "gdp_usd": 62751000000.0, "growth_rate": null, "increment_native": null, "parent_code": "山东", "parent_name": "山东", "per_capita_native": 191946.0, "population": null, "region_code": "东营市", "region_name": "东营市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2018}, {"currency": "CNY", "gdp_native": 406418000000.0, "gdp_usd": null, "growth_rate": null, "increment_native": null, "parent_code": "湖北", "parent_name": "湖北", "per_capita_native": null, "population": null, "region_code": "宜昌", "region_name": "宜昌", "source": "维基百科条目（数据源自官方统计公报）", "year": 2018}, {"currency": "CNY", "gdp_native": 365153000000.0, "gdp_usd": 55180999999.99999, "growth_rate": null, "increment_native": null, "parent_code": "山东", "parent_name": "山东", "per_capita_native": 64714.0, "population": null, "region_code": "泰安市", "region_name": "泰安市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2018}, {"currency": "CNY", "gdp_native": 364148000000.0, "gdp_usd": 55029000000.0, "growth_rate": null, "increment_native": null, "parent_code": "山东", "parent_name": "山东", "per_capita_native": 128774.0, "population": null, "region_code": "威海市", "region_name": "威海市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2018}, {"currency": "CNY", "gdp_native": 338030000000.0, "gdp_usd": 51082000000.0, "growth_rate": null, "increment_native": null, "parent_code": "山东", "parent_name": "山东", "per_capita_native": 58252.0, "population": null, "region_code": "德州市", "region_name": "德州市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2018}, {"currency": "CNY", "gdp_native": 315215000000.0, "gdp_usd": 47634000000.0, "growth_rate": null, "increment_native": null, "parent_code": "山东", "parent_name": "山东", "per_capita_native": 51935.0, "population": null, "region_code": "聊城市", "region_name": "聊城市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2018}, {"currency": "CNY", "gdp_native": 307878000000.0, "gdp_usd": 46526000000.0, "growth_rate": null, "increment_native": null, "parent_code": "山东", "parent_name": "山东", "per_capita_native": 35184.0, "population": null, "region_code": "菏泽市", "region_name": "菏泽市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2018}, {"currency": "CNY", "gdp_native": 264052000000.0, "gdp_usd": 39903000000.0, "growth_rate": null, "increment_native": null, "parent_code": "山东", "parent_name": "山东", "per_capita_native": 67405.0, "population": null, "region_code": "滨州市", "region_name": "滨州市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2018}, {"currency": "CNY", "gdp_native": 240238000000.0, "gdp_usd": 36304000000.0, "growth_rate": null, "increment_native": null, "parent_code": "山东", "parent_name": "山东", "per_capita_native": 61226.0, "population": null, "region_code": "枣庄市", "region_name": "枣庄市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2018}, {"currency": "CNY", "gdp_native": 230382000000.00003, "gdp_usd": 34815000000.0, "growth_rate": null, "increment_native": null, "parent_code": "四川", "parent_name": "四川", "per_capita_native": 47538.0, "population": null, "region_code": "绵阳市", "region_name": "绵阳市", "source": "维基百科条目（数据源自官方统计公报）", "year": 2018}], "total": 16063580000000.0, "year": 2018}</script>
-<script src="static/js/pages/region.js"></script>
+<script src="../static/js/pages/region.js"></script>
 
 </body>
 </html>
